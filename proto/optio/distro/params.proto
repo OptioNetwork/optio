@@ -1,0 +1,20 @@
+syntax = "proto3";
+package optio.distro;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/OptioNetwork/optio/x/distro/types";
+
+// Params defines the parameters for the module.
+message Params {
+  option (amino.name) = "optio/x/distro/Params";
+  option (gogoproto.equal) = true;
+  
+  string mintingAddress = 1 [(gogoproto.moretags) = "yaml:\"minting_address\""];
+  string receivingAddress = 2 [(gogoproto.moretags) = "yaml:\"receiving_address\""];
+  string denom = 3 [(gogoproto.moretags) = "yaml:\"denom\""];
+  uint64 maxSupply = 4 [(gogoproto.moretags) = "yaml:\"max_supply\""];
+  string distributionStartDate = 5 [(gogoproto.moretags) = "yaml:\"distribution_start_date\""];
+  uint64 monthsInHalvingPeriod = 6 [(gogoproto.moretags) = "yaml:\"months_in_halving_period\""];
+}
