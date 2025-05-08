@@ -5,6 +5,7 @@ import (
 )
 
 func init() {
-	version.Name = "optio"
+	version.Name = "Optio"
 	version.AppName = "optiod"
+	version.Version = "v2.0.0-devnet.1"
 }

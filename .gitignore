@@ -8,5 +8,5 @@ release/
 *.log
 *.ign
 *draft*
-optio-darwin
-optio-linux
+optio-darwin*
+optio-linux*
