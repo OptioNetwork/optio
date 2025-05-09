@@ -32,7 +32,7 @@ func (k msgServer) Mint(goCtx context.Context, msg *types.MsgMint) (*types.MsgMi
 		return nil, errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "max supply exceeded")
 	}
 
-	if err := validateMintingLimits(currentSupply, msgAmount, params); err != nil {
+	if err := validateMintingLimits(ctx, currentSupply, msgAmount, params); err != nil {
 		return nil, err
 	}
 
@@ -66,12 +66,12 @@ func (k msgServer) distributeCoins(ctx context.Context, toAddress string, amount
 	return nil
 }
 
-func validateMintingLimits(currentSupply math.Uint, amount math.Uint, params types.Params) error {
+func validateMintingLimits(ctx sdk.Context, currentSupply math.Uint, amount math.Uint, params types.Params) error {
 	startDate, err := parseDate(params.DistributionStartDate)
 	if err != nil {
 		return errorsmod.Wrapf(sdkerrors.ErrInvalidRequest, "invalid distribution start date: %v", err)
 	}
-	targetDate, err := parseDate(time.Now().Format("2006-01-02"))
+	targetDate, err := parseDate(ctx.BlockTime().Format("2006-01-02"))
 	if err != nil {
 		return errorsmod.Wrapf(sdkerrors.ErrInvalidRequest, "invalid target date: %v", err)
 	}

@@ -21,6 +21,7 @@ import (
 	_ "cosmossdk.io/x/nft/module" // import for side-effects
 	_ "cosmossdk.io/x/upgrade"    // import for side-effects
 	upgradekeeper "cosmossdk.io/x/upgrade/keeper"
+	v2_0_0 "github.com/OptioNetwork/optio/app/upgrades/v2.0.0"
 	abci "github.com/cometbft/cometbft/abci/types"
 	dbm "github.com/cosmos/cosmos-db"
 	"github.com/cosmos/cosmos-sdk/baseapp"
@@ -82,7 +83,6 @@ import (
 	distributemodulekeeper "github.com/OptioNetwork/optio/x/distro/keeper"
 
 	upgradetypes "cosmossdk.io/x/upgrade/types"
-	v2 "github.com/OptioNetwork/optio/app/upgrades/v2"
 
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
@@ -105,7 +105,7 @@ var (
 )
 
 var (
-	Upgrades = []upgrades.Upgrade{v2.Upgrade}
+	Upgrades = []upgrades.Upgrade{v2_0_0.Upgrade}
 )
 
 // App extends an ABCI application, but with most of its parameters exported.

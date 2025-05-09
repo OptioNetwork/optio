@@ -7,7 +7,7 @@ version: v1
 managed:
   enabled: true
   go_package_prefix:
-    default: github.com/OptioServices/optio/api
+    default: github.com/OptioNetwork/optio/api
     except:
       - buf.build/googleapis/googleapis
       - buf.build/cosmos/gogo-proto

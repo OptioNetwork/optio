@@ -1,4 +1,4 @@
-package v2
+package v2_0_0
 
 import (
 	store "cosmossdk.io/store/types"
@@ -6,7 +6,7 @@ import (
 	distributetypes "github.com/OptioNetwork/optio/x/distro/types"
 )
 
-const UpgradeName = "v2"
+const UpgradeName = "v2.0.0"
 
 var Upgrade = upgrades.Upgrade{
 	UpgradeName:          UpgradeName,
