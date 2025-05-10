@@ -101,8 +101,10 @@ func validateMintingLimits(ctx sdk.Context, currentSupply math.Uint, amount math
 			daysElapsed = daysInPeriod
 		}
 
-		currentPeriodAmount := (periodYearlyLimit * daysElapsed) / daysInPeriod
-		totalDistributable += currentPeriodAmount
+		if daysInPeriod != 0 {
+			currentPeriodAmount := (periodYearlyLimit * daysElapsed) / daysInPeriod
+			totalDistributable += currentPeriodAmount
+		}
 	}
 
 	if amount.Add(currentSupply).GT(math.NewUint(totalDistributable)) {
