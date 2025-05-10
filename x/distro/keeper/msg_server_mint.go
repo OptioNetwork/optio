@@ -96,7 +96,7 @@ func validateMintingLimits(ctx sdk.Context, currentSupply math.Uint, amount math
 		daysInPeriod := uint64(periodEnd.Sub(periodStart).Hours()/24) + 1
 		periodYearlyLimit := params.MaxSupply / (1 << (currentHalvingPeriod - 1)) / 2
 
-		daysElapsed := uint64(targetDate.Sub(periodStart).Hours()/24) + 1
+		daysElapsed := uint64(targetDate.Sub(periodStart).Hours() / 24)
 		if daysElapsed > daysInPeriod {
 			daysElapsed = daysInPeriod
 		}
