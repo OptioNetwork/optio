@@ -197,8 +197,8 @@ type ModuleInputs struct {
 type ModuleOutputs struct {
 	depinject.Out
 
-	DistributeKeeper keeper.Keeper
-	Module           appmodule.AppModule
+	DistroKeeper keeper.Keeper
+	Module       appmodule.AppModule
 }
 
 func ProvideModule(in ModuleInputs) ModuleOutputs {
@@ -224,5 +224,5 @@ func ProvideModule(in ModuleInputs) ModuleOutputs {
 		in.ViewKeeper,
 	)
 
-	return ModuleOutputs{DistributeKeeper: k, Module: m}
+	return ModuleOutputs{DistroKeeper: k, Module: m}
 }

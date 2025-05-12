@@ -21,7 +21,7 @@ import (
 	"github.com/OptioNetwork/optio/x/distro/types"
 )
 
-func DistributeKeeper(t testing.TB) (keeper.Keeper, sdk.Context) {
+func DistroKeeper(t testing.TB) (keeper.Keeper, sdk.Context) {
 	storeKey := storetypes.NewKVStoreKey(types.StoreKey)
 
 	db := dbm.NewMemDB()

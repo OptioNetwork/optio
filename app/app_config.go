@@ -5,7 +5,7 @@ import (
 
 	distromodulev1 "github.com/OptioNetwork/optio/api/optio/distro/module"
 	_ "github.com/OptioNetwork/optio/x/distro/module" // import for side-effects
-	distributemoduletypes "github.com/OptioNetwork/optio/x/distro/types"
+	distromoduletypes "github.com/OptioNetwork/optio/x/distro/types"
 
 	runtimev1alpha1 "cosmossdk.io/api/cosmos/app/runtime/v1alpha1"
 	appv1alpha1 "cosmossdk.io/api/cosmos/app/v1alpha1"
@@ -93,7 +93,7 @@ var (
 		consensustypes.ModuleName,
 		circuittypes.ModuleName,
 		// chain modules
-		distributemoduletypes.ModuleName,
+		distromoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	}
 
@@ -118,7 +118,7 @@ var (
 		icatypes.ModuleName,
 		ibcfeetypes.ModuleName,
 		// chain modules
-		distributemoduletypes.ModuleName,
+		distromoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/beginBlockers
 	}
 
@@ -137,7 +137,7 @@ var (
 		icatypes.ModuleName,
 		ibcfeetypes.ModuleName,
 		// chain modules
-		distributemoduletypes.ModuleName,
+		distromoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/endBlockers
 	}
 
@@ -158,7 +158,7 @@ var (
 		{Account: ibctransfertypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner}},
 		{Account: ibcfeetypes.ModuleName},
 		{Account: icatypes.ModuleName},
-		{Account: distributemoduletypes.ModuleName, Permissions: []string{authtypes.Minter}},
+		{Account: distromoduletypes.ModuleName, Permissions: []string{authtypes.Minter}},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
 	}
 
@@ -295,7 +295,7 @@ var (
 				Config: appconfig.WrapAny(&circuitmodulev1.Module{}),
 			},
 			{
-				Name:   distributemoduletypes.ModuleName,
+				Name:   distromoduletypes.ModuleName,
 				Config: appconfig.WrapAny(&distromodulev1.Module{}),
 			},
 			// this line is used by starport scaffolding # stargate/app/moduleConfig

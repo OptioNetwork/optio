@@ -10,7 +10,7 @@ import (
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 )
 
-func SimulateMsgDistribute(
+func SimulateMsgMint(
 	ak types.AccountKeeper,
 	bk types.BankKeeper,
 	k keeper.Keeper,
@@ -21,8 +21,8 @@ func SimulateMsgDistribute(
 			Amount: 1000000,
 		}
 
-		// TODO: Handling the Distribute simulation
+		// TODO: Handling the Distro simulation
 
-		return simtypes.NoOpMsg(types.ModuleName, sdk.MsgTypeURL(msg), "Distribute simulation not implemented"), nil, nil
+		return simtypes.NoOpMsg(types.ModuleName, sdk.MsgTypeURL(msg), "Distro simulation not implemented"), nil, nil
 	}
 }

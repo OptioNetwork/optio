@@ -8,7 +8,7 @@ import (
 
 var _ sdk.Msg = &MsgMint{}
 
-func NewMsgDistribute(fromAddress string, amount uint64) *MsgMint {
+func NewMsgMint(fromAddress string, amount uint64) *MsgMint {
 	return &MsgMint{
 		Amount: amount,
 	}

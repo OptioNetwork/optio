@@ -17,7 +17,7 @@ func TestGenesis(t *testing.T) {
 		// this line is used by starport scaffolding # genesis/test/state
 	}
 
-	k, ctx := keepertest.DistributeKeeper(t)
+	k, ctx := keepertest.DistroKeeper(t)
 	distro.InitGenesis(ctx, k, genesisState)
 	got := distro.ExportGenesis(ctx, k)
 	require.NotNil(t, got)

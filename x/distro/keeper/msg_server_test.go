@@ -12,7 +12,7 @@ import (
 )
 
 func setupMsgServer(t testing.TB) (keeper.Keeper, types.MsgServer, context.Context) {
-	k, ctx := keepertest.DistributeKeeper(t)
+	k, ctx := keepertest.DistroKeeper(t)
 	return k, keeper.NewMsgServerImpl(k), ctx
 }
 

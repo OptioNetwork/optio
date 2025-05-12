@@ -9,13 +9,13 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/simulation"
 
 	"github.com/OptioNetwork/optio/testutil/sample"
-	distributesimulation "github.com/OptioNetwork/optio/x/distro/simulation"
+	distrosimulation "github.com/OptioNetwork/optio/x/distro/simulation"
 	"github.com/OptioNetwork/optio/x/distro/types"
 )
 
 // avoid unused import issue
 var (
-	_ = distributesimulation.FindAccount
+	_ = distrosimulation.FindAccount
 	_ = rand.Rand{}
 	_ = sample.AccAddress
 	_ = sdk.AccAddress{}
@@ -23,9 +23,9 @@ var (
 )
 
 const (
-	opWeightMsgDistribute = "op_weight_msg_distribute"
+	opWeightMsgMint = "op_weight_msg_mint"
 	// TODO: Determine the simulation weight value
-	defaultWeightMsgDistribute int = 100
+	defaultWeightMsgMint int = 100
 
 	// this line is used by starport scaffolding # simapp/module/const
 )
@@ -36,11 +36,11 @@ func (AppModule) GenerateGenesisState(simState *module.SimulationState) {
 	for i, acc := range simState.Accounts {
 		accs[i] = acc.Address.String()
 	}
-	distributeGenesis := types.GenesisState{
+	distroGenesis := types.GenesisState{
 		Params: types.DefaultParams(),
 		// this line is used by starport scaffolding # simapp/module/genesisState
 	}
-	simState.GenState[types.ModuleName] = simState.Cdc.MustMarshalJSON(&distributeGenesis)
+	simState.GenState[types.ModuleName] = simState.Cdc.MustMarshalJSON(&distroGenesis)
 }
 
 // RegisterStoreDecoder registers a decoder.
@@ -50,15 +50,15 @@ func (am AppModule) RegisterStoreDecoder(_ simtypes.StoreDecoderRegistry) {}
 func (am AppModule) WeightedOperations(simState module.SimulationState) []simtypes.WeightedOperation {
 	operations := make([]simtypes.WeightedOperation, 0)
 
-	var weightMsgDistribute int
-	simState.AppParams.GetOrGenerate(opWeightMsgDistribute, &weightMsgDistribute, nil,
+	var weightMsgMint int
+	simState.AppParams.GetOrGenerate(opWeightMsgMint, &weightMsgMint, nil,
 		func(_ *rand.Rand) {
-			weightMsgDistribute = defaultWeightMsgDistribute
+			weightMsgMint = defaultWeightMsgMint
 		},
 	)
 	operations = append(operations, simulation.NewWeightedOperation(
-		weightMsgDistribute,
-		distributesimulation.SimulateMsgDistribute(am.accountKeeper, am.bankKeeper, am.keeper),
+		weightMsgMint,
+		distrosimulation.SimulateMsgMint(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
 	// this line is used by starport scaffolding # simapp/module/operation
@@ -70,10 +70,10 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 func (am AppModule) ProposalMsgs(simState module.SimulationState) []simtypes.WeightedProposalMsg {
 	return []simtypes.WeightedProposalMsg{
 		simulation.NewWeightedProposalMsg(
-			opWeightMsgDistribute,
-			defaultWeightMsgDistribute,
+			opWeightMsgMint,
+			defaultWeightMsgMint,
 			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
-				distributesimulation.SimulateMsgDistribute(am.accountKeeper, am.bankKeeper, am.keeper)
+				distrosimulation.SimulateMsgMint(am.accountKeeper, am.bankKeeper, am.keeper)
 				return nil
 			},
 		),
