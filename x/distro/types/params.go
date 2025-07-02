@@ -11,12 +11,12 @@ var _ paramtypes.ParamSet = (*Params)(nil)
 
 var (
 	KeyMintingAddress            = []byte("MintingAddress")
-	DefaultMintingAddress string = "optio1km9cs6nrcr0ms08vwydrxjhxfjkeag8h0r2mnt"
+	DefaultMintingAddress string = ""
 )
 
 var (
 	KeyReceivingAddress            = []byte("ReceivingAddress")
-	DefaultReceivingAddress string = "optio1u28a7gj785a4d8g9n70wqujl8xc9wh7dyj9gen"
+	DefaultReceivingAddress string = ""
 )
 
 var (
