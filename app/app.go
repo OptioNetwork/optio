@@ -84,6 +84,7 @@ import (
 
 	upgradetypes "cosmossdk.io/x/upgrade/types"
 
+	lockupmodulekeeper "github.com/OptioNetwork/optio/x/lockup/keeper"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
 	"github.com/OptioNetwork/optio/docs"
@@ -154,6 +155,7 @@ type App struct {
 	ScopedKeepers             map[string]capabilitykeeper.ScopedKeeper
 
 	DistroKeeper distromodulekeeper.Keeper
+	LockupKeeper lockupmodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// simulation manager
@@ -258,6 +260,7 @@ func New(
 		&app.GroupKeeper,
 		&app.CircuitBreakerKeeper,
 		&app.DistroKeeper,
+		&app.LockupKeeper,
 		// this line is used by starport scaffolding # stargate/app/keeperDefinition
 	); err != nil {
 		panic(err)

@@ -35,6 +35,9 @@ import (
 	"cosmossdk.io/x/feegrant"
 	"cosmossdk.io/x/nft"
 	upgradetypes "cosmossdk.io/x/upgrade/types"
+	lockupmodulev1 "github.com/OptioNetwork/optio/api/optio/lockup/module"
+	_ "github.com/OptioNetwork/optio/x/lockup/module" // import for side-effects
+	lockupmoduletypes "github.com/OptioNetwork/optio/x/lockup/types"
 	"github.com/cosmos/cosmos-sdk/runtime"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	vestingtypes "github.com/cosmos/cosmos-sdk/x/auth/vesting/types"
@@ -94,6 +97,7 @@ var (
 		circuittypes.ModuleName,
 		// chain modules
 		distromoduletypes.ModuleName,
+		lockupmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	}
 
@@ -119,6 +123,7 @@ var (
 		ibcfeetypes.ModuleName,
 		// chain modules
 		distromoduletypes.ModuleName,
+		lockupmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/beginBlockers
 	}
 
@@ -138,6 +143,7 @@ var (
 		ibcfeetypes.ModuleName,
 		// chain modules
 		distromoduletypes.ModuleName,
+		lockupmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/endBlockers
 	}
 
@@ -159,6 +165,7 @@ var (
 		{Account: ibcfeetypes.ModuleName},
 		{Account: icatypes.ModuleName},
 		{Account: distromoduletypes.ModuleName, Permissions: []string{authtypes.Minter}},
+		{Account: lockupmoduletypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner, authtypes.Staking}},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
 	}
 
@@ -297,6 +304,10 @@ var (
 			{
 				Name:   distromoduletypes.ModuleName,
 				Config: appconfig.WrapAny(&distromodulev1.Module{}),
+			},
+			{
+				Name:   lockupmoduletypes.ModuleName,
+				Config: appconfig.WrapAny(&lockupmodulev1.Module{}),
 			},
 			// this line is used by starport scaffolding # stargate/app/moduleConfig
 		},
