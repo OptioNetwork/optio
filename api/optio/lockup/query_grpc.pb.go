@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             (unknown)
-// source: optio/distro/query.proto
+// source: optio/lockup/query.proto
 
-package distro
+package lockup
 
 import (
 	context "context"
@@ -20,7 +20,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Query_Params_FullMethodName = "/optio.distro.Query/Params"
+	Query_Params_FullMethodName = "/optio.lockup.Query/Params"
 )
 
 // QueryClient is the client API for Query service.
@@ -115,7 +115,7 @@ func _Query_Params_Handler(srv interface{}, ctx context.Context, dec func(interf
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var Query_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "optio.distro.Query",
+	ServiceName: "optio.lockup.Query",
 	HandlerType: (*QueryServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -124,5 +124,5 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "optio/distro/query.proto",
+	Metadata: "optio/lockup/query.proto",
 }
