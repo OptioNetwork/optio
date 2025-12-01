@@ -77,8 +77,10 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 	}
 
 	totalBalance := k.bankKeeper.GetBalance(ctx, lockupAddr, bondDenom)
-	if totalBalance.Amount.LT(totalLockedAmount) {
-		return nil, sdkerrors.ErrInsufficientFunds.Wrapf("trying to lock more %s than available: %s < %s", bondDenom, totalLockedAmount.String(), totalBalance.Amount.String())
+	spendablebalance := k.bankKeeper.SpendableCoin(ctx, lockupAddr, bondDenom)
+	maxLockable := totalBalance.Amount.Sub(spendablebalance.Amount)
+	if maxLockable.LT(totalLockedAmount) {
+		return nil, sdkerrors.ErrInsufficientFunds.Wrapf("trying to lock more %s than available: %s < %s", bondDenom, maxLockable.String(), totalLockedAmount.String())
 	}
 
 	for _, msgLockup := range msg.Lockups {
