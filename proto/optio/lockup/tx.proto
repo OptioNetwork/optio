@@ -10,6 +10,7 @@ import "gogoproto/gogo.proto";
 import "optio/lockup/params.proto";
 import "optio/lockup/account.proto";
 import "optio/lockup/lock.proto";
+import "optio/lockup/extension.proto";
 
 option go_package = "github.com/OptioNetwork/optio/x/lockup/types";
 
@@ -21,6 +22,7 @@ service Msg {
   // parameters. The authority defaults to the x/gov module account.
   rpc UpdateParams (MsgUpdateParams) returns (MsgUpdateParamsResponse);
   rpc Lock         (MsgLock        ) returns (MsgLockResponse        );
+  rpc Extend       (MsgExtend      ) returns (MsgExtendResponse      );
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -43,8 +45,16 @@ message MsgUpdateParamsResponse {}
 message MsgLock {
   option (cosmos.msg.v1.signer) = "lockupAddress";
            string lockupAddress = 1;
-  repeated Lock lockups       = 2;
+  repeated Lock   lockups       = 2;
 }
 
 message MsgLockResponse {}
+
+message MsgExtend {
+  option (cosmos.msg.v1.signer) = "extendingAddress";
+  string    extendingAddress = 1;
+  repeated Extension extensions       = 2;
+}
+
+message MsgExtendResponse {}
 

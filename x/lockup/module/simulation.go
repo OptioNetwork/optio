@@ -27,6 +27,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgLock int = 100
 
+	opWeightMsgExtend = "op_weight_msg_extend"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgExtend int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -61,6 +65,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		lockupsimulation.SimulateMsgLock(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
+	var weightMsgExtend int
+	simState.AppParams.GetOrGenerate(opWeightMsgExtend, &weightMsgExtend, nil,
+		func(_ *rand.Rand) {
+			weightMsgExtend = defaultWeightMsgExtend
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgExtend,
+		lockupsimulation.SimulateMsgExtend(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
 	// this line is used by starport scaffolding # simapp/module/operation
 
 	return operations
@@ -74,6 +89,14 @@ func (am AppModule) ProposalMsgs(simState module.SimulationState) []simtypes.Wei
 			defaultWeightMsgLock,
 			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
 				lockupsimulation.SimulateMsgLock(am.accountKeeper, am.bankKeeper, am.keeper)
+				return nil
+			},
+		),
+		simulation.NewWeightedProposalMsg(
+			opWeightMsgExtend,
+			defaultWeightMsgExtend,
+			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
+				lockupsimulation.SimulateMsgExtend(am.accountKeeper, am.bankKeeper, am.keeper)
 				return nil
 			},
 		),
