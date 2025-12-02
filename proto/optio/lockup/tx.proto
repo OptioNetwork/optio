@@ -20,9 +20,10 @@ service Msg {
   
   // UpdateParams defines a (governance) operation for updating the module
   // parameters. The authority defaults to the x/gov module account.
-  rpc UpdateParams (MsgUpdateParams) returns (MsgUpdateParamsResponse);
-  rpc Lock         (MsgLock        ) returns (MsgLockResponse        );
-  rpc Extend       (MsgExtend      ) returns (MsgExtendResponse      );
+  rpc UpdateParams        (MsgUpdateParams       ) returns (MsgUpdateParamsResponse       );
+  rpc Lock                (MsgLock               ) returns (MsgLockResponse               );
+  rpc Extend              (MsgExtend             ) returns (MsgExtendResponse             );
+  rpc SendDelegateAndLock (MsgSendDelegateAndLock) returns (MsgSendDelegateAndLockResponse);
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -52,9 +53,20 @@ message MsgLockResponse {}
 
 message MsgExtend {
   option (cosmos.msg.v1.signer) = "extendingAddress";
-  string    extendingAddress = 1;
+           string    extendingAddress = 1;
   repeated Extension extensions       = 2;
 }
 
 message MsgExtendResponse {}
+
+message MsgSendDelegateAndLock {
+  option (cosmos.msg.v1.signer) = "fromAddress";
+  string fromAddress   = 1;
+  string toAddress     = 2;
+  string valAddress    = 3;
+  string amount        = 4;
+  string unlockDate    = 5;
+}
+
+message MsgSendDelegateAndLockResponse {}
 
