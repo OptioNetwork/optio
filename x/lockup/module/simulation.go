@@ -35,6 +35,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgSendDelegateAndLock int = 100
 
+	opWeightMsgMultiSendDelegateAndLock = "op_weight_msg_multi_send_delegate_and_lock"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgMultiSendDelegateAndLock int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -91,6 +95,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		lockupsimulation.SimulateMsgSendDelegateAndLock(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
+	var weightMsgMultiSendDelegateAndLock int
+	simState.AppParams.GetOrGenerate(opWeightMsgMultiSendDelegateAndLock, &weightMsgMultiSendDelegateAndLock, nil,
+		func(_ *rand.Rand) {
+			weightMsgMultiSendDelegateAndLock = defaultWeightMsgMultiSendDelegateAndLock
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgMultiSendDelegateAndLock,
+		lockupsimulation.SimulateMsgMultiSendDelegateAndLock(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
 	// this line is used by starport scaffolding # simapp/module/operation
 
 	return operations
@@ -120,6 +135,14 @@ func (am AppModule) ProposalMsgs(simState module.SimulationState) []simtypes.Wei
 			defaultWeightMsgSendDelegateAndLock,
 			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
 				lockupsimulation.SimulateMsgSendDelegateAndLock(am.accountKeeper, am.bankKeeper, am.keeper)
+				return nil
+			},
+		),
+		simulation.NewWeightedProposalMsg(
+			opWeightMsgMultiSendDelegateAndLock,
+			defaultWeightMsgMultiSendDelegateAndLock,
+			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
+				lockupsimulation.SimulateMsgMultiSendDelegateAndLock(am.accountKeeper, am.bankKeeper, am.keeper)
 				return nil
 			},
 		),
