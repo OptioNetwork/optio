@@ -14,10 +14,18 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgExtend{},
 	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgSendDelegateAndLock{},
+	)
 	// this line is used by starport scaffolding # 3
 
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgUpdateParams{},
+	)
+
+	registry.RegisterImplementations(
+		(*sdk.AccountI)(nil),
+		&Account{},
 	)
 	msgservice.RegisterMsgServiceDesc(registry, &_Msg_serviceDesc)
 }

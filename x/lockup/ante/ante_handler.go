@@ -49,7 +49,7 @@ func (lbd LockedBalanceDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulat
 				blockTime := ctx.BlockTime()
 				for unlockDate, lockup := range ltsAcc.Lockups {
 					if types.IsLocked(blockTime, unlockDate) {
-						locked = locked.Add(lockup.Amount.Amount)
+						locked = locked.Add(lockup.Coin.Amount)
 					}
 				}
 				// Get total balance
@@ -76,7 +76,7 @@ func (lbd LockedBalanceDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulat
 					blockTime := ctx.BlockTime()
 					for unlockDate, lockup := range ltsAcc.Lockups {
 						if types.IsLocked(blockTime, unlockDate) {
-							locked = locked.Add(lockup.Amount.Amount)
+							locked = locked.Add(lockup.Coin.Amount)
 						}
 					}
 					// Get total balance for each coin in input
@@ -105,7 +105,7 @@ func (lbd LockedBalanceDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulat
 				blockTime := ctx.BlockTime()
 				for unlockDate, lockup := range ltsAcc.Lockups {
 					if types.IsLocked(blockTime, unlockDate) {
-						locked = locked.Add(lockup.Amount.Amount)
+						locked = locked.Add(lockup.Coin.Amount)
 					}
 				}
 				// Get total balance for each coin in input

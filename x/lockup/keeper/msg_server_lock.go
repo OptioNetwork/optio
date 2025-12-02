@@ -6,8 +6,6 @@ import (
 
 	"cosmossdk.io/math"
 
-	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
-
 	"github.com/OptioNetwork/optio/x/lockup/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
@@ -41,21 +39,24 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 	}
 
 	ltsAcc := acc.(*types.Account)
-	var totalLockedAmount math.Int
-	for unlockDate, lock := range ltsAcc.Lockups {
+	totalLockedAmount := math.ZeroInt()
+	for unlockDate, lockup := range ltsAcc.Lockups {
 		if types.IsLocked(ctx.BlockTime(), unlockDate) {
-			totalLockedAmount = totalLockedAmount.Add(lock.Amount.Amount)
+			totalLockedAmount = totalLockedAmount.Add(lockup.Coin.Amount)
 		}
 	}
 
-	bondDenom := stakingtypes.DefaultParams().BondDenom
+	bondDenom, err := k.stakingKeeper.BondDenom(ctx)
+	if err != nil {
+		return nil, err
+	}
 	for _, lock := range msg.Lockups {
-		if !lock.Amount.IsValid() || lock.Amount.IsZero() {
-			return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid lock amount: %s", lock.Amount.String())
+		if !lock.Coin.IsValid() || lock.Coin.IsZero() {
+			return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid lock amount: %s", lock.Coin.String())
 		}
 
-		if lock.Amount.Denom != bondDenom {
-			return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid denom: %s, expected: %s", lock.Amount.Denom, bondDenom)
+		if lock.Coin.Denom != bondDenom {
+			return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid denom: %s, expected: %s", lock.Coin.Denom, bondDenom)
 		}
 
 		// TODO: Do we want to only allow lockups for 6,12,18,24 months? Or should it be anything in between?
@@ -67,30 +68,47 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 			return nil, sdkerrors.ErrInvalidRequest.Wrapf("invalid unlock date format: %s", lock.UnlockDate)
 		}
 
-		if ctx.BlockTime().AddDate(0, 6, 0).Before(unlockTime) {
+		if ctx.BlockTime().AddDate(0, 6, 0).After(unlockTime) {
 			return nil, sdkerrors.ErrInvalidRequest.Wrapf("unlock time must be at least 6 months from now")
 		}
-		if ctx.BlockTime().AddDate(2, 0, 0).After(unlockTime) {
+		if ctx.BlockTime().AddDate(2, 0, 0).Before(unlockTime) {
 			return nil, sdkerrors.ErrInvalidRequest.Wrapf("unlock time cannot be more than 2 years from now")
 		}
-		totalLockedAmount = totalLockedAmount.Add(lock.Amount.Amount)
+		totalLockedAmount = totalLockedAmount.Add(lock.Coin.Amount)
 	}
 
-	totalBalance := k.bankKeeper.GetBalance(ctx, lockupAddr, bondDenom)
-	spendablebalance := k.bankKeeper.SpendableCoin(ctx, lockupAddr, bondDenom)
-	maxLockable := totalBalance.Amount.Sub(spendablebalance.Amount)
-	if maxLockable.LT(totalLockedAmount) {
-		return nil, sdkerrors.ErrInsufficientFunds.Wrapf("trying to lock more %s than available: %s < %s", bondDenom, maxLockable.String(), totalLockedAmount.String())
+	// Validate that total locked amount doesn't exceed total delegations
+	totalDelegations := math.ZeroInt()
+	delegations, err := k.stakingKeeper.GetDelegatorDelegations(ctx, lockupAddr, 100)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, delegation := range delegations {
+		valAddr, err := sdk.ValAddressFromBech32(delegation.GetValidatorAddr())
+		if err != nil {
+			return nil, sdkerrors.ErrInvalidAddress.Wrapf("invalid validator address: %s", err)
+		}
+		validator, err := k.stakingKeeper.GetValidator(ctx, valAddr)
+		if err != nil {
+			return nil, err
+		}
+		tokens := validator.TokensFromShares(delegation.GetShares())
+		totalDelegations = totalDelegations.Add(tokens.TruncateInt())
+	}
+
+	if totalDelegations.LT(totalLockedAmount) {
+		return nil, sdkerrors.ErrInsufficientFunds.Wrapf("trying to lock more than total delegations: total delegations %s < locked amount %s", totalDelegations.String(), totalLockedAmount.String())
 	}
 
 	for _, msgLockup := range msg.Lockups {
 		existingLockup, exists := ltsAcc.Lockups[msgLockup.UnlockDate]
 		if exists {
-			existingLockup.Amount.Amount = existingLockup.Amount.Amount.Add(msgLockup.Amount.Amount)
+			existingLockup.Coin.Amount = existingLockup.Coin.Amount.Add(msgLockup.Coin.Amount)
 			ltsAcc.Lockups[msgLockup.UnlockDate] = existingLockup
 		} else {
 			ltsAcc.Lockups[msgLockup.UnlockDate] = &types.Lockup{
-				Amount: msgLockup.Amount,
+				Coin: msgLockup.Coin,
 			}
 		}
 	}

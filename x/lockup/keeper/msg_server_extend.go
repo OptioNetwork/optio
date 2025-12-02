@@ -31,7 +31,7 @@ func (k msgServer) Extend(goCtx context.Context, msg *types.MsgExtend) (*types.M
 
 		existingLock, exists := newLockups[extension.Lock.UnlockDate]
 		if exists {
-			existingLock.Amount.Amount = existingLock.Amount.Amount.Add(extension.Lock.Amount.Amount)
+			existingLock.Coin.Amount = existingLock.Coin.Amount.Add(extension.Lock.Coin.Amount)
 			newLockups[extension.Lock.UnlockDate] = existingLock
 			continue
 		}
@@ -53,14 +53,14 @@ func (k msgServer) Extend(goCtx context.Context, msg *types.MsgExtend) (*types.M
 		return nil, types.ErrInvalidAccount.Wrapf("account is not a long-term stake account: %s", msg.ExtendingAddress)
 	}
 
-	for _, lockups := range newLockups {
-		existingLockup, exists := lockupAcc.Lockups[lockups.UnlockDate]
+	for _, lockup := range newLockups {
+		existingLockup, exists := lockupAcc.Lockups[lockup.UnlockDate]
 		if exists {
-			existingLockup.Amount.Amount = existingLockup.Amount.Amount.Add(lockups.Amount.Amount)
-			lockupAcc.Lockups[lockups.UnlockDate] = existingLockup
+			existingLockup.Coin.Amount = existingLockup.Coin.Amount.Add(lockup.Coin.Amount)
+			lockupAcc.Lockups[lockup.UnlockDate] = existingLockup
 		} else {
-			lockupAcc.Lockups[lockups.UnlockDate] = &types.Lockup{
-				Amount: lockups.Amount,
+			lockupAcc.Lockups[lockup.UnlockDate] = &types.Lockup{
+				Coin: lockup.Coin,
 			}
 		}
 	}

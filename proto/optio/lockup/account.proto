@@ -24,5 +24,5 @@ message Account {
 // Lockup represents an individual long-term stake with a specific lock duration
 message Lockup {
     // The amount locked in this lockup
-    cosmos.base.v1beta1.Coin amount = 1 [(gogoproto.nullable) = false];
+    cosmos.base.v1beta1.Coin coin = 1 [(gogoproto.nullable) = false];
 }

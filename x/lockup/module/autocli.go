@@ -40,6 +40,17 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Send a Extend tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "extensions"}},
 				},
+				{
+					RpcMethod: "SendDelegateAndLock",
+					Use:       "send-delegate-and-lock [to-address] [val-address] [amount] [unlockDate]",
+					Short:     "Send a SendDelegateAndLock tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
+						{ProtoField: "toAddress"},
+						{ProtoField: "valAddress"},
+						{ProtoField: "amount"},
+						{ProtoField: "unlockDate"},
+					},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},

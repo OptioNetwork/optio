@@ -779,14 +779,14 @@ func (x *fastReflection_Account) ProtoMethods() *protoiface.Methods {
 }
 
 var (
-	md_Lockup        protoreflect.MessageDescriptor
-	fd_Lockup_amount protoreflect.FieldDescriptor
+	md_Lockup      protoreflect.MessageDescriptor
+	fd_Lockup_coin protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_optio_lockup_account_proto_init()
 	md_Lockup = File_optio_lockup_account_proto.Messages().ByName("Lockup")
-	fd_Lockup_amount = md_Lockup.Fields().ByName("amount")
+	fd_Lockup_coin = md_Lockup.Fields().ByName("coin")
 }
 
 var _ protoreflect.Message = (*fastReflection_Lockup)(nil)
@@ -854,9 +854,9 @@ func (x *fastReflection_Lockup) Interface() protoreflect.ProtoMessage {
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
 func (x *fastReflection_Lockup) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-	if x.Amount != nil {
-		value := protoreflect.ValueOfMessage(x.Amount.ProtoReflect())
-		if !f(fd_Lockup_amount, value) {
+	if x.Coin != nil {
+		value := protoreflect.ValueOfMessage(x.Coin.ProtoReflect())
+		if !f(fd_Lockup_coin, value) {
 			return
 		}
 	}
@@ -875,8 +875,8 @@ func (x *fastReflection_Lockup) Range(f func(protoreflect.FieldDescriptor, proto
 // a repeated field is populated if it is non-empty.
 func (x *fastReflection_Lockup) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "optio.lockup.Lockup.amount":
-		return x.Amount != nil
+	case "optio.lockup.Lockup.coin":
+		return x.Coin != nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.Lockup"))
@@ -893,8 +893,8 @@ func (x *fastReflection_Lockup) Has(fd protoreflect.FieldDescriptor) bool {
 // Clear is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_Lockup) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "optio.lockup.Lockup.amount":
-		x.Amount = nil
+	case "optio.lockup.Lockup.coin":
+		x.Coin = nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.Lockup"))
@@ -911,8 +911,8 @@ func (x *fastReflection_Lockup) Clear(fd protoreflect.FieldDescriptor) {
 // of the value; to obtain a mutable reference, use Mutable.
 func (x *fastReflection_Lockup) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "optio.lockup.Lockup.amount":
-		value := x.Amount
+	case "optio.lockup.Lockup.coin":
+		value := x.Coin
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
@@ -934,8 +934,8 @@ func (x *fastReflection_Lockup) Get(descriptor protoreflect.FieldDescriptor) pro
 // Set is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_Lockup) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "optio.lockup.Lockup.amount":
-		x.Amount = value.Message().Interface().(*v1beta11.Coin)
+	case "optio.lockup.Lockup.coin":
+		x.Coin = value.Message().Interface().(*v1beta11.Coin)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.Lockup"))
@@ -956,11 +956,11 @@ func (x *fastReflection_Lockup) Set(fd protoreflect.FieldDescriptor, value proto
 // Mutable is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_Lockup) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "optio.lockup.Lockup.amount":
-		if x.Amount == nil {
-			x.Amount = new(v1beta11.Coin)
+	case "optio.lockup.Lockup.coin":
+		if x.Coin == nil {
+			x.Coin = new(v1beta11.Coin)
 		}
-		return protoreflect.ValueOfMessage(x.Amount.ProtoReflect())
+		return protoreflect.ValueOfMessage(x.Coin.ProtoReflect())
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.Lockup"))
@@ -974,7 +974,7 @@ func (x *fastReflection_Lockup) Mutable(fd protoreflect.FieldDescriptor) protore
 // For lists, maps, and messages, this returns a new, empty, mutable value.
 func (x *fastReflection_Lockup) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "optio.lockup.Lockup.amount":
+	case "optio.lockup.Lockup.coin":
 		m := new(v1beta11.Coin)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
@@ -1046,8 +1046,8 @@ func (x *fastReflection_Lockup) ProtoMethods() *protoiface.Methods {
 		var n int
 		var l int
 		_ = l
-		if x.Amount != nil {
-			l = options.Size(x.Amount)
+		if x.Coin != nil {
+			l = options.Size(x.Coin)
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
 		if x.unknownFields != nil {
@@ -1079,8 +1079,8 @@ func (x *fastReflection_Lockup) ProtoMethods() *protoiface.Methods {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
 		}
-		if x.Amount != nil {
-			encoded, err := options.Marshal(x.Amount)
+		if x.Coin != nil {
+			encoded, err := options.Marshal(x.Coin)
 			if err != nil {
 				return protoiface.MarshalOutput{
 					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -1144,7 +1144,7 @@ func (x *fastReflection_Lockup) ProtoMethods() *protoiface.Methods {
 			switch fieldNum {
 			case 1:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Amount", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Coin", wireType)
 				}
 				var msglen int
 				for shift := uint(0); ; shift += 7 {
@@ -1171,10 +1171,10 @@ func (x *fastReflection_Lockup) ProtoMethods() *protoiface.Methods {
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				if x.Amount == nil {
-					x.Amount = &v1beta11.Coin{}
+				if x.Coin == nil {
+					x.Coin = &v1beta11.Coin{}
 				}
-				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Amount); err != nil {
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Coin); err != nil {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
@@ -1280,7 +1280,7 @@ type Lockup struct {
 	unknownFields protoimpl.UnknownFields
 
 	// The amount locked in this lockup
-	Amount *v1beta11.Coin `protobuf:"bytes,1,opt,name=amount,proto3" json:"amount,omitempty"`
+	Coin *v1beta11.Coin `protobuf:"bytes,1,opt,name=coin,proto3" json:"coin,omitempty"`
 }
 
 func (x *Lockup) Reset() {
@@ -1303,9 +1303,9 @@ func (*Lockup) Descriptor() ([]byte, []int) {
 	return file_optio_lockup_account_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *Lockup) GetAmount() *v1beta11.Coin {
+func (x *Lockup) GetCoin() *v1beta11.Coin {
 	if x != nil {
-		return x.Amount
+		return x.Coin
 	}
 	return nil
 }
@@ -1339,22 +1339,22 @@ var file_optio_lockup_account_proto_rawDesc = []byte{
 	0x20, 0x01, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63,
 	0x6b, 0x75, 0x70, 0x2e, 0x4c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75,
 	0x65, 0x3a, 0x02, 0x38, 0x01, 0x3a, 0x16, 0x88, 0xa0, 0x1f, 0x00, 0x8a, 0xe7, 0xb0, 0x2a, 0x0d,
-	0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x22, 0x41, 0x0a,
-	0x06, 0x4c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x12, 0x37, 0x0a, 0x06, 0x61, 0x6d, 0x6f, 0x75, 0x6e,
-	0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73,
-	0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x43, 0x6f,
-	0x69, 0x6e, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x06, 0x61, 0x6d, 0x6f, 0x75, 0x6e, 0x74,
-	0x42, 0xa1, 0x01, 0x0a, 0x10, 0x63, 0x6f, 0x6d, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c,
-	0x6f, 0x63, 0x6b, 0x75, 0x70, 0x42, 0x0c, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x50, 0x72,
-	0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x2e, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f,
-	0x6d, 0x2f, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2f, 0x6f,
-	0x70, 0x74, 0x69, 0x6f, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f, 0x6c,
-	0x6f, 0x63, 0x6b, 0x75, 0x70, 0xa2, 0x02, 0x03, 0x4f, 0x4c, 0x58, 0xaa, 0x02, 0x0c, 0x4f, 0x70,
-	0x74, 0x69, 0x6f, 0x2e, 0x4c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0xca, 0x02, 0x0c, 0x4f, 0x70, 0x74,
-	0x69, 0x6f, 0x5c, 0x4c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0xe2, 0x02, 0x18, 0x4f, 0x70, 0x74, 0x69,
-	0x6f, 0x5c, 0x4c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61,
-	0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x0d, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x3a, 0x3a, 0x4c, 0x6f,
-	0x63, 0x6b, 0x75, 0x70, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x22, 0x3d, 0x0a,
+	0x06, 0x4c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x12, 0x33, 0x0a, 0x04, 0x63, 0x6f, 0x69, 0x6e, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62,
+	0x61, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x43, 0x6f, 0x69, 0x6e,
+	0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x04, 0x63, 0x6f, 0x69, 0x6e, 0x42, 0xa1, 0x01, 0x0a,
+	0x10, 0x63, 0x6f, 0x6d, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75,
+	0x70, 0x42, 0x0c, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50,
+	0x01, 0x5a, 0x2e, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x4f, 0x70,
+	0x74, 0x69, 0x6f, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f,
+	0x2f, 0x61, 0x70, 0x69, 0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f, 0x6c, 0x6f, 0x63, 0x6b, 0x75,
+	0x70, 0xa2, 0x02, 0x03, 0x4f, 0x4c, 0x58, 0xaa, 0x02, 0x0c, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x2e,
+	0x4c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0xca, 0x02, 0x0c, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x5c, 0x4c,
+	0x6f, 0x63, 0x6b, 0x75, 0x70, 0xe2, 0x02, 0x18, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x5c, 0x4c, 0x6f,
+	0x63, 0x6b, 0x75, 0x70, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61,
+	0xea, 0x02, 0x0d, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x3a, 0x3a, 0x4c, 0x6f, 0x63, 0x6b, 0x75, 0x70,
+	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1380,7 +1380,7 @@ var file_optio_lockup_account_proto_goTypes = []interface{}{
 var file_optio_lockup_account_proto_depIdxs = []int32{
 	3, // 0: optio.lockup.Account.base_account:type_name -> cosmos.auth.v1beta1.BaseAccount
 	2, // 1: optio.lockup.Account.lockups:type_name -> optio.lockup.Account.LockupsEntry
-	4, // 2: optio.lockup.Lockup.amount:type_name -> cosmos.base.v1beta1.Coin
+	4, // 2: optio.lockup.Lockup.coin:type_name -> cosmos.base.v1beta1.Coin
 	1, // 3: optio.lockup.Account.LockupsEntry.value:type_name -> optio.lockup.Lockup
 	4, // [4:4] is the sub-list for method output_type
 	4, // [4:4] is the sub-list for method input_type
