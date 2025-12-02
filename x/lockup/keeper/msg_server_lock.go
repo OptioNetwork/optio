@@ -59,10 +59,6 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 			return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid denom: %s, expected: %s", lock.Coin.Denom, bondDenom)
 		}
 
-		// TODO: Do we want to only allow lockups for 6,12,18,24 months? Or should it be anything in between?
-		// TODO: Remove any time skew by rounding to the nearest day?
-		// QUESTION: Should we change the lockup request to take in months instead of a unix timestamp?
-
 		unlockTime, err := time.Parse(time.DateOnly, lock.UnlockDate)
 		if err != nil {
 			return nil, sdkerrors.ErrInvalidRequest.Wrapf("invalid unlock date format: %s", lock.UnlockDate)

@@ -11,6 +11,7 @@ import "optio/lockup/params.proto";
 import "optio/lockup/account.proto";
 import "optio/lockup/lock.proto";
 import "optio/lockup/extension.proto";
+import "optio/lockup/output.proto";
 
 option go_package = "github.com/OptioNetwork/optio/x/lockup/types";
 
@@ -20,10 +21,11 @@ service Msg {
   
   // UpdateParams defines a (governance) operation for updating the module
   // parameters. The authority defaults to the x/gov module account.
-  rpc UpdateParams        (MsgUpdateParams       ) returns (MsgUpdateParamsResponse       );
-  rpc Lock                (MsgLock               ) returns (MsgLockResponse               );
-  rpc Extend              (MsgExtend             ) returns (MsgExtendResponse             );
-  rpc SendDelegateAndLock (MsgSendDelegateAndLock) returns (MsgSendDelegateAndLockResponse);
+  rpc UpdateParams             (MsgUpdateParams            ) returns (MsgUpdateParamsResponse            );
+  rpc Lock                     (MsgLock                    ) returns (MsgLockResponse                    );
+  rpc Extend                   (MsgExtend                  ) returns (MsgExtendResponse                  );
+  rpc SendDelegateAndLock      (MsgSendDelegateAndLock     ) returns (MsgSendDelegateAndLockResponse     );
+  rpc MultiSendDelegateAndLock (MsgMultiSendDelegateAndLock) returns (MsgMultiSendDelegateAndLockResponse);
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -61,12 +63,21 @@ message MsgExtendResponse {}
 
 message MsgSendDelegateAndLock {
   option (cosmos.msg.v1.signer) = "fromAddress";
-  string fromAddress   = 1;
-  string toAddress     = 2;
-  string valAddress    = 3;
-  string amount        = 4;
-  string unlockDate    = 5;
+  string fromAddress = 1;
+  string toAddress   = 2;
+  string valAddress  = 3;
+  string amount      = 4;
+  string unlockDate  = 5;
 }
 
 message MsgSendDelegateAndLockResponse {}
+
+message MsgMultiSendDelegateAndLock {
+  option (cosmos.msg.v1.signer) = "fromAddress";
+  string fromAddress = 1;
+  string totalAmount  = 2;
+  repeated Output outputs = 3;
+}
+
+message MsgMultiSendDelegateAndLockResponse {}
 

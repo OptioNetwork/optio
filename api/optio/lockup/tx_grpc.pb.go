@@ -19,10 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Msg_UpdateParams_FullMethodName        = "/optio.lockup.Msg/UpdateParams"
-	Msg_Lock_FullMethodName                = "/optio.lockup.Msg/Lock"
-	Msg_Extend_FullMethodName              = "/optio.lockup.Msg/Extend"
-	Msg_SendDelegateAndLock_FullMethodName = "/optio.lockup.Msg/SendDelegateAndLock"
+	Msg_UpdateParams_FullMethodName             = "/optio.lockup.Msg/UpdateParams"
+	Msg_Lock_FullMethodName                     = "/optio.lockup.Msg/Lock"
+	Msg_Extend_FullMethodName                   = "/optio.lockup.Msg/Extend"
+	Msg_SendDelegateAndLock_FullMethodName      = "/optio.lockup.Msg/SendDelegateAndLock"
+	Msg_MultiSendDelegateAndLock_FullMethodName = "/optio.lockup.Msg/MultiSendDelegateAndLock"
 )
 
 // MsgClient is the client API for Msg service.
@@ -35,6 +36,7 @@ type MsgClient interface {
 	Lock(ctx context.Context, in *MsgLock, opts ...grpc.CallOption) (*MsgLockResponse, error)
 	Extend(ctx context.Context, in *MsgExtend, opts ...grpc.CallOption) (*MsgExtendResponse, error)
 	SendDelegateAndLock(ctx context.Context, in *MsgSendDelegateAndLock, opts ...grpc.CallOption) (*MsgSendDelegateAndLockResponse, error)
+	MultiSendDelegateAndLock(ctx context.Context, in *MsgMultiSendDelegateAndLock, opts ...grpc.CallOption) (*MsgMultiSendDelegateAndLockResponse, error)
 }
 
 type msgClient struct {
@@ -81,6 +83,15 @@ func (c *msgClient) SendDelegateAndLock(ctx context.Context, in *MsgSendDelegate
 	return out, nil
 }
 
+func (c *msgClient) MultiSendDelegateAndLock(ctx context.Context, in *MsgMultiSendDelegateAndLock, opts ...grpc.CallOption) (*MsgMultiSendDelegateAndLockResponse, error) {
+	out := new(MsgMultiSendDelegateAndLockResponse)
+	err := c.cc.Invoke(ctx, Msg_MultiSendDelegateAndLock_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
@@ -91,6 +102,7 @@ type MsgServer interface {
 	Lock(context.Context, *MsgLock) (*MsgLockResponse, error)
 	Extend(context.Context, *MsgExtend) (*MsgExtendResponse, error)
 	SendDelegateAndLock(context.Context, *MsgSendDelegateAndLock) (*MsgSendDelegateAndLockResponse, error)
+	MultiSendDelegateAndLock(context.Context, *MsgMultiSendDelegateAndLock) (*MsgMultiSendDelegateAndLockResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -109,6 +121,9 @@ func (UnimplementedMsgServer) Extend(context.Context, *MsgExtend) (*MsgExtendRes
 }
 func (UnimplementedMsgServer) SendDelegateAndLock(context.Context, *MsgSendDelegateAndLock) (*MsgSendDelegateAndLockResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendDelegateAndLock not implemented")
+}
+func (UnimplementedMsgServer) MultiSendDelegateAndLock(context.Context, *MsgMultiSendDelegateAndLock) (*MsgMultiSendDelegateAndLockResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MultiSendDelegateAndLock not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 
@@ -195,6 +210,24 @@ func _Msg_SendDelegateAndLock_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_MultiSendDelegateAndLock_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgMultiSendDelegateAndLock)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).MultiSendDelegateAndLock(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_MultiSendDelegateAndLock_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).MultiSendDelegateAndLock(ctx, req.(*MsgMultiSendDelegateAndLock))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -217,6 +250,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SendDelegateAndLock",
 			Handler:    _Msg_SendDelegateAndLock_Handler,
+		},
+		{
+			MethodName: "MultiSendDelegateAndLock",
+			Handler:    _Msg_MultiSendDelegateAndLock_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
