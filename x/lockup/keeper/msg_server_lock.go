@@ -75,7 +75,7 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 
 	// Validate that total locked amount doesn't exceed total delegations
 	totalDelegations := math.ZeroInt()
-	delegations, err := k.stakingKeeper.GetDelegatorDelegations(ctx, lockupAddr, 100)
+	delegations, err := k.stakingKeeper.GetDelegatorDelegations(ctx, lockupAddr, 1000)
 	if err != nil {
 		return nil, err
 	}
