@@ -5,7 +5,6 @@ import (
 	"cosmossdk.io/math"
 	"github.com/OptioNetwork/optio/x/lockup/keeper"
 	"github.com/OptioNetwork/optio/x/lockup/types"
-	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/auth/ante"
@@ -57,7 +56,7 @@ func handleMsgs(ctx sdk.Context, msgs []sdk.Msg, lbd LockedDelegationsDecorator)
 			}
 
 		default:
-			return nil
+			continue
 		}
 	}
 
@@ -74,7 +73,7 @@ func handleMsgUndelegate(ctx sdk.Context, msg sdk.Msg, lbd LockedDelegationsDeco
 
 	acc := lbd.accountKeeper.GetAccount(ctx, fromAddr)
 	if ltsAcc, ok := acc.(*types.Account); ok {
-		totalLocked := math.NewInt(0)
+		totalLocked := math.ZeroInt()
 		blockTime := ctx.BlockTime()
 		for _, lock := range ltsAcc.Locks {
 			if types.IsLocked(blockTime, lock.UnlockDate) {
@@ -103,19 +102,13 @@ func handleMsgUndelegate(ctx sdk.Context, msg sdk.Msg, lbd LockedDelegationsDeco
 
 // handleMsgExec checks each inner message of MsgExec for locked balance constraints.
 func handleMsgExec(ctx sdk.Context, msg sdk.Msg, lbd LockedDelegationsDecorator) error {
-	msgGrant := msg.(*authztypes.MsgExec)
-	var sdkMsgs []sdk.Msg
-	for _, innerMsg := range msgGrant.Msgs {
-		var sdkMsg sdk.Msg
-		registry := codectypes.NewInterfaceRegistry()
-		err := registry.UnpackAny(innerMsg, &sdkMsg)
-		if err != nil {
-			return err
-		}
-		sdkMsgs = append(sdkMsgs, sdkMsg)
+	msgExec := msg.(*authztypes.MsgExec)
+	msgs, err := msgExec.GetMessages()
+	if err != nil {
+		return err
 	}
 
-	err := handleMsgs(ctx, sdkMsgs, lbd)
+	err = handleMsgs(ctx, msgs, lbd)
 	if err != nil {
 		return err
 	}

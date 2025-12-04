@@ -22,7 +22,7 @@ func (k msgServer) MultiSendDelegateAndLock(goCtx context.Context, msg *types.Ms
 		return nil, sdkerrors.ErrInvalidRequest.Wrapf("invalid amount: %s", msg.TotalAmount)
 	}
 
-	totalOutputs := math.NewInt(0)
+	totalOutputs := math.ZeroInt()
 	for _, output := range msg.Outputs {
 		amount, ok := math.NewIntFromString(output.Amount)
 		if !ok {
