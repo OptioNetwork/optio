@@ -3,6 +3,7 @@ package ante
 import (
 	errorsmod "cosmossdk.io/errors"
 	"cosmossdk.io/math"
+	"github.com/OptioNetwork/optio/x/lockup/keeper"
 	"github.com/OptioNetwork/optio/x/lockup/types"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 
@@ -10,7 +11,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/auth/ante"
 	authztypes "github.com/cosmos/cosmos-sdk/x/authz"
 	bankkeeper "github.com/cosmos/cosmos-sdk/x/bank/keeper"
-	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 )
 
@@ -18,13 +18,14 @@ import (
 type LockedBalanceDecorator struct {
 	accountKeeper ante.AccountKeeper
 	bankKeeper    bankkeeper.Keeper
-	stakingKeeper stakingkeeper.Keeper
+	lockupKeeper  keeper.Keeper
 }
 
-func NewLockedBalanceDecorator(accountKeeper ante.AccountKeeper, bankKeeper bankkeeper.Keeper) LockedBalanceDecorator {
+func NewLockedBalanceDecorator(accountKeeper ante.AccountKeeper, bankKeeper bankkeeper.Keeper, lockupKeeper keeper.Keeper) LockedBalanceDecorator {
 	return LockedBalanceDecorator{
 		accountKeeper: accountKeeper,
 		bankKeeper:    bankKeeper,
+		lockupKeeper:  lockupKeeper,
 	}
 }
 
@@ -82,16 +83,10 @@ func handleMsgUndelegate(ctx sdk.Context, msg sdk.Msg, lbd LockedBalanceDecorato
 			}
 		}
 
-		delegations, err := lbd.stakingKeeper.GetDelegatorDelegations(ctx, fromAddr, 1000)
+		totalDelegated, err := lbd.lockupKeeper.GetTotalDelegatedAmount(ctx, fromAddr)
 		if err != nil {
 			return err
 		}
-
-		totalDelegated := math.NewInt(0)
-		for _, delegation := range delegations {
-			totalDelegated = totalDelegated.Add(delegation.Shares.TruncateInt())
-		}
-
 		delegatedAfterUndelegate := totalDelegated.Sub(msgUndelegate.Amount.Amount)
 
 		if delegatedAfterUndelegate.LT(totalLocked) {

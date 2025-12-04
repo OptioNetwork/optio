@@ -28,42 +28,43 @@ func (k msgServer) Extend(goCtx context.Context, msg *types.MsgExtend) (*types.M
 		return nil, types.ErrInvalidAccount.Wrapf("account is not a long-term stake account: %s", msg.ExtendingAddress)
 	}
 
-	newLockups := map[string]*types.Lock{}
 	for _, extension := range msg.Extensions {
 		from, err := time.Parse(time.DateOnly, extension.From)
 		if err != nil {
 			return nil, sdkerrors.ErrInvalidRequest.Wrapf("invalid from format: %s", extension.From)
 		}
 
-		to, err := time.Parse(time.DateOnly, extension.Lock.UnlockDate)
+		unlock, err := time.Parse(time.DateOnly, extension.Lock.UnlockDate)
 		if err != nil {
 			return nil, sdkerrors.ErrInvalidRequest.Wrapf("invalid unlock date format: %s", extension.Lock.UnlockDate)
 		}
 
-		if !to.After(from) {
+		if !unlock.After(from) {
 			return nil, sdkerrors.ErrInvalidRequest.Wrapf("unlock date must be after from date")
 		}
 
-		existingLock, exists := newLockups[extension.Lock.UnlockDate]
-		if exists {
-			existingLock.Coin.Amount = existingLock.Coin.Amount.Add(extension.Lock.Coin.Amount)
-			newLockups[extension.Lock.UnlockDate] = existingLock
-			continue
+		fromLockup, exists := lockupAcc.Lockups[extension.From]
+		if !exists {
+			return nil, types.ErrLockupNotFound.Wrapf("no lockup found for unlock date: %s", extension.From)
 		}
-		newLockups[extension.Lock.UnlockDate] = extension.Lock
-	}
 
-	for _, lockup := range newLockups {
-		existingLockup, exists := lockupAcc.Lockups[lockup.UnlockDate]
+		if !fromLockup.Coin.Amount.Equal(extension.Lock.Coin.Amount) {
+			return nil, sdkerrors.ErrInvalidRequest.Wrapf("lockup amount mismatch for unlock date: %s. you must extend the entire amount", extension.From)
+		}
+
+		delete(lockupAcc.Lockups, extension.From)
+
+		newLockup, exists := lockupAcc.Lockups[extension.Lock.UnlockDate]
 		if exists {
-			existingLockup.Coin.Amount = existingLockup.Coin.Amount.Add(lockup.Coin.Amount)
-			lockupAcc.Lockups[lockup.UnlockDate] = existingLockup
+			newLockup.Coin.Amount = newLockup.Coin.Amount.Add(fromLockup.Coin.Amount)
 		} else {
-			lockupAcc.Lockups[lockup.UnlockDate] = &types.Lockup{
-				Coin: lockup.Coin,
+			newLockup = &types.Lockup{
+				Coin: fromLockup.Coin,
 			}
 		}
+		lockupAcc.Lockups[extension.Lock.UnlockDate] = newLockup
 	}
+
 	k.accountKeeper.SetAccount(ctx, lockupAcc)
 
 	return &types.MsgExtendResponse{}, nil

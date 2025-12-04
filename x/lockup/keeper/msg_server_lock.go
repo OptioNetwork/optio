@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	errorsmod "cosmossdk.io/errors"
 	"cosmossdk.io/math"
 
 	"github.com/OptioNetwork/optio/x/lockup/types"
@@ -39,12 +40,7 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 	}
 
 	lockupAcc := acc.(*types.Account)
-	totalLockedAmount := math.ZeroInt()
-	for unlockDate, lockup := range lockupAcc.Lockups {
-		if types.IsLocked(ctx.BlockTime(), unlockDate) {
-			totalLockedAmount = totalLockedAmount.Add(lockup.Coin.Amount)
-		}
-	}
+	amountToLock := math.ZeroInt()
 
 	bondDenom, err := k.stakingKeeper.BondDenom(ctx)
 	if err != nil {
@@ -70,31 +66,22 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 		if ctx.BlockTime().AddDate(2, 0, 0).Before(unlockTime) {
 			return nil, sdkerrors.ErrInvalidRequest.Wrapf("unlock time cannot be more than 2 years from now")
 		}
-		totalLockedAmount = totalLockedAmount.Add(lock.Coin.Amount)
+		amountToLock = amountToLock.Add(lock.Coin.Amount)
 	}
 
-	// Validate that total locked amount doesn't exceed total delegations
-	totalDelegations := math.ZeroInt()
-	delegations, err := k.stakingKeeper.GetDelegatorDelegations(ctx, lockupAddr, 1000)
+	currentLockedAmount := lockupAcc.GetLockedAmount(ctx.BlockTime())
+	totalDelegatedAmount, err := k.GetTotalDelegatedAmount(ctx, lockupAddr)
 	if err != nil {
 		return nil, err
 	}
 
-	for _, delegation := range delegations {
-		valAddr, err := sdk.ValAddressFromBech32(delegation.GetValidatorAddr())
-		if err != nil {
-			return nil, sdkerrors.ErrInvalidAddress.Wrapf("invalid validator address: %s", err)
-		}
-		validator, err := k.stakingKeeper.GetValidator(ctx, valAddr)
-		if err != nil {
-			return nil, err
-		}
-		tokens := validator.TokensFromShares(delegation.GetShares())
-		totalDelegations = totalDelegations.Add(tokens.TruncateInt())
-	}
-
-	if totalDelegations.LT(totalLockedAmount) {
-		return nil, sdkerrors.ErrInsufficientFunds.Wrapf("trying to lock more than total delegations: total delegations %s < locked amount %s", totalDelegations.String(), totalLockedAmount.String())
+	if totalDelegatedAmount.LT(currentLockedAmount.Add(amountToLock)) {
+		return nil, errorsmod.Wrapf(
+			types.ErrInsufficientDelegations,
+			"insufficient delegated tokens to create new locks by the requested amount: %s < %s",
+			totalDelegatedAmount.String(),
+			currentLockedAmount.Add(amountToLock).String(),
+		)
 	}
 
 	for _, msgLockup := range msg.Lockups {

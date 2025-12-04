@@ -1,6 +1,9 @@
 package types
 
 import (
+	"time"
+
+	"cosmossdk.io/math"
 	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
@@ -11,6 +14,17 @@ func NewLockupAccount(baseAccount *authtypes.BaseAccount) *Account {
 		BaseAccount: baseAccount,
 		Lockups:     map[string]*Lockup{},
 	}
+}
+
+func (a *Account) GetLockedAmount(currentTime time.Time) math.Int {
+	totalLockedAmount := math.ZeroInt()
+	for unlockDate, lockup := range a.Lockups {
+		if IsLocked(currentTime, unlockDate) {
+			totalLockedAmount = totalLockedAmount.Add(lockup.Coin.Amount)
+		}
+	}
+
+	return totalLockedAmount
 }
 
 // Implement sdk.AccountI interface
