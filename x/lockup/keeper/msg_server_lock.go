@@ -25,22 +25,22 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 	if acc == nil {
 		// create a new lockup account if it doesn't exist
 		baseAcc := authtypes.NewBaseAccountWithAddress(lockupAddr)
-		longTermStakeAcc := types.NewLongTermStakeAccount(baseAcc)
-		k.accountKeeper.SetAccount(ctx, longTermStakeAcc)
-		acc = longTermStakeAcc
+		lAcc := types.NewLockupAccount(baseAcc)
+		k.accountKeeper.SetAccount(ctx, lAcc)
+		acc = lAcc
 	} else {
 		acc = k.accountKeeper.GetAccount(ctx, lockupAddr)
 		_, ok := acc.(*types.Account)
 		if !ok {
-			longTermStakeAcc := types.NewLongTermStakeAccount(acc.(*authtypes.BaseAccount))
-			k.accountKeeper.SetAccount(ctx, longTermStakeAcc)
-			acc = longTermStakeAcc
+			lAcc := types.NewLockupAccount(acc.(*authtypes.BaseAccount))
+			k.accountKeeper.SetAccount(ctx, lAcc)
+			acc = lAcc
 		}
 	}
 
-	ltsAcc := acc.(*types.Account)
+	lockupAcc := acc.(*types.Account)
 	totalLockedAmount := math.ZeroInt()
-	for unlockDate, lockup := range ltsAcc.Lockups {
+	for unlockDate, lockup := range lockupAcc.Lockups {
 		if types.IsLocked(ctx.BlockTime(), unlockDate) {
 			totalLockedAmount = totalLockedAmount.Add(lockup.Coin.Amount)
 		}
@@ -98,18 +98,18 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 	}
 
 	for _, msgLockup := range msg.Lockups {
-		existingLockup, exists := ltsAcc.Lockups[msgLockup.UnlockDate]
+		existingLockup, exists := lockupAcc.Lockups[msgLockup.UnlockDate]
 		if exists {
 			existingLockup.Coin.Amount = existingLockup.Coin.Amount.Add(msgLockup.Coin.Amount)
-			ltsAcc.Lockups[msgLockup.UnlockDate] = existingLockup
+			lockupAcc.Lockups[msgLockup.UnlockDate] = existingLockup
 		} else {
-			ltsAcc.Lockups[msgLockup.UnlockDate] = &types.Lockup{
+			lockupAcc.Lockups[msgLockup.UnlockDate] = &types.Lockup{
 				Coin: msgLockup.Coin,
 			}
 		}
 	}
 
-	k.accountKeeper.SetAccount(ctx, ltsAcc)
+	k.accountKeeper.SetAccount(ctx, lockupAcc)
 
 	return &types.MsgLockResponse{}, nil
 }

@@ -6,7 +6,7 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 )
 
-func NewLongTermStakeAccount(baseAccount *authtypes.BaseAccount) *Account {
+func NewLockupAccount(baseAccount *authtypes.BaseAccount) *Account {
 	return &Account{
 		BaseAccount: baseAccount,
 		Lockups:     map[string]*Lockup{},
