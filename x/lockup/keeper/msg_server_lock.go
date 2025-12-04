@@ -46,7 +46,8 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 	if err != nil {
 		return nil, err
 	}
-	for _, lock := range msg.Lockups {
+
+	for _, lock := range msg.Locks {
 		if !lock.Coin.IsValid() || lock.Coin.IsZero() {
 			return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid lock amount: %s", lock.Coin.String())
 		}
@@ -84,15 +85,13 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 		)
 	}
 
-	for _, msgLockup := range msg.Lockups {
-		existingLockup, exists := lockupAcc.Lockups[msgLockup.UnlockDate]
-		if exists {
-			existingLockup.Coin.Amount = existingLockup.Coin.Amount.Add(msgLockup.Coin.Amount)
-			lockupAcc.Lockups[msgLockup.UnlockDate] = existingLockup
+	for _, lock := range msg.Locks {
+		existingLockup, _, found := lockupAcc.FindLockup(lock.UnlockDate)
+		if found {
+			existingLockup.Coin.Amount = existingLockup.Coin.Amount.Add(lock.Coin.Amount)
+			lockupAcc.Locks = lockupAcc.UpsertLockup(lock.UnlockDate, lock.Coin)
 		} else {
-			lockupAcc.Lockups[msgLockup.UnlockDate] = &types.Lockup{
-				Coin: msgLockup.Coin,
-			}
+			lockupAcc.Locks = lockupAcc.InsertLockup(lock)
 		}
 	}
 

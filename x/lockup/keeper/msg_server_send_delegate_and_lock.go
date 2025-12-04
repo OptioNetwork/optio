@@ -80,7 +80,7 @@ func (k msgServer) SendDelegateAndLock(goCtx context.Context, msg *types.MsgSend
 	// now lock the funds (skip balance validation since we just delegated)
 	lockupMsg := &types.MsgLock{
 		LockupAddress: msg.ToAddress,
-		Lockups:       []*types.Lock{lock},
+		Locks:         []*types.Lock{lock},
 	}
 
 	_, err = k.Lock(goCtx, lockupMsg)

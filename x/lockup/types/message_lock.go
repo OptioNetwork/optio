@@ -11,7 +11,7 @@ var _ sdk.Msg = &MsgLock{}
 func NewMsgLock(lockupAddress string, lockups []*Lock) *MsgLock {
 	return &MsgLock{
 		LockupAddress: lockupAddress,
-		Lockups:       lockups,
+		Locks:         lockups,
 	}
 }
 

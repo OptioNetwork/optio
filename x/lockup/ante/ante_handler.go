@@ -14,22 +14,21 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 )
 
-// NewLockedBalanceDecorator checks that the sender has sufficient unlocked balance for msgs that spend funds.
-type LockedBalanceDecorator struct {
+type LockedDelegationsDecorator struct {
 	accountKeeper ante.AccountKeeper
 	bankKeeper    bankkeeper.Keeper
 	lockupKeeper  keeper.Keeper
 }
 
-func NewLockedBalanceDecorator(accountKeeper ante.AccountKeeper, bankKeeper bankkeeper.Keeper, lockupKeeper keeper.Keeper) LockedBalanceDecorator {
-	return LockedBalanceDecorator{
+func NewLockedDelegationsDecorator(accountKeeper ante.AccountKeeper, bankKeeper bankkeeper.Keeper, lockupKeeper keeper.Keeper) LockedDelegationsDecorator {
+	return LockedDelegationsDecorator{
 		accountKeeper: accountKeeper,
 		bankKeeper:    bankKeeper,
 		lockupKeeper:  lockupKeeper,
 	}
 }
 
-func (lbd LockedBalanceDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulate bool, next sdk.AnteHandler) (newCtx sdk.Context, err error) {
+func (lbd LockedDelegationsDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulate bool, next sdk.AnteHandler) (newCtx sdk.Context, err error) {
 	msgs := tx.GetMsgs()
 
 	err = handleMsgs(ctx, msgs, lbd)
@@ -40,7 +39,7 @@ func (lbd LockedBalanceDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulat
 	return next(ctx, tx, simulate)
 }
 
-func handleMsgs(ctx sdk.Context, msgs []sdk.Msg, lbd LockedBalanceDecorator) error {
+func handleMsgs(ctx sdk.Context, msgs []sdk.Msg, lbd LockedDelegationsDecorator) error {
 	for _, msg := range msgs {
 		switch msg.(type) {
 		case *stakingtypes.MsgUndelegate:
@@ -66,7 +65,7 @@ func handleMsgs(ctx sdk.Context, msgs []sdk.Msg, lbd LockedBalanceDecorator) err
 }
 
 // handleMsgUndelegate checks if the undelegation would cause the delegator's total delegated amount to be less than their locked amount.
-func handleMsgUndelegate(ctx sdk.Context, msg sdk.Msg, lbd LockedBalanceDecorator) error {
+func handleMsgUndelegate(ctx sdk.Context, msg sdk.Msg, lbd LockedDelegationsDecorator) error {
 	msgUndelegate := msg.(*stakingtypes.MsgUndelegate)
 	fromAddr, err := sdk.AccAddressFromBech32(msgUndelegate.DelegatorAddress)
 	if err != nil {
@@ -77,9 +76,9 @@ func handleMsgUndelegate(ctx sdk.Context, msg sdk.Msg, lbd LockedBalanceDecorato
 	if ltsAcc, ok := acc.(*types.Account); ok {
 		totalLocked := math.NewInt(0)
 		blockTime := ctx.BlockTime()
-		for unlockDate, lockup := range ltsAcc.Lockups {
-			if types.IsLocked(blockTime, unlockDate) {
-				totalLocked = totalLocked.Add(lockup.Coin.Amount)
+		for _, lock := range ltsAcc.Locks {
+			if types.IsLocked(blockTime, lock.UnlockDate) {
+				totalLocked = totalLocked.Add(lock.Coin.Amount)
 			}
 		}
 
@@ -103,7 +102,7 @@ func handleMsgUndelegate(ctx sdk.Context, msg sdk.Msg, lbd LockedBalanceDecorato
 }
 
 // handleMsgExec checks each inner message of MsgExec for locked balance constraints.
-func handleMsgExec(ctx sdk.Context, msg sdk.Msg, lbd LockedBalanceDecorator) error {
+func handleMsgExec(ctx sdk.Context, msg sdk.Msg, lbd LockedDelegationsDecorator) error {
 	msgGrant := msg.(*authztypes.MsgExec)
 	var sdkMsgs []sdk.Msg
 	for _, innerMsg := range msgGrant.Msgs {
