@@ -13,6 +13,21 @@ import (
 func (k msgServer) Extend(goCtx context.Context, msg *types.MsgExtend) (*types.MsgExtendResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
+	addr, err := sdk.AccAddressFromBech32(msg.ExtendingAddress)
+	if err != nil {
+		return nil, sdkerrors.ErrInvalidAddress.Wrapf("invalid lockup address: %s", err)
+	}
+
+	acc := k.accountKeeper.GetAccount(ctx, addr)
+	if acc == nil {
+		return nil, sdkerrors.ErrNotFound.Wrapf("no account found for address: %s", msg.ExtendingAddress)
+	}
+
+	lockupAcc, ok := acc.(*types.Account)
+	if !ok {
+		return nil, types.ErrInvalidAccount.Wrapf("account is not a long-term stake account: %s", msg.ExtendingAddress)
+	}
+
 	newLockups := map[string]*types.Lock{}
 	for _, extension := range msg.Extensions {
 		from, err := time.Parse(time.DateOnly, extension.From)
@@ -36,21 +51,6 @@ func (k msgServer) Extend(goCtx context.Context, msg *types.MsgExtend) (*types.M
 			continue
 		}
 		newLockups[extension.Lock.UnlockDate] = extension.Lock
-	}
-
-	addr, err := sdk.AccAddressFromBech32(msg.ExtendingAddress)
-	if err != nil {
-		return nil, sdkerrors.ErrInvalidAddress.Wrapf("invalid lockup address: %s", err)
-	}
-
-	acc := k.accountKeeper.GetAccount(ctx, addr)
-	if acc == nil {
-		return nil, sdkerrors.ErrNotFound.Wrapf("no account found for address: %s", msg.ExtendingAddress)
-	}
-
-	lockupAcc, ok := acc.(*types.Account)
-	if !ok {
-		return nil, types.ErrInvalidAccount.Wrapf("account is not a long-term stake account: %s", msg.ExtendingAddress)
 	}
 
 	for _, lockup := range newLockups {
