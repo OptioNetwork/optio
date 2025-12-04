@@ -48,7 +48,7 @@ message MsgUpdateParamsResponse {}
 message MsgLock {
   option (cosmos.msg.v1.signer) = "lockupAddress";
            string lockupAddress = 1;
-  repeated Lock   lockups       = 2;
+  repeated Lock   locks         = 2;
 }
 
 message MsgLockResponse {}

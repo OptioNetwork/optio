@@ -28,7 +28,16 @@ func (k msgServer) Extend(goCtx context.Context, msg *types.MsgExtend) (*types.M
 		return nil, types.ErrInvalidAccount.Wrapf("account is not a long-term stake account: %s", msg.ExtendingAddress)
 	}
 
+	bondDenom, err := k.stakingKeeper.BondDenom(ctx)
+	if err != nil {
+		return nil, err
+	}
+
 	for _, extension := range msg.Extensions {
+		if extension.Lock.Coin.Denom != bondDenom {
+			return nil, sdkerrors.ErrInvalidRequest.Wrapf("invalid coin denomination: got %s, expected %s", extension.Lock.Coin.Denom, bondDenom)
+		}
+
 		from, err := time.Parse(time.DateOnly, extension.From)
 		if err != nil {
 			return nil, sdkerrors.ErrInvalidRequest.Wrapf("invalid from format: %s", extension.From)
@@ -43,26 +52,27 @@ func (k msgServer) Extend(goCtx context.Context, msg *types.MsgExtend) (*types.M
 			return nil, sdkerrors.ErrInvalidRequest.Wrapf("unlock date must be after from date")
 		}
 
-		fromLockup, exists := lockupAcc.Lockups[extension.From]
-		if !exists {
+		fromLockup, idx, found := lockupAcc.FindLockup(extension.From)
+		if !found {
 			return nil, types.ErrLockupNotFound.Wrapf("no lockup found for unlock date: %s", extension.From)
 		}
 
 		if !fromLockup.Coin.Amount.Equal(extension.Lock.Coin.Amount) {
-			return nil, sdkerrors.ErrInvalidRequest.Wrapf("lockup amount mismatch for unlock date: %s. you must extend the entire amount", extension.From)
+			return nil, sdkerrors.ErrInvalidRequest.Wrapf("extension amount mismatch for unlock from date: %s. you must extend the entire amount: %s", extension.From, fromLockup.Coin.Amount.String())
 		}
 
-		delete(lockupAcc.Lockups, extension.From)
+		amountToMove := fromLockup.Coin.Amount
+		lockupAcc.RemoveLockup(idx)
 
-		newLockup, exists := lockupAcc.Lockups[extension.Lock.UnlockDate]
+		newLockup, _, exists := lockupAcc.FindLockup(extension.Lock.UnlockDate)
 		if exists {
-			newLockup.Coin.Amount = newLockup.Coin.Amount.Add(fromLockup.Coin.Amount)
+			lockupAcc.Locks = lockupAcc.UpsertLockup(extension.Lock.UnlockDate, sdk.NewCoin(bondDenom, newLockup.Coin.Amount.Add(amountToMove)))
 		} else {
-			newLockup = &types.Lockup{
-				Coin: fromLockup.Coin,
-			}
+			lockupAcc.Locks = lockupAcc.InsertLockup(&types.Lock{
+				Coin:       sdk.NewCoin(bondDenom, amountToMove),
+				UnlockDate: extension.Lock.UnlockDate,
+			})
 		}
-		lockupAcc.Lockups[extension.Lock.UnlockDate] = newLockup
 	}
 
 	k.accountKeeper.SetAccount(ctx, lockupAcc)
