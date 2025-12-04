@@ -17,6 +17,7 @@ func NewLockupAccount(baseAccount *authtypes.BaseAccount) *Account {
 	}
 }
 
+// Calculate total locked amount at the given time
 func (a *Account) GetLockedAmount(currentTime time.Time) math.Int {
 	totalLockedAmount := math.ZeroInt()
 	for _, lock := range a.Locks {
@@ -29,7 +30,7 @@ func (a *Account) GetLockedAmount(currentTime time.Time) math.Int {
 }
 
 // Find lockup using binary search
-func (a *Account) FindLockup(unlockDate string) (*Lock, int, bool) {
+func (a *Account) FindLock(unlockDate string) (*Lock, int, bool) {
 	idx := sort.Search(len(a.Locks), func(i int) bool {
 		return a.Locks[i].UnlockDate >= unlockDate
 	})
@@ -40,7 +41,7 @@ func (a *Account) FindLockup(unlockDate string) (*Lock, int, bool) {
 }
 
 // Insert lockup maintaining sorted order
-func (a *Account) InsertLockup(newLockup *Lock) []*Lock {
+func (a *Account) InsertLock(newLockup *Lock) []*Lock {
 	idx := sort.Search(len(a.Locks), func(i int) bool {
 		return a.Locks[i].UnlockDate >= newLockup.UnlockDate
 	})
@@ -53,20 +54,19 @@ func (a *Account) InsertLockup(newLockup *Lock) []*Lock {
 }
 
 // Upsert (update if exists, insert if not) maintaining sorted order
-func (a *Account) UpsertLockup(unlockDate string, coin sdk.Coin) []*Lock {
+func (a *Account) UpsertLock(unlockDate string, coin sdk.Coin) []*Lock {
 	idx := sort.Search(len(a.Locks), func(i int) bool {
 		return a.Locks[i].UnlockDate >= unlockDate
 	})
 
 	if idx < len(a.Locks) && a.Locks[idx].UnlockDate == unlockDate {
-		// Update existing
 		a.Locks[idx].Coin.Amount = a.Locks[idx].Coin.Amount.Add(coin.Amount)
 		return a.Locks
 	}
 
-	// Insert new at correct position
 	newLockup := &Lock{
-		Coin: sdk.NewCoin(coin.Denom, coin.Amount),
+		UnlockDate: unlockDate,
+		Coin:       sdk.NewCoin(coin.Denom, coin.Amount),
 	}
 	a.Locks = append(a.Locks, nil)
 	copy(a.Locks[idx+1:], a.Locks[idx:])
@@ -74,13 +74,13 @@ func (a *Account) UpsertLockup(unlockDate string, coin sdk.Coin) []*Lock {
 	return a.Locks
 }
 
-// Remove lockup by index
-func (a *Account) RemoveLockup(idx int) []*Lock {
+// Remove lock by index
+func (a *Account) RemoveLock(idx int) []*Lock {
 	return append(a.Locks[:idx], a.Locks[idx+1:]...)
 }
 
-// Range query: get all lockups before a certain date
-func (a *Account) GetLockupsBeforeDate(date string) []*Lock {
+// Range query: get all locks before a certain date
+func (a *Account) GetLocksBeforeDate(date string) []*Lock {
 	idx := sort.Search(len(a.Locks), func(i int) bool {
 		return a.Locks[i].UnlockDate >= date
 	})

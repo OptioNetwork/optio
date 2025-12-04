@@ -24,7 +24,6 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 	acc := k.accountKeeper.GetAccount(ctx, lockupAddr)
 
 	if acc == nil {
-		// create a new lockup account if it doesn't exist
 		baseAcc := authtypes.NewBaseAccountWithAddress(lockupAddr)
 		lAcc := types.NewLockupAccount(baseAcc)
 		k.accountKeeper.SetAccount(ctx, lAcc)
@@ -86,13 +85,7 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 	}
 
 	for _, lock := range msg.Locks {
-		existingLockup, _, found := lockupAcc.FindLockup(lock.UnlockDate)
-		if found {
-			existingLockup.Coin.Amount = existingLockup.Coin.Amount.Add(lock.Coin.Amount)
-			lockupAcc.Locks = lockupAcc.UpsertLockup(lock.UnlockDate, lock.Coin)
-		} else {
-			lockupAcc.Locks = lockupAcc.InsertLockup(lock)
-		}
+		lockupAcc.Locks = lockupAcc.UpsertLock(lock.UnlockDate, lock.Coin)
 	}
 
 	k.accountKeeper.SetAccount(ctx, lockupAcc)

@@ -52,7 +52,7 @@ func (k msgServer) Extend(goCtx context.Context, msg *types.MsgExtend) (*types.M
 			return nil, sdkerrors.ErrInvalidRequest.Wrapf("unlock date must be after from date")
 		}
 
-		fromLockup, idx, found := lockupAcc.FindLockup(extension.From)
+		fromLockup, idx, found := lockupAcc.FindLock(extension.From)
 		if !found {
 			return nil, types.ErrLockupNotFound.Wrapf("no lockup found for unlock date: %s", extension.From)
 		}
@@ -62,17 +62,8 @@ func (k msgServer) Extend(goCtx context.Context, msg *types.MsgExtend) (*types.M
 		}
 
 		amountToMove := fromLockup.Coin.Amount
-		lockupAcc.RemoveLockup(idx)
-
-		newLockup, _, exists := lockupAcc.FindLockup(extension.Lock.UnlockDate)
-		if exists {
-			lockupAcc.Locks = lockupAcc.UpsertLockup(extension.Lock.UnlockDate, sdk.NewCoin(bondDenom, newLockup.Coin.Amount.Add(amountToMove)))
-		} else {
-			lockupAcc.Locks = lockupAcc.InsertLockup(&types.Lock{
-				Coin:       sdk.NewCoin(bondDenom, amountToMove),
-				UnlockDate: extension.Lock.UnlockDate,
-			})
-		}
+		lockupAcc.Locks = lockupAcc.RemoveLock(idx)
+		lockupAcc.Locks = lockupAcc.UpsertLock(extension.Lock.UnlockDate, sdk.NewCoin(bondDenom, amountToMove))
 	}
 
 	k.accountKeeper.SetAccount(ctx, lockupAcc)
