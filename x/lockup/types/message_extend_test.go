@@ -104,7 +104,7 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 						Lock: &Lock{
 							Coin: sdk.Coin{
 								Denom:  "uOPT",
-								Amount: math.NewInt(0),
+								Amount: math.ZeroInt(),
 							},
 							UnlockDate: time.Now().AddDate(2, 0, 0).Format(time.DateOnly),
 						},
@@ -122,7 +122,7 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 						Lock: &Lock{
 							Coin: sdk.Coin{
 								Denom:  "",
-								Amount: math.NewInt(0),
+								Amount: math.ZeroInt(),
 							},
 							UnlockDate: time.Now().AddDate(2, 0, 0).Format(time.DateOnly),
 						},
@@ -140,7 +140,7 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 						Lock: &Lock{
 							Coin: sdk.Coin{
 								Denom:  "invalid_denom",
-								Amount: math.NewInt(0),
+								Amount: math.ZeroInt(),
 							},
 							UnlockDate: time.Now().AddDate(2, 0, 0).Format(time.DateOnly),
 						},
