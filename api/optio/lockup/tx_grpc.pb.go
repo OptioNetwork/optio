@@ -19,7 +19,6 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Msg_UpdateParams_FullMethodName             = "/optio.lockup.Msg/UpdateParams"
 	Msg_Lock_FullMethodName                     = "/optio.lockup.Msg/Lock"
 	Msg_Extend_FullMethodName                   = "/optio.lockup.Msg/Extend"
 	Msg_SendDelegateAndLock_FullMethodName      = "/optio.lockup.Msg/SendDelegateAndLock"
@@ -30,9 +29,6 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MsgClient interface {
-	// UpdateParams defines a (governance) operation for updating the module
-	// parameters. The authority defaults to the x/gov module account.
-	UpdateParams(ctx context.Context, in *MsgUpdateParams, opts ...grpc.CallOption) (*MsgUpdateParamsResponse, error)
 	Lock(ctx context.Context, in *MsgLock, opts ...grpc.CallOption) (*MsgLockResponse, error)
 	Extend(ctx context.Context, in *MsgExtend, opts ...grpc.CallOption) (*MsgExtendResponse, error)
 	SendDelegateAndLock(ctx context.Context, in *MsgSendDelegateAndLock, opts ...grpc.CallOption) (*MsgSendDelegateAndLockResponse, error)
@@ -45,15 +41,6 @@ type msgClient struct {
 
 func NewMsgClient(cc grpc.ClientConnInterface) MsgClient {
 	return &msgClient{cc}
-}
-
-func (c *msgClient) UpdateParams(ctx context.Context, in *MsgUpdateParams, opts ...grpc.CallOption) (*MsgUpdateParamsResponse, error) {
-	out := new(MsgUpdateParamsResponse)
-	err := c.cc.Invoke(ctx, Msg_UpdateParams_FullMethodName, in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *msgClient) Lock(ctx context.Context, in *MsgLock, opts ...grpc.CallOption) (*MsgLockResponse, error) {
@@ -96,9 +83,6 @@ func (c *msgClient) MultiSendDelegateAndLock(ctx context.Context, in *MsgMultiSe
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
 type MsgServer interface {
-	// UpdateParams defines a (governance) operation for updating the module
-	// parameters. The authority defaults to the x/gov module account.
-	UpdateParams(context.Context, *MsgUpdateParams) (*MsgUpdateParamsResponse, error)
 	Lock(context.Context, *MsgLock) (*MsgLockResponse, error)
 	Extend(context.Context, *MsgExtend) (*MsgExtendResponse, error)
 	SendDelegateAndLock(context.Context, *MsgSendDelegateAndLock) (*MsgSendDelegateAndLockResponse, error)
@@ -110,9 +94,6 @@ type MsgServer interface {
 type UnimplementedMsgServer struct {
 }
 
-func (UnimplementedMsgServer) UpdateParams(context.Context, *MsgUpdateParams) (*MsgUpdateParamsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateParams not implemented")
-}
 func (UnimplementedMsgServer) Lock(context.Context, *MsgLock) (*MsgLockResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Lock not implemented")
 }
@@ -136,24 +117,6 @@ type UnsafeMsgServer interface {
 
 func RegisterMsgServer(s grpc.ServiceRegistrar, srv MsgServer) {
 	s.RegisterService(&Msg_ServiceDesc, srv)
-}
-
-func _Msg_UpdateParams_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(MsgUpdateParams)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(MsgServer).UpdateParams(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Msg_UpdateParams_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(MsgServer).UpdateParams(ctx, req.(*MsgUpdateParams))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _Msg_Lock_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -235,10 +198,6 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "optio.lockup.Msg",
 	HandlerType: (*MsgServer)(nil),
 	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "UpdateParams",
-			Handler:    _Msg_UpdateParams_Handler,
-		},
 		{
 			MethodName: "Lock",
 			Handler:    _Msg_Lock_Handler,
