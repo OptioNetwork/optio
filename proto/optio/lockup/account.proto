@@ -5,7 +5,6 @@ import "amino/amino.proto";
 import "cosmos/auth/v1beta1/auth.proto";
 import "cosmos/base/v1beta1/coin.proto";
 import "gogoproto/gogo.proto";
-import "optio/lockup/params.proto";
 import "optio/lockup/lock.proto";
 
 option go_package = "github.com/OptioNetwork/optio/x/lockup/types";
