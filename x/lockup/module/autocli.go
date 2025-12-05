@@ -30,9 +30,9 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 				},
 				{
 					RpcMethod:      "Lock",
-					Use:            "lock [lockups]",
+					Use:            "lock [locks]",
 					Short:          "Send a Lock tx",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "lockups"}},
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "locks"}},
 				},
 				{
 					RpcMethod:      "Extend",

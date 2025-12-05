@@ -5,15 +5,14 @@ package types
 
 import (
 	fmt "fmt"
-	io "io"
-	math "math"
-	math_bits "math/bits"
-
 	_ "github.com/cosmos/cosmos-sdk/types"
 	_ "github.com/cosmos/cosmos-sdk/types/tx/amino"
 	types "github.com/cosmos/cosmos-sdk/x/auth/types"
 	_ "github.com/cosmos/gogoproto/gogoproto"
 	proto "github.com/cosmos/gogoproto/proto"
+	io "io"
+	math "math"
+	math_bits "math/bits"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -36,35 +35,35 @@ type Account struct {
 	Locks              []*Lock `protobuf:"bytes,2,rep,name=locks,proto3" json:"locks,omitempty"`
 }
 
-func (a *Account) Reset()         { *a = Account{} }
-func (a *Account) String() string { return proto.CompactTextString(a) }
+func (m *Account) Reset()         { *m = Account{} }
+func (m *Account) String() string { return proto.CompactTextString(m) }
 func (*Account) ProtoMessage()    {}
 func (*Account) Descriptor() ([]byte, []int) {
 	return fileDescriptor_6a7b6f69c6b69a48, []int{0}
 }
-func (a *Account) XXX_Unmarshal(b []byte) error {
-	return a.Unmarshal(b)
+func (m *Account) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
 }
-func (a *Account) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *Account) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_Account.Marshal(b, a, deterministic)
+		return xxx_messageInfo_Account.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
-		n, err := a.MarshalToSizedBuffer(b)
+		n, err := m.MarshalToSizedBuffer(b)
 		if err != nil {
 			return nil, err
 		}
 		return b[:n], nil
 	}
 }
-func (a *Account) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Account.Merge(a, src)
+func (m *Account) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Account.Merge(m, src)
 }
-func (a *Account) XXX_Size() int {
-	return a.Size()
+func (m *Account) XXX_Size() int {
+	return m.Size()
 }
-func (a *Account) XXX_DiscardUnknown() {
-	xxx_messageInfo_Account.DiscardUnknown(a)
+func (m *Account) XXX_DiscardUnknown() {
+	xxx_messageInfo_Account.DiscardUnknown(m)
 }
 
 var xxx_messageInfo_Account proto.InternalMessageInfo
@@ -98,30 +97,30 @@ var fileDescriptor_6a7b6f69c6b69a48 = []byte{
 	0xff, 0x93, 0xa4, 0xe3, 0xd2, 0xb0, 0x01, 0x00, 0x00,
 }
 
-func (a *Account) Marshal() (dAtA []byte, err error) {
-	size := a.Size()
+func (m *Account) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := a.MarshalToSizedBuffer(dAtA[:size])
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
 	return dAtA[:n], nil
 }
 
-func (a *Account) MarshalTo(dAtA []byte) (int, error) {
-	size := a.Size()
-	return a.MarshalToSizedBuffer(dAtA[:size])
+func (m *Account) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (a *Account) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *Account) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(a.Locks) > 0 {
-		for iNdEx := len(a.Locks) - 1; iNdEx >= 0; iNdEx-- {
+	if len(m.Locks) > 0 {
+		for iNdEx := len(m.Locks) - 1; iNdEx >= 0; iNdEx-- {
 			{
-				size, err := a.Locks[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				size, err := m.Locks[iNdEx].MarshalToSizedBuffer(dAtA[:i])
 				if err != nil {
 					return 0, err
 				}
@@ -132,9 +131,9 @@ func (a *Account) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			dAtA[i] = 0x12
 		}
 	}
-	if a.BaseAccount != nil {
+	if m.BaseAccount != nil {
 		{
-			size, err := a.BaseAccount.MarshalToSizedBuffer(dAtA[:i])
+			size, err := m.BaseAccount.MarshalToSizedBuffer(dAtA[:i])
 			if err != nil {
 				return 0, err
 			}
@@ -158,18 +157,18 @@ func encodeVarintAccount(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-func (a *Account) Size() (n int) {
-	if a == nil {
+func (m *Account) Size() (n int) {
+	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
-	if a.BaseAccount != nil {
-		l = a.BaseAccount.Size()
+	if m.BaseAccount != nil {
+		l = m.BaseAccount.Size()
 		n += 1 + l + sovAccount(uint64(l))
 	}
-	if len(a.Locks) > 0 {
-		for _, e := range a.Locks {
+	if len(m.Locks) > 0 {
+		for _, e := range m.Locks {
 			l = e.Size()
 			n += 1 + l + sovAccount(uint64(l))
 		}
@@ -183,7 +182,7 @@ func sovAccount(x uint64) (n int) {
 func sozAccount(x uint64) (n int) {
 	return sovAccount(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-func (a *Account) Unmarshal(dAtA []byte) error {
+func (m *Account) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -241,10 +240,10 @@ func (a *Account) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			if a.BaseAccount == nil {
-				a.BaseAccount = &types.BaseAccount{}
+			if m.BaseAccount == nil {
+				m.BaseAccount = &types.BaseAccount{}
 			}
-			if err := a.BaseAccount.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			if err := m.BaseAccount.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
@@ -277,8 +276,8 @@ func (a *Account) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			a.Locks = append(a.Locks, &Lock{})
-			if err := a.Locks[len(a.Locks)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+			m.Locks = append(m.Locks, &Lock{})
+			if err := m.Locks[len(m.Locks)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex
