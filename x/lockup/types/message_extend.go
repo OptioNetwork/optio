@@ -33,12 +33,12 @@ func (msg *MsgExtend) ValidateBasic() error {
 		}
 
 		if extension.From == "" {
-			return errorsmod.Wrapf(sdkerrors.ErrInvalidRequest, "extension from date cannot be empty")
+			return errorsmod.Wrapf(ErrInvalidDate, "extension from date cannot be empty")
 		}
 
 		fromTime, err := time.Parse(time.DateOnly, extension.From)
 		if err != nil {
-			return errorsmod.Wrapf(sdkerrors.ErrInvalidRequest, "extension at index %d has invalid 'from' date format: %s", i, err)
+			return errorsmod.Wrapf(ErrInvalidDate, "extension at index %d has invalid 'from' date format: %s", i, err)
 		}
 
 		if extension.Lock == nil {
@@ -58,12 +58,12 @@ func (msg *MsgExtend) ValidateBasic() error {
 		}
 
 		if extension.Lock.UnlockDate == "" {
-			return errorsmod.Wrapf(sdkerrors.ErrInvalidRequest, "extension lock unlock date cannot be empty")
+			return errorsmod.Wrapf(ErrInvalidDate, "extension lock unlock date cannot be empty")
 		}
 
 		toTime, err := time.Parse(time.DateOnly, extension.Lock.UnlockDate)
 		if err != nil {
-			return errorsmod.Wrapf(sdkerrors.ErrInvalidRequest, "invalid unlock date format: %s", extension.Lock.UnlockDate)
+			return errorsmod.Wrapf(ErrInvalidDate, "invalid unlock date format: %s", extension.Lock.UnlockDate)
 		}
 
 		if !toTime.After(fromTime) {
