@@ -61,7 +61,7 @@ func (k msgServer) SendDelegateAndLock(goCtx context.Context, msg *types.MsgSend
 		sdk.NewEvent(
 			stakingtypes.EventTypeDelegate,
 			sdk.NewAttribute(stakingtypes.AttributeKeyValidator, msg.ValidatorAddress),
-			sdk.NewAttribute(stakingtypes.AttributeKeyDelegator, msg.FromAddress),
+			sdk.NewAttribute(stakingtypes.AttributeKeyDelegator, msg.ToAddress),
 			sdk.NewAttribute(sdk.AttributeKeyAmount, msg.Lock.Coin.String()),
 			sdk.NewAttribute(stakingtypes.AttributeKeyNewShares, newShares.String()),
 		),
