@@ -86,6 +86,24 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 
 	for _, lock := range msg.Locks {
 		lockupAcc.Locks = lockupAcc.UpsertLock(lock.UnlockDate, lock.Coin)
+
+		unlockTime, err := time.Parse(time.DateOnly, lock.UnlockDate)
+		if err != nil {
+			return nil, err
+		}
+
+		if err := k.AddToExpirationQueue(ctx, unlockTime, lockupAddr, lock.Coin.Amount); err != nil {
+			return nil, err
+		}
+	}
+
+	currentTotal, err := k.GetTotalLocked(ctx)
+	if err != nil {
+		return nil, err
+	}
+	newTotal := currentTotal.Add(amountToLock)
+	if err := k.SetTotalLocked(ctx, newTotal); err != nil {
+		return nil, err
 	}
 
 	k.accountKeeper.SetAccount(ctx, lockupAcc)

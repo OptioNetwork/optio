@@ -17,10 +17,12 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
+	"github.com/spf13/cobra"
 
 	// this line is used by starport scaffolding # 1
 
 	modulev1 "github.com/OptioNetwork/optio/api/optio/lockup/module"
+	"github.com/OptioNetwork/optio/x/lockup/cli"
 	"github.com/OptioNetwork/optio/x/lockup/keeper"
 	"github.com/OptioNetwork/optio/x/lockup/types"
 )
@@ -85,6 +87,12 @@ func (AppModuleBasic) RegisterGRPCGatewayRoutes(clientCtx client.Context, mux *r
 	// if err := types.RegisterQueryHandlerClient(context.Background(), mux, types.NewQueryClient(clientCtx)); err != nil {
 	// 	panic(err)
 	// }
+}
+
+// GetTxCmd returns the root tx command for the module.
+// This is used alongside AutoCLI to provide custom commands.
+func (a AppModuleBasic) GetTxCmd() *cobra.Command {
+	return cli.GetTxCmd()
 }
 
 // ----------------------------------------------------------------------------
@@ -154,8 +162,8 @@ func (am AppModule) BeginBlock(_ context.Context) error {
 
 // EndBlock contains the logic that is automatically triggered at the end of each block.
 // The end block implementation is optional.
-func (am AppModule) EndBlock(_ context.Context) error {
-	return nil
+func (am AppModule) EndBlock(goCtx context.Context) error {
+	return am.keeper.EndBlocker(goCtx)
 }
 
 // IsOnePerModuleType implements the depinject.OnePerModuleType interface.

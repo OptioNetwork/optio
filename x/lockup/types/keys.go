@@ -12,7 +12,8 @@ const (
 )
 
 var (
-	ParamsKey = []byte("p_lockup")
+	LockExpirationKey = []byte("lock_expiration")
+	TotalLockedKey    = []byte("total_locked")
 )
 
 func KeyPrefix(p string) []byte {

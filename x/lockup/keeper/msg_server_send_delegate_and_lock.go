@@ -3,7 +3,6 @@ package keeper
 import (
 	"context"
 
-	"cosmossdk.io/math"
 	"github.com/OptioNetwork/optio/x/lockup/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
@@ -19,22 +18,13 @@ func (k msgServer) SendDelegateAndLock(goCtx context.Context, msg *types.MsgSend
 		return nil, err
 	}
 
-	amount, ok := math.NewIntFromString(msg.Amount)
-	if !ok {
-		return nil, sdkerrors.ErrInvalidRequest.Wrapf("invalid amount: %s", msg.Amount)
+	if msg.Lock.Coin.Denom != bondDenom {
+		return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid coin denom: %s, expected %s", msg.Lock.Coin.Denom, bondDenom)
 	}
 
-	lock := &types.Lock{
-		Coin:       sdk.NewCoin(bondDenom, amount),
-		UnlockDate: msg.UnlockDate,
-	}
-
-	if !lock.Coin.IsValid() || !lock.Coin.IsPositive() {
-		return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid lock amount: %s", lock.Coin.String())
-	}
-
-	if lock.Coin.Denom != bondDenom {
-		return nil, sdkerrors.ErrInvalidRequest.Wrapf("invalid coin denomination: got %s, expected %s", lock.Coin.Denom, bondDenom)
+	err = msg.Lock.Coin.Validate()
+	if err != nil {
+		return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid coin: %s", msg.Lock.Coin.String())
 	}
 
 	fromAddr, err := sdk.AccAddressFromBech32(msg.FromAddress)
@@ -47,7 +37,12 @@ func (k msgServer) SendDelegateAndLock(goCtx context.Context, msg *types.MsgSend
 		return nil, sdkerrors.ErrInvalidAddress.Wrapf("invalid to address: %s", err)
 	}
 
-	valAddr, err := sdk.ValAddressFromBech32(msg.ValAddress)
+	err = k.bankKeeper.SendCoins(ctx, fromAddr, toAddr, sdk.NewCoins(msg.Lock.Coin))
+	if err != nil {
+		return nil, err
+	}
+
+	valAddr, err := sdk.ValAddressFromBech32(msg.ValidatorAddress)
 	if err != nil {
 		return nil, sdkerrors.ErrInvalidAddress.Wrapf("invalid validator address: %s", err)
 	}
@@ -57,12 +52,7 @@ func (k msgServer) SendDelegateAndLock(goCtx context.Context, msg *types.MsgSend
 		return nil, err
 	}
 
-	err = k.bankKeeper.SendCoins(ctx, fromAddr, toAddr, sdk.NewCoins(lock.Coin))
-	if err != nil {
-		return nil, err
-	}
-
-	newShares, err := k.stakingKeeper.Delegate(ctx, toAddr, lock.Coin.Amount, stakingtypes.Unbonded, validator, true)
+	newShares, err := k.stakingKeeper.Delegate(ctx, toAddr, msg.Lock.Coin.Amount, stakingtypes.Unbonded, validator, true)
 	if err != nil {
 		return nil, err
 	}
@@ -70,20 +60,21 @@ func (k msgServer) SendDelegateAndLock(goCtx context.Context, msg *types.MsgSend
 	ctx.EventManager().EmitEvents(sdk.Events{
 		sdk.NewEvent(
 			stakingtypes.EventTypeDelegate,
-			sdk.NewAttribute(stakingtypes.AttributeKeyValidator, msg.ValAddress),
-			sdk.NewAttribute(stakingtypes.AttributeKeyDelegator, msg.ToAddress),
-			sdk.NewAttribute(sdk.AttributeKeyAmount, lock.Coin.String()),
+			sdk.NewAttribute(stakingtypes.AttributeKeyValidator, msg.ValidatorAddress),
+			sdk.NewAttribute(stakingtypes.AttributeKeyDelegator, msg.FromAddress),
+			sdk.NewAttribute(sdk.AttributeKeyAmount, msg.Lock.Coin.String()),
 			sdk.NewAttribute(stakingtypes.AttributeKeyNewShares, newShares.String()),
 		),
 	})
 
-	// now lock the funds (skip balance validation since we just delegated)
-	lockupMsg := &types.MsgLock{
-		LockupAddress: msg.ToAddress,
-		Locks:         []*types.Lock{lock},
-	}
+	_, err = k.Lock(
+		goCtx,
+		&types.MsgLock{
+			LockupAddress: msg.ToAddress,
+			Locks:         []*types.Lock{msg.Lock},
+		},
+	)
 
-	_, err = k.Lock(goCtx, lockupMsg)
 	if err != nil {
 		return nil, err
 	}

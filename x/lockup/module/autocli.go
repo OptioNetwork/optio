@@ -19,12 +19,7 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 			Service:              modulev1.Msg_ServiceDesc.ServiceName,
 			EnhanceCustomCommand: true, // only required if you want to use the custom command
 			RpcCommandOptions: []*autocliv1.RpcCommandOptions{
-				{
-					RpcMethod:      "Lock",
-					Use:            "lock [locks]",
-					Short:          "Send a Lock tx",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "locks"}},
-				},
+				// Lock command is provided by custom CLI (see cli/tx.go)
 				{
 					RpcMethod:      "Extend",
 					Use:            "extend [extensions]",
