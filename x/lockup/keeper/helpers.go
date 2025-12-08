@@ -23,7 +23,7 @@ func (k Keeper) GetTotalDelegatedAmount(ctx sdk.Context, addr sdk.AccAddress) (*
 			return nil, err
 		}
 		tokens := validator.TokensFromShares(delegation.GetShares())
-		totalDelegatedAmount = totalDelegatedAmount.Add(tokens.TruncateInt())
+		totalDelegatedAmount = totalDelegatedAmount.Add(tokens.Ceil().TruncateInt())
 	}
 
 	return &totalDelegatedAmount, nil

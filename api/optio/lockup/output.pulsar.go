@@ -3,7 +3,9 @@ package lockup
 
 import (
 	fmt "fmt"
+	_ "github.com/cosmos/cosmos-proto"
 	runtime "github.com/cosmos/cosmos-proto/runtime"
+	_ "github.com/cosmos/gogoproto/gogoproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoiface "google.golang.org/protobuf/runtime/protoiface"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -16,8 +18,7 @@ var (
 	md_Output            protoreflect.MessageDescriptor
 	fd_Output_toAddress  protoreflect.FieldDescriptor
 	fd_Output_valAddress protoreflect.FieldDescriptor
-	fd_Output_amount     protoreflect.FieldDescriptor
-	fd_Output_unlockDate protoreflect.FieldDescriptor
+	fd_Output_lock       protoreflect.FieldDescriptor
 )
 
 func init() {
@@ -25,8 +26,7 @@ func init() {
 	md_Output = File_optio_lockup_output_proto.Messages().ByName("Output")
 	fd_Output_toAddress = md_Output.Fields().ByName("toAddress")
 	fd_Output_valAddress = md_Output.Fields().ByName("valAddress")
-	fd_Output_amount = md_Output.Fields().ByName("amount")
-	fd_Output_unlockDate = md_Output.Fields().ByName("unlockDate")
+	fd_Output_lock = md_Output.Fields().ByName("lock")
 }
 
 var _ protoreflect.Message = (*fastReflection_Output)(nil)
@@ -106,15 +106,9 @@ func (x *fastReflection_Output) Range(f func(protoreflect.FieldDescriptor, proto
 			return
 		}
 	}
-	if x.Amount != "" {
-		value := protoreflect.ValueOfString(x.Amount)
-		if !f(fd_Output_amount, value) {
-			return
-		}
-	}
-	if x.UnlockDate != "" {
-		value := protoreflect.ValueOfString(x.UnlockDate)
-		if !f(fd_Output_unlockDate, value) {
+	if x.Lock != nil {
+		value := protoreflect.ValueOfMessage(x.Lock.ProtoReflect())
+		if !f(fd_Output_lock, value) {
 			return
 		}
 	}
@@ -137,10 +131,8 @@ func (x *fastReflection_Output) Has(fd protoreflect.FieldDescriptor) bool {
 		return x.ToAddress != ""
 	case "optio.lockup.Output.valAddress":
 		return x.ValAddress != ""
-	case "optio.lockup.Output.amount":
-		return x.Amount != ""
-	case "optio.lockup.Output.unlockDate":
-		return x.UnlockDate != ""
+	case "optio.lockup.Output.lock":
+		return x.Lock != nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.Output"))
@@ -161,10 +153,8 @@ func (x *fastReflection_Output) Clear(fd protoreflect.FieldDescriptor) {
 		x.ToAddress = ""
 	case "optio.lockup.Output.valAddress":
 		x.ValAddress = ""
-	case "optio.lockup.Output.amount":
-		x.Amount = ""
-	case "optio.lockup.Output.unlockDate":
-		x.UnlockDate = ""
+	case "optio.lockup.Output.lock":
+		x.Lock = nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.Output"))
@@ -187,12 +177,9 @@ func (x *fastReflection_Output) Get(descriptor protoreflect.FieldDescriptor) pro
 	case "optio.lockup.Output.valAddress":
 		value := x.ValAddress
 		return protoreflect.ValueOfString(value)
-	case "optio.lockup.Output.amount":
-		value := x.Amount
-		return protoreflect.ValueOfString(value)
-	case "optio.lockup.Output.unlockDate":
-		value := x.UnlockDate
-		return protoreflect.ValueOfString(value)
+	case "optio.lockup.Output.lock":
+		value := x.Lock
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.Output"))
@@ -217,10 +204,8 @@ func (x *fastReflection_Output) Set(fd protoreflect.FieldDescriptor, value proto
 		x.ToAddress = value.Interface().(string)
 	case "optio.lockup.Output.valAddress":
 		x.ValAddress = value.Interface().(string)
-	case "optio.lockup.Output.amount":
-		x.Amount = value.Interface().(string)
-	case "optio.lockup.Output.unlockDate":
-		x.UnlockDate = value.Interface().(string)
+	case "optio.lockup.Output.lock":
+		x.Lock = value.Message().Interface().(*Lock)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.Output"))
@@ -241,14 +226,15 @@ func (x *fastReflection_Output) Set(fd protoreflect.FieldDescriptor, value proto
 // Mutable is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_Output) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
+	case "optio.lockup.Output.lock":
+		if x.Lock == nil {
+			x.Lock = new(Lock)
+		}
+		return protoreflect.ValueOfMessage(x.Lock.ProtoReflect())
 	case "optio.lockup.Output.toAddress":
 		panic(fmt.Errorf("field toAddress of message optio.lockup.Output is not mutable"))
 	case "optio.lockup.Output.valAddress":
 		panic(fmt.Errorf("field valAddress of message optio.lockup.Output is not mutable"))
-	case "optio.lockup.Output.amount":
-		panic(fmt.Errorf("field amount of message optio.lockup.Output is not mutable"))
-	case "optio.lockup.Output.unlockDate":
-		panic(fmt.Errorf("field unlockDate of message optio.lockup.Output is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.Output"))
@@ -266,10 +252,9 @@ func (x *fastReflection_Output) NewField(fd protoreflect.FieldDescriptor) protor
 		return protoreflect.ValueOfString("")
 	case "optio.lockup.Output.valAddress":
 		return protoreflect.ValueOfString("")
-	case "optio.lockup.Output.amount":
-		return protoreflect.ValueOfString("")
-	case "optio.lockup.Output.unlockDate":
-		return protoreflect.ValueOfString("")
+	case "optio.lockup.Output.lock":
+		m := new(Lock)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.Output"))
@@ -347,12 +332,8 @@ func (x *fastReflection_Output) ProtoMethods() *protoiface.Methods {
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		l = len(x.Amount)
-		if l > 0 {
-			n += 1 + l + runtime.Sov(uint64(l))
-		}
-		l = len(x.UnlockDate)
-		if l > 0 {
+		if x.Lock != nil {
+			l = options.Size(x.Lock)
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
 		if x.unknownFields != nil {
@@ -384,17 +365,17 @@ func (x *fastReflection_Output) ProtoMethods() *protoiface.Methods {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
 		}
-		if len(x.UnlockDate) > 0 {
-			i -= len(x.UnlockDate)
-			copy(dAtA[i:], x.UnlockDate)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.UnlockDate)))
-			i--
-			dAtA[i] = 0x22
-		}
-		if len(x.Amount) > 0 {
-			i -= len(x.Amount)
-			copy(dAtA[i:], x.Amount)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Amount)))
+		if x.Lock != nil {
+			encoded, err := options.Marshal(x.Lock)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 			i--
 			dAtA[i] = 0x1a
 		}
@@ -527,9 +508,9 @@ func (x *fastReflection_Output) ProtoMethods() *protoiface.Methods {
 				iNdEx = postIndex
 			case 3:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Amount", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Lock", wireType)
 				}
-				var stringLen uint64
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -539,55 +520,27 @@ func (x *fastReflection_Output) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
+				if msglen < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
-				postIndex := iNdEx + intStringLen
+				postIndex := iNdEx + msglen
 				if postIndex < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.Amount = string(dAtA[iNdEx:postIndex])
-				iNdEx = postIndex
-			case 4:
-				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field UnlockDate", wireType)
+				if x.Lock == nil {
+					x.Lock = &Lock{}
 				}
-				var stringLen uint64
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Lock); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + intStringLen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				x.UnlockDate = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
@@ -644,8 +597,7 @@ type Output struct {
 
 	ToAddress  string `protobuf:"bytes,1,opt,name=toAddress,proto3" json:"toAddress,omitempty"`
 	ValAddress string `protobuf:"bytes,2,opt,name=valAddress,proto3" json:"valAddress,omitempty"`
-	Amount     string `protobuf:"bytes,3,opt,name=amount,proto3" json:"amount,omitempty"`
-	UnlockDate string `protobuf:"bytes,4,opt,name=unlockDate,proto3" json:"unlockDate,omitempty"`
+	Lock       *Lock  `protobuf:"bytes,3,opt,name=lock,proto3" json:"lock,omitempty"`
 }
 
 func (x *Output) Reset() {
@@ -682,18 +634,11 @@ func (x *Output) GetValAddress() string {
 	return ""
 }
 
-func (x *Output) GetAmount() string {
+func (x *Output) GetLock() *Lock {
 	if x != nil {
-		return x.Amount
+		return x.Lock
 	}
-	return ""
-}
-
-func (x *Output) GetUnlockDate() string {
-	if x != nil {
-		return x.UnlockDate
-	}
-	return ""
+	return nil
 }
 
 var File_optio_lockup_output_proto protoreflect.FileDescriptor
@@ -701,26 +646,29 @@ var File_optio_lockup_output_proto protoreflect.FileDescriptor
 var file_optio_lockup_output_proto_rawDesc = []byte{
 	0x0a, 0x19, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2f, 0x6f,
 	0x75, 0x74, 0x70, 0x75, 0x74, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0c, 0x6f, 0x70, 0x74,
-	0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x22, 0x7e, 0x0a, 0x06, 0x4f, 0x75, 0x74,
-	0x70, 0x75, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x74, 0x6f, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73,
-	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x74, 0x6f, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73,
-	0x73, 0x12, 0x1e, 0x0a, 0x0a, 0x76, 0x61, 0x6c, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18,
-	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x76, 0x61, 0x6c, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73,
-	0x73, 0x12, 0x16, 0x0a, 0x06, 0x61, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x06, 0x61, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x1e, 0x0a, 0x0a, 0x75, 0x6e, 0x6c,
-	0x6f, 0x63, 0x6b, 0x44, 0x61, 0x74, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x75,
-	0x6e, 0x6c, 0x6f, 0x63, 0x6b, 0x44, 0x61, 0x74, 0x65, 0x42, 0xa0, 0x01, 0x0a, 0x10, 0x63, 0x6f,
-	0x6d, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x42, 0x0b,
-	0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x2e, 0x67,
-	0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x4e,
-	0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f, 0x61, 0x70, 0x69,
-	0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0xa2, 0x02, 0x03,
-	0x4f, 0x4c, 0x58, 0xaa, 0x02, 0x0c, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x4c, 0x6f, 0x63, 0x6b,
-	0x75, 0x70, 0xca, 0x02, 0x0c, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x5c, 0x4c, 0x6f, 0x63, 0x6b, 0x75,
-	0x70, 0xe2, 0x02, 0x18, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x5c, 0x4c, 0x6f, 0x63, 0x6b, 0x75, 0x70,
-	0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x0d, 0x4f,
-	0x70, 0x74, 0x69, 0x6f, 0x3a, 0x3a, 0x4c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x62, 0x06, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x33,
+	0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x1a, 0x19, 0x63, 0x6f, 0x73, 0x6d, 0x6f,
+	0x73, 0x5f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x14, 0x67, 0x6f, 0x67, 0x6f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f,
+	0x67, 0x6f, 0x67, 0x6f, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x17, 0x6f, 0x70, 0x74, 0x69,
+	0x6f, 0x2f, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2f, 0x6c, 0x6f, 0x63, 0x6b, 0x2e, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x22, 0x6e, 0x0a, 0x06, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x12, 0x1c, 0x0a,
+	0x09, 0x74, 0x6f, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x09, 0x74, 0x6f, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x1e, 0x0a, 0x0a, 0x76,
+	0x61, 0x6c, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x0a, 0x76, 0x61, 0x6c, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x26, 0x0a, 0x04, 0x6c,
+	0x6f, 0x63, 0x6b, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x12, 0x2e, 0x6f, 0x70, 0x74, 0x69,
+	0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2e, 0x4c, 0x6f, 0x63, 0x6b, 0x52, 0x04, 0x6c,
+	0x6f, 0x63, 0x6b, 0x42, 0xa0, 0x01, 0x0a, 0x10, 0x63, 0x6f, 0x6d, 0x2e, 0x6f, 0x70, 0x74, 0x69,
+	0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x42, 0x0b, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74,
+	0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x2e, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e,
+	0x63, 0x6f, 0x6d, 0x2f, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b,
+	0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f,
+	0x2f, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0xa2, 0x02, 0x03, 0x4f, 0x4c, 0x58, 0xaa, 0x02, 0x0c,
+	0x4f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x4c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0xca, 0x02, 0x0c, 0x4f,
+	0x70, 0x74, 0x69, 0x6f, 0x5c, 0x4c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0xe2, 0x02, 0x18, 0x4f, 0x70,
+	0x74, 0x69, 0x6f, 0x5c, 0x4c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65,
+	0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x0d, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x3a, 0x3a,
+	0x4c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -738,13 +686,15 @@ func file_optio_lockup_output_proto_rawDescGZIP() []byte {
 var file_optio_lockup_output_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_optio_lockup_output_proto_goTypes = []interface{}{
 	(*Output)(nil), // 0: optio.lockup.Output
+	(*Lock)(nil),   // 1: optio.lockup.Lock
 }
 var file_optio_lockup_output_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	1, // 0: optio.lockup.Output.lock:type_name -> optio.lockup.Lock
+	1, // [1:1] is the sub-list for method output_type
+	1, // [1:1] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_optio_lockup_output_proto_init() }
@@ -752,6 +702,7 @@ func file_optio_lockup_output_proto_init() {
 	if File_optio_lockup_output_proto != nil {
 		return
 	}
+	file_optio_lockup_lock_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_optio_lockup_output_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Output); i {

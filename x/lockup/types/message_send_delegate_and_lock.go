@@ -2,6 +2,7 @@ package types
 
 import (
 	errorsmod "cosmossdk.io/errors"
+	"cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
@@ -9,12 +10,19 @@ import (
 var _ sdk.Msg = &MsgSendDelegateAndLock{}
 
 func NewMsgSendDelegateAndLock(fromAddress string, toAddress string, valAddress string, amount string, unlockDate string) *MsgSendDelegateAndLock {
+	a, ok := math.NewIntFromString(amount)
+	if !ok {
+		panic("invalid amount string")
+	}
+
 	return &MsgSendDelegateAndLock{
-		FromAddress: fromAddress,
-		ToAddress:   toAddress,
-		ValAddress:  valAddress,
-		Amount:      amount,
-		UnlockDate:  unlockDate,
+		FromAddress:      fromAddress,
+		ToAddress:        toAddress,
+		ValidatorAddress: valAddress,
+		Lock: &Lock{
+			UnlockDate: unlockDate,
+			Coin:       sdk.Coin{Denom: "uOPT", Amount: a},
+		},
 	}
 }
 

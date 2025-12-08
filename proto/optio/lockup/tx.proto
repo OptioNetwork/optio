@@ -44,9 +44,8 @@ message MsgSendDelegateAndLock {
   option (cosmos.msg.v1.signer) = "fromAddress";
   string fromAddress = 1;
   string toAddress   = 2;
-  string valAddress  = 3;
-  string amount      = 4;
-  string unlockDate  = 5;
+  string validatorAddress = 3;
+  Lock   lock        = 4;
 }
 
 message MsgSendDelegateAndLockResponse {}
