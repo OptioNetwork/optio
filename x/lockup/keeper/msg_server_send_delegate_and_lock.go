@@ -57,6 +57,9 @@ func (k msgServer) SendDelegateAndLock(goCtx context.Context, msg *types.MsgSend
 		return nil, err
 	}
 
+	// The stakingKepper.Delegate call above does not emit events.
+	// The staking module emits the event in the msgServer.Delegate method,
+	// which calls the stakingKeeper.Delegate method. So we manually emit the event here.
 	ctx.EventManager().EmitEvents(sdk.Events{
 		sdk.NewEvent(
 			stakingtypes.EventTypeDelegate,

@@ -33,6 +33,7 @@ func (k msgServer) Extend(goCtx context.Context, msg *types.MsgExtend) (*types.M
 		return nil, err
 	}
 
+	events := sdk.Events{}
 	for _, extension := range msg.Extensions {
 		if extension.Lock.Coin.Denom != bondDenom {
 			return nil, sdkerrors.ErrInvalidRequest.Wrapf("invalid coin denomination: got %s, expected %s", extension.Lock.Coin.Denom, bondDenom)
@@ -64,9 +65,19 @@ func (k msgServer) Extend(goCtx context.Context, msg *types.MsgExtend) (*types.M
 		amountToMove := fromLockup.Coin.Amount
 		lockupAcc.Locks = lockupAcc.RemoveLock(idx)
 		lockupAcc.Locks = lockupAcc.UpsertLock(extension.Lock.UnlockDate, sdk.NewCoin(bondDenom, amountToMove))
+
+		events = events.AppendEvent(sdk.NewEvent(
+			types.EventTypeLock,
+			sdk.NewAttribute(types.AttributeKeyLockAddress, msg.ExtendingAddress),
+			sdk.NewAttribute(types.AttributeKeyOldUnlockDate, extension.From),
+			sdk.NewAttribute(types.AttributeKeyUnlockDate, extension.Lock.UnlockDate),
+			sdk.NewAttribute(sdk.AttributeKeyAmount, amountToMove.String()),
+		))
 	}
 
 	k.accountKeeper.SetAccount(ctx, lockupAcc)
+
+	ctx.EventManager().EmitEvents(events)
 
 	return &types.MsgExtendResponse{}, nil
 }
