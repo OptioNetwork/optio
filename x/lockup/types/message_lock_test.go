@@ -21,7 +21,7 @@ func TestMsgLock_ValidateBasic(t *testing.T) {
 		{
 			name: "invalid address",
 			msg: MsgLock{
-				LockupAddress: "invalid_address",
+				Address: "invalid_address",
 				Locks: []*Lock{
 					{
 						UnlockDate: "2026-12-01",
@@ -34,23 +34,23 @@ func TestMsgLock_ValidateBasic(t *testing.T) {
 		{
 			name: "empty locks array",
 			msg: MsgLock{
-				LockupAddress: validAddr,
-				Locks:         []*Lock{},
+				Address: validAddr,
+				Locks:   []*Lock{},
 			},
 			err: sdkerrors.ErrInvalidRequest,
 		},
 		{
 			name: "nil locks array",
 			msg: MsgLock{
-				LockupAddress: validAddr,
-				Locks:         nil,
+				Address: validAddr,
+				Locks:   nil,
 			},
 			err: sdkerrors.ErrInvalidRequest,
 		},
 		{
 			name: "nil lock in array",
 			msg: MsgLock{
-				LockupAddress: validAddr,
+				Address: validAddr,
 				Locks: []*Lock{
 					nil,
 				},
@@ -60,7 +60,7 @@ func TestMsgLock_ValidateBasic(t *testing.T) {
 		{
 			name: "empty unlock date",
 			msg: MsgLock{
-				LockupAddress: validAddr,
+				Address: validAddr,
 				Locks: []*Lock{
 					{
 						UnlockDate: "",
@@ -73,7 +73,7 @@ func TestMsgLock_ValidateBasic(t *testing.T) {
 		{
 			name: "invalid unlock date format",
 			msg: MsgLock{
-				LockupAddress: validAddr,
+				Address: validAddr,
 				Locks: []*Lock{
 					{
 						UnlockDate: "12/01/2026",
@@ -86,7 +86,7 @@ func TestMsgLock_ValidateBasic(t *testing.T) {
 		{
 			name: "invalid unlock date format - not a date",
 			msg: MsgLock{
-				LockupAddress: validAddr,
+				Address: validAddr,
 				Locks: []*Lock{
 					{
 						UnlockDate: "not-a-date",
@@ -99,7 +99,7 @@ func TestMsgLock_ValidateBasic(t *testing.T) {
 		{
 			name: "invalid coin - zero amount",
 			msg: MsgLock{
-				LockupAddress: validAddr,
+				Address: validAddr,
 				Locks: []*Lock{
 					{
 						UnlockDate: "2026-12-01",
@@ -112,7 +112,7 @@ func TestMsgLock_ValidateBasic(t *testing.T) {
 		{
 			name: "invalid coin - negative amount",
 			msg: MsgLock{
-				LockupAddress: validAddr,
+				Address: validAddr,
 				Locks: []*Lock{
 					{
 						UnlockDate: "2026-12-01",
@@ -125,7 +125,7 @@ func TestMsgLock_ValidateBasic(t *testing.T) {
 		{
 			name: "invalid coin - invalid denom",
 			msg: MsgLock{
-				LockupAddress: validAddr,
+				Address: validAddr,
 				Locks: []*Lock{
 					{
 						UnlockDate: "2026-12-01",
@@ -138,7 +138,7 @@ func TestMsgLock_ValidateBasic(t *testing.T) {
 		{
 			name: "valid single lock",
 			msg: MsgLock{
-				LockupAddress: validAddr,
+				Address: validAddr,
 				Locks: []*Lock{
 					{
 						UnlockDate: "2026-12-01",
@@ -150,7 +150,7 @@ func TestMsgLock_ValidateBasic(t *testing.T) {
 		{
 			name: "valid multiple locks",
 			msg: MsgLock{
-				LockupAddress: validAddr,
+				Address: validAddr,
 				Locks: []*Lock{
 					{
 						UnlockDate: "2026-06-01",
@@ -170,7 +170,7 @@ func TestMsgLock_ValidateBasic(t *testing.T) {
 		{
 			name: "second lock invalid - should catch it",
 			msg: MsgLock{
-				LockupAddress: validAddr,
+				Address: validAddr,
 				Locks: []*Lock{
 					{
 						UnlockDate: "2026-06-01",

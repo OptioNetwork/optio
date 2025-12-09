@@ -19,7 +19,7 @@ func SimulateMsgExtend(
 	) (simtypes.OperationMsg, []simtypes.FutureOperation, error) {
 		simAccount, _ := simtypes.RandomAcc(r, accs)
 		msg := &types.MsgExtend{
-			ExtendingAddress: simAccount.Address.String(),
+			Address: simAccount.Address.String(),
 		}
 
 		// TODO: Handling the Extend simulation

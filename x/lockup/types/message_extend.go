@@ -12,13 +12,13 @@ var _ sdk.Msg = &MsgExtend{}
 
 func NewMsgExtend(extendingAddress string, extensions []*Extension) *MsgExtend {
 	return &MsgExtend{
-		ExtendingAddress: extendingAddress,
-		Extensions:       extensions,
+		Address:    extendingAddress,
+		Extensions: extensions,
 	}
 }
 
 func (msg *MsgExtend) ValidateBasic() error {
-	_, err := sdk.AccAddressFromBech32(msg.ExtendingAddress)
+	_, err := sdk.AccAddressFromBech32(msg.Address)
 	if err != nil {
 		return errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid extendingAddress address (%s)", err)
 	}

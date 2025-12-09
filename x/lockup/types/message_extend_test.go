@@ -20,27 +20,27 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 		{
 			name: "invalid address",
 			msg: MsgExtend{
-				ExtendingAddress: "invalid_address",
+				Address: "invalid_address",
 			},
 			err: sdkerrors.ErrInvalidAddress,
 		}, {
 			name: "empty extensions",
 			msg: MsgExtend{
-				ExtendingAddress: sample.AccAddress(),
-				Extensions:       []*Extension{},
+				Address:    sample.AccAddress(),
+				Extensions: []*Extension{},
 			},
 			err: sdkerrors.ErrInvalidRequest,
 		}, {
 			name: "nil extension",
 			msg: MsgExtend{
-				ExtendingAddress: sample.AccAddress(),
-				Extensions:       []*Extension{nil},
+				Address:    sample.AccAddress(),
+				Extensions: []*Extension{nil},
 			},
 			err: sdkerrors.ErrInvalidRequest,
 		}, {
 			name: "empty extension from date",
 			msg: MsgExtend{
-				ExtendingAddress: sample.AccAddress(),
+				Address: sample.AccAddress(),
 				Extensions: []*Extension{
 					{
 						From: "",
@@ -55,7 +55,7 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 		}, {
 			name: "malformed from date",
 			msg: MsgExtend{
-				ExtendingAddress: sample.AccAddress(),
+				Address: sample.AccAddress(),
 				Extensions: []*Extension{
 					{
 						From: "12-04-2025",
@@ -67,7 +67,7 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 		}, {
 			name: "nil lock in extension",
 			msg: MsgExtend{
-				ExtendingAddress: sample.AccAddress(),
+				Address: sample.AccAddress(),
 				Extensions: []*Extension{
 					{
 						From: time.Now().Format(time.DateOnly),
@@ -79,7 +79,7 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 		}, {
 			name: "invalid lock amount",
 			msg: MsgExtend{
-				ExtendingAddress: sample.AccAddress(),
+				Address: sample.AccAddress(),
 				Extensions: []*Extension{
 					{
 						From: time.Now().Format(time.DateOnly),
@@ -97,7 +97,7 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 		}, {
 			name: "invalid lock amount",
 			msg: MsgExtend{
-				ExtendingAddress: sample.AccAddress(),
+				Address: sample.AccAddress(),
 				Extensions: []*Extension{
 					{
 						From: time.Now().Format(time.DateOnly),
@@ -115,7 +115,7 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 		}, {
 			name: "empty lock denom",
 			msg: MsgExtend{
-				ExtendingAddress: sample.AccAddress(),
+				Address: sample.AccAddress(),
 				Extensions: []*Extension{
 					{
 						From: time.Now().Format(time.DateOnly),
@@ -133,7 +133,7 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 		}, {
 			name: "invalid lock denom",
 			msg: MsgExtend{
-				ExtendingAddress: sample.AccAddress(),
+				Address: sample.AccAddress(),
 				Extensions: []*Extension{
 					{
 						From: time.Now().Format(time.DateOnly),
@@ -151,7 +151,7 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 		}, {
 			name: "empty unlock date",
 			msg: MsgExtend{
-				ExtendingAddress: sample.AccAddress(),
+				Address: sample.AccAddress(),
 				Extensions: []*Extension{
 					{
 						From: time.Now().Format(time.DateOnly),
@@ -166,7 +166,7 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 		}, {
 			name: "malformed unlock date",
 			msg: MsgExtend{
-				ExtendingAddress: sample.AccAddress(),
+				Address: sample.AccAddress(),
 				Extensions: []*Extension{
 					{
 						From: time.Now().Format(time.DateOnly),
@@ -181,7 +181,7 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 		}, {
 			name: "unlock date before from date",
 			msg: MsgExtend{
-				ExtendingAddress: sample.AccAddress(),
+				Address: sample.AccAddress(),
 				Extensions: []*Extension{
 					{
 						From: time.Now().Format(time.DateOnly),
@@ -196,7 +196,7 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 		}, {
 			name: "successful validation",
 			msg: MsgExtend{
-				ExtendingAddress: sample.AccAddress(),
+				Address: sample.AccAddress(),
 				Extensions: []*Extension{
 					{
 						From: time.Now().Format(time.DateOnly),

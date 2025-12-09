@@ -91,6 +91,25 @@ func (k Keeper) ActiveLocks(goCtx context.Context, req *types.QueryActiveLocksRe
 	}, nil
 }
 
+func (k Keeper) TotalLockedAmount(goCtx context.Context, req *types.QueryTotalLockedAmountRequest) (*types.QueryTotalLockedAmountResponse, error) {
+	if req == nil {
+		return nil, status.Error(codes.InvalidArgument, "invalid request")
+	}
+
+	ctx := sdk.UnwrapSDKContext(goCtx)
+
+	totalLocked := math.ZeroInt()
+	total, err := k.GetTotalLocked(ctx)
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+	totalLocked = totalLocked.Add(total)
+
+	return &types.QueryTotalLockedAmountResponse{
+		TotalLocked: totalLocked,
+	}, nil
+}
+
 func prefixEndBytes(prefix []byte) []byte {
 	if len(prefix) == 0 {
 		return nil
