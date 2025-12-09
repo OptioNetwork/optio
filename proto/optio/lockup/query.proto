@@ -17,7 +17,12 @@ service Query {
 
   // TotalLockedAmount queries the total amount of tokens locked across all accounts.
   rpc TotalLockedAmount(QueryTotalLockedAmountRequest) returns (QueryTotalLockedAmountResponse) {
-    option (google.api.http).get = "/optio/lockup/total_locked";
+    option (google.api.http).get = "/optio/lockup/total_locked_amount";
+  }
+
+  // AccountLocks queries active locks for multiple accounts.
+  rpc AccountLocks(QueryAccountLocksRequest) returns (QueryAccountLocksResponse) {
+    option (google.api.http).get = "/optio/lockup/account_locks";
   }
 }
 
@@ -50,4 +55,19 @@ message QueryTotalLockedAmountResponse {
     (gogoproto.customtype) = "cosmossdk.io/math.Int",
     (gogoproto.nullable)   = false
   ];
+}
+
+// QueryAccountLocksRequest is request type for the Query/AccountLocks RPC method.
+message QueryAccountLocksRequest {
+  repeated string addresses = 1;
+}
+
+// QueryAccountLocksResponse is response type for the Query/AccountLocks RPC method.
+message QueryAccountLocksResponse {
+  repeated AccountLocks locks = 1 [(gogoproto.nullable) = false];
+}
+
+message AccountLocks {
+  string address = 1;
+  repeated Lock locks = 2 [(gogoproto.nullable) = false];
 }
