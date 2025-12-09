@@ -27,6 +27,10 @@ func (msg *MsgLock) ValidateBasic() error {
 		return errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "locks cannot be empty")
 	}
 
+	if len(msg.Locks) > 730 {
+		return errorsmod.Wrapf(sdkerrors.ErrInvalidRequest, "too many locks: %d, max is 730", len(msg.Locks))
+	}
+
 	for i, lock := range msg.Locks {
 		if lock == nil {
 			return errorsmod.Wrapf(sdkerrors.ErrInvalidRequest, "lock at index %d is nil", i)

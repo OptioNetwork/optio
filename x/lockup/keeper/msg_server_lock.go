@@ -84,6 +84,7 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 		)
 	}
 
+	events := sdk.Events{}
 	for _, lock := range msg.Locks {
 		lockupAcc.Locks = lockupAcc.UpsertLock(lock.UnlockDate, lock.Coin)
 
@@ -95,6 +96,13 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 		if err := k.AddToExpirationQueue(ctx, unlockTime, lockupAddr, lock.Coin.Amount); err != nil {
 			return nil, err
 		}
+
+		events = events.AppendEvent(sdk.NewEvent(
+			types.EventTypeLock,
+			sdk.NewAttribute(types.AttributeKeyLockAddress, msg.LockupAddress),
+			sdk.NewAttribute(types.AttributeKeyUnlockDate, lock.UnlockDate),
+			sdk.NewAttribute(sdk.AttributeKeyAmount, lock.Coin.String()),
+		))
 	}
 
 	currentTotal, err := k.GetTotalLocked(ctx)
@@ -107,6 +115,8 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 	}
 
 	k.accountKeeper.SetAccount(ctx, lockupAcc)
+
+	ctx.EventManager().EmitEvents(events)
 
 	return &types.MsgLockResponse{}, nil
 }
