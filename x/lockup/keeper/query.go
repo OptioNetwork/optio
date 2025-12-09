@@ -110,6 +110,70 @@ func (k Keeper) TotalLockedAmount(goCtx context.Context, req *types.QueryTotalLo
 	}, nil
 }
 
+func (k Keeper) AccountLocks(goCtx context.Context, req *types.QueryAccountLocksRequest) (*types.QueryAccountLocksResponse, error) {
+	if req == nil {
+		return nil, status.Error(codes.InvalidArgument, "invalid request")
+	}
+
+	const maxAddresses = 100
+	if len(req.Addresses) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "at least one address is required")
+	}
+	if len(req.Addresses) > maxAddresses {
+		return nil, status.Error(codes.InvalidArgument, "too many addresses: maximum is 100")
+	}
+
+	ctx := sdk.UnwrapSDKContext(goCtx)
+
+	accountLocks := make([]types.AccountLocks, 0, len(req.Addresses))
+
+	for _, addrStr := range req.Addresses {
+		addr, err := sdk.AccAddressFromBech32(addrStr)
+		if err != nil {
+			return nil, status.Error(codes.InvalidArgument, "invalid address: "+addrStr)
+		}
+
+		acc := k.accountKeeper.GetAccount(ctx, addr)
+		if acc == nil {
+			accountLocks = append(accountLocks, types.AccountLocks{
+				Address: addrStr,
+				Locks:   []types.Lock{},
+			})
+			continue
+		}
+
+		lockupAcc, ok := acc.(*types.Account)
+		if !ok {
+			accountLocks = append(accountLocks, types.AccountLocks{
+				Address: addrStr,
+				Locks:   []types.Lock{},
+			})
+			continue
+		}
+
+		now := ctx.BlockTime()
+		activeLocks := make([]types.Lock, 0)
+		for _, lock := range lockupAcc.Locks {
+			unlockTime, err := time.Parse(time.DateOnly, lock.UnlockDate)
+			if err != nil {
+				continue
+			}
+			if unlockTime.After(now) {
+				activeLocks = append(activeLocks, *lock)
+			}
+		}
+
+		accountLocks = append(accountLocks, types.AccountLocks{
+			Address: addrStr,
+			Locks:   activeLocks,
+		})
+	}
+
+	return &types.QueryAccountLocksResponse{
+		Locks: accountLocks,
+	}, nil
+}
+
 func prefixEndBytes(prefix []byte) []byte {
 	if len(prefix) == 0 {
 		return nil
