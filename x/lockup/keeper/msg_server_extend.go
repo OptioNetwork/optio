@@ -67,7 +67,7 @@ func (k msgServer) Extend(goCtx context.Context, msg *types.MsgExtend) (*types.M
 		lockupAcc.Locks = lockupAcc.UpsertLock(extension.Lock.UnlockDate, sdk.NewCoin(bondDenom, amountToMove))
 
 		events = events.AppendEvent(sdk.NewEvent(
-			types.EventTypeLock,
+			types.EventTypeLockExtended,
 			sdk.NewAttribute(types.AttributeKeyLockAddress, msg.ExtendingAddress),
 			sdk.NewAttribute(types.AttributeKeyOldUnlockDate, extension.From),
 			sdk.NewAttribute(types.AttributeKeyUnlockDate, extension.Lock.UnlockDate),
