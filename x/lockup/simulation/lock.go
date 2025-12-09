@@ -19,7 +19,7 @@ func SimulateMsgLock(
 	) (simtypes.OperationMsg, []simtypes.FutureOperation, error) {
 		simAccount, _ := simtypes.RandomAcc(r, accs)
 		msg := &types.MsgLock{
-			LockupAddress: simAccount.Address.String(),
+			Address: simAccount.Address.String(),
 		}
 
 		// TODO: Handling the Lock simulation

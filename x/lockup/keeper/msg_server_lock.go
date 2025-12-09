@@ -17,7 +17,7 @@ import (
 func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLockResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	lockupAddr, err := sdk.AccAddressFromBech32(msg.LockupAddress)
+	lockupAddr, err := sdk.AccAddressFromBech32(msg.Address)
 	if err != nil {
 		return nil, sdkerrors.ErrInvalidAddress.Wrapf("invalid lockup address: %s", err)
 	}
@@ -99,7 +99,7 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 
 		events = events.AppendEvent(sdk.NewEvent(
 			types.EventTypeLock,
-			sdk.NewAttribute(types.AttributeKeyLockAddress, msg.LockupAddress),
+			sdk.NewAttribute(types.AttributeKeyLockAddress, msg.Address),
 			sdk.NewAttribute(types.AttributeKeyUnlockDate, lock.UnlockDate),
 			sdk.NewAttribute(sdk.AttributeKeyAmount, lock.Coin.String()),
 		))

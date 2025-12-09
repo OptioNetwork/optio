@@ -14,6 +14,11 @@ service Query {
   rpc ActiveLocks(QueryActiveLocksRequest) returns (QueryActiveLocksResponse) {
     option (google.api.http).get = "/optio/lockup/active_locks";
   }
+
+  // TotalLockedAmount queries the total amount of tokens locked across all accounts.
+  rpc TotalLockedAmount(QueryTotalLockedAmountRequest) returns (QueryTotalLockedAmountResponse) {
+    option (google.api.http).get = "/optio/lockup/total_locked";
+  }
 }
 
 // QueryActiveLocksRequest is request type for the Query/ActiveLocks RPC method.
@@ -31,6 +36,17 @@ message ActiveLock {
   string owner = 1;
   string unlock_date = 2;
   string amount = 3 [
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable)   = false
+  ];
+}
+
+// QueryTotalLockedAmountRequest is request type for the Query/TotalLockedAmount RPC method.
+message QueryTotalLockedAmountRequest {}
+
+// QueryTotalLockedAmountResponse is response type for the Query/TotalLockedAmount RPC method.
+message QueryTotalLockedAmountResponse {
+  string total_locked = 1 [
     (gogoproto.customtype) = "cosmossdk.io/math.Int",
     (gogoproto.nullable)   = false
   ];

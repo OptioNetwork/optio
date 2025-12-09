@@ -12,13 +12,13 @@ var _ sdk.Msg = &MsgLock{}
 
 func NewMsgLock(lockupAddress string, locks []*Lock) *MsgLock {
 	return &MsgLock{
-		LockupAddress: lockupAddress,
-		Locks:         locks,
+		Address: lockupAddress,
+		Locks:   locks,
 	}
 }
 
 func (msg *MsgLock) ValidateBasic() error {
-	_, err := sdk.AccAddressFromBech32(msg.LockupAddress)
+	_, err := sdk.AccAddressFromBech32(msg.Address)
 	if err != nil {
 		return errorsmod.Wrapf(sdkerrors.ErrInvalidAddress, "invalid lockupAddress address (%s)", err)
 	}

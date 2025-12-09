@@ -19,7 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Query_ActiveLocks_FullMethodName = "/optio.lockup.Query/ActiveLocks"
+	Query_ActiveLocks_FullMethodName       = "/optio.lockup.Query/ActiveLocks"
+	Query_TotalLockedAmount_FullMethodName = "/optio.lockup.Query/TotalLockedAmount"
 )
 
 // QueryClient is the client API for Query service.
@@ -28,6 +29,8 @@ const (
 type QueryClient interface {
 	// ActiveLocks queries all active locks with an unlock time in the future.
 	ActiveLocks(ctx context.Context, in *QueryActiveLocksRequest, opts ...grpc.CallOption) (*QueryActiveLocksResponse, error)
+	// TotalLockedAmount queries the total amount of tokens locked across all accounts.
+	TotalLockedAmount(ctx context.Context, in *QueryTotalLockedAmountRequest, opts ...grpc.CallOption) (*QueryTotalLockedAmountResponse, error)
 }
 
 type queryClient struct {
@@ -47,12 +50,23 @@ func (c *queryClient) ActiveLocks(ctx context.Context, in *QueryActiveLocksReque
 	return out, nil
 }
 
+func (c *queryClient) TotalLockedAmount(ctx context.Context, in *QueryTotalLockedAmountRequest, opts ...grpc.CallOption) (*QueryTotalLockedAmountResponse, error) {
+	out := new(QueryTotalLockedAmountResponse)
+	err := c.cc.Invoke(ctx, Query_TotalLockedAmount_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
 type QueryServer interface {
 	// ActiveLocks queries all active locks with an unlock time in the future.
 	ActiveLocks(context.Context, *QueryActiveLocksRequest) (*QueryActiveLocksResponse, error)
+	// TotalLockedAmount queries the total amount of tokens locked across all accounts.
+	TotalLockedAmount(context.Context, *QueryTotalLockedAmountRequest) (*QueryTotalLockedAmountResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -62,6 +76,9 @@ type UnimplementedQueryServer struct {
 
 func (UnimplementedQueryServer) ActiveLocks(context.Context, *QueryActiveLocksRequest) (*QueryActiveLocksResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ActiveLocks not implemented")
+}
+func (UnimplementedQueryServer) TotalLockedAmount(context.Context, *QueryTotalLockedAmountRequest) (*QueryTotalLockedAmountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TotalLockedAmount not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -94,6 +111,24 @@ func _Query_ActiveLocks_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_TotalLockedAmount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryTotalLockedAmountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).TotalLockedAmount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_TotalLockedAmount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).TotalLockedAmount(ctx, req.(*QueryTotalLockedAmountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -104,6 +139,10 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ActiveLocks",
 			Handler:    _Query_ActiveLocks_Handler,
+		},
+		{
+			MethodName: "TotalLockedAmount",
+			Handler:    _Query_TotalLockedAmount_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

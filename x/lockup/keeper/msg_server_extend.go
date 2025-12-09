@@ -13,19 +13,19 @@ import (
 func (k msgServer) Extend(goCtx context.Context, msg *types.MsgExtend) (*types.MsgExtendResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	addr, err := sdk.AccAddressFromBech32(msg.ExtendingAddress)
+	addr, err := sdk.AccAddressFromBech32(msg.Address)
 	if err != nil {
 		return nil, sdkerrors.ErrInvalidAddress.Wrapf("invalid lockup address: %s", err)
 	}
 
 	acc := k.accountKeeper.GetAccount(ctx, addr)
 	if acc == nil {
-		return nil, sdkerrors.ErrNotFound.Wrapf("no account found for address: %s", msg.ExtendingAddress)
+		return nil, sdkerrors.ErrNotFound.Wrapf("no account found for address: %s", msg.Address)
 	}
 
 	lockupAcc, ok := acc.(*types.Account)
 	if !ok {
-		return nil, types.ErrInvalidAccount.Wrapf("account is not a long-term stake account: %s", msg.ExtendingAddress)
+		return nil, types.ErrInvalidAccount.Wrapf("account is not a long-term stake account: %s", msg.Address)
 	}
 
 	bondDenom, err := k.stakingKeeper.BondDenom(ctx)
@@ -68,7 +68,7 @@ func (k msgServer) Extend(goCtx context.Context, msg *types.MsgExtend) (*types.M
 
 		events = events.AppendEvent(sdk.NewEvent(
 			types.EventTypeLockExtended,
-			sdk.NewAttribute(types.AttributeKeyLockAddress, msg.ExtendingAddress),
+			sdk.NewAttribute(types.AttributeKeyLockAddress, msg.Address),
 			sdk.NewAttribute(types.AttributeKeyOldUnlockDate, extension.From),
 			sdk.NewAttribute(types.AttributeKeyUnlockDate, extension.Lock.UnlockDate),
 			sdk.NewAttribute(sdk.AttributeKeyAmount, amountToMove.String()),

@@ -63,8 +63,8 @@ func CmdLock() *cobra.Command {
 			}
 
 			msg := &types.MsgLock{
-				LockupAddress: clientCtx.GetFromAddress().String(),
-				Locks:         locks,
+				Address: clientCtx.GetFromAddress().String(),
+				Locks:   locks,
 			}
 
 			if err := msg.ValidateBasic(); err != nil {
@@ -116,8 +116,8 @@ func CmdExtend() *cobra.Command {
 			}
 
 			msg := &types.MsgExtend{
-				ExtendingAddress: clientCtx.GetFromAddress().String(),
-				Extensions:       extensions,
+				Address:    clientCtx.GetFromAddress().String(),
+				Extensions: extensions,
 			}
 
 			if err := msg.ValidateBasic(); err != nil {

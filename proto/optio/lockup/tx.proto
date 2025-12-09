@@ -25,16 +25,16 @@ service Msg {
 }
 
 message MsgLock {
-  option (cosmos.msg.v1.signer) = "lockupAddress";
-           string lockupAddress = 1;
+  option (cosmos.msg.v1.signer) = "address";
+           string address = 1;
   repeated Lock   locks         = 2;
 }
 
 message MsgLockResponse {}
 
 message MsgExtend {
-  option (cosmos.msg.v1.signer) = "extendingAddress";
-           string    extendingAddress = 1;
+  option (cosmos.msg.v1.signer) = "address";
+           string    address = 1;
   repeated Extension extensions       = 2;
 }
 
