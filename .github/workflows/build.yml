@@ -46,15 +46,15 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: optiod-linux-${{ github.event.inputs.version || '1.0.0' }}
-        path: build/optiod-linux
+        path: build/optio-linux
         retention-days: 30
 
     - name: Show binary info
       run: |
         echo "Binary size:"
-        ls -lh build/optiod-linux
+        ls -lh build/optio-linux
         echo "Binary version info:"
-        ./build/optiod-linux version
+        ./build/optio-linux version
 
   release:
     needs: build
