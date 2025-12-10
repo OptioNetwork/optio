@@ -22,6 +22,7 @@ import (
 	_ "cosmossdk.io/x/upgrade"    // import for side-effects
 	upgradekeeper "cosmossdk.io/x/upgrade/keeper"
 	v2_distro "github.com/OptioNetwork/optio/app/upgrades/v2_distro"
+	v3_lockup "github.com/OptioNetwork/optio/app/upgrades/v3_lockup"
 	abci "github.com/cometbft/cometbft/abci/types"
 	dbm "github.com/cosmos/cosmos-db"
 	"github.com/cosmos/cosmos-sdk/baseapp"
@@ -106,7 +107,7 @@ var (
 )
 
 var (
-	Upgrades = []upgrades.Upgrade{v2_distro.Upgrade}
+	Upgrades = []upgrades.Upgrade{v2_distro.Upgrade, v3_lockup.Upgrade}
 )
 
 // App extends an ABCI application, but with most of its parameters exported.
