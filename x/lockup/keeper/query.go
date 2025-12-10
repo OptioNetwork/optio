@@ -75,7 +75,7 @@ func (k Keeper) ActiveLocks(goCtx context.Context, req *types.QueryActiveLocksRe
 		}
 
 		locks = append(locks, types.ActiveLock{
-			Owner:      addr.String(),
+			Address:    addr.String(),
 			UnlockDate: unlockTime.Format(time.DateOnly),
 			Amount:     amount,
 		})

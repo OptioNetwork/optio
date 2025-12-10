@@ -77,7 +77,7 @@ func handleMsgUndelegate(ctx sdk.Context, msg sdk.Msg, lbd LockedDelegationsDeco
 		blockTime := ctx.BlockTime()
 		for _, lock := range ltsAcc.Locks {
 			if types.IsLocked(blockTime, lock.UnlockDate) {
-				totalLocked = totalLocked.Add(lock.Coin.Amount)
+				totalLocked = totalLocked.Add(lock.Amount.Amount)
 			}
 		}
 

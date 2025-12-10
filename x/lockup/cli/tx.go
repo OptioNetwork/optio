@@ -58,7 +58,7 @@ func CmdLock() *cobra.Command {
 
 				locks = append(locks, &types.Lock{
 					UnlockDate: unlockDate,
-					Coin:       coin,
+					Amount:     coin,
 				})
 			}
 
@@ -107,10 +107,10 @@ func CmdExtend() *cobra.Command {
 				}
 
 				extensions = append(extensions, &types.Extension{
-					From: fromDate,
+					FromDate: fromDate,
 					Lock: &types.Lock{
 						UnlockDate: toDate,
-						Coin:       coin,
+						Amount:     coin,
 					},
 				})
 			}
@@ -160,7 +160,7 @@ Example:
 				ValidatorAddress: validatorAddress,
 				Lock: &types.Lock{
 					UnlockDate: unlockDate,
-					Coin:       coin,
+					Amount:     coin,
 				},
 			}
 
@@ -214,11 +214,11 @@ Example:
 				totalAmount = totalAmount.Add(amount)
 
 				outputs = append(outputs, &types.Output{
-					ToAddress:  toAddress,
-					ValAddress: validatorAddress,
+					ToAddress:        toAddress,
+					ValidatorAddress: validatorAddress,
 					Lock: &types.Lock{
 						UnlockDate: unlockDate,
-						Coin:       coin,
+						Amount:     coin,
 					},
 				})
 			}

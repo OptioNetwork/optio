@@ -18,13 +18,13 @@ func (k msgServer) SendDelegateAndLock(goCtx context.Context, msg *types.MsgSend
 		return nil, err
 	}
 
-	if msg.Lock.Coin.Denom != bondDenom {
-		return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid coin denom: %s, expected %s", msg.Lock.Coin.Denom, bondDenom)
+	if msg.Lock.Amount.Denom != bondDenom {
+		return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid coin denom: %s, expected %s", msg.Lock.Amount.Denom, bondDenom)
 	}
 
-	err = msg.Lock.Coin.Validate()
+	err = msg.Lock.Amount.Validate()
 	if err != nil {
-		return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid coin: %s", msg.Lock.Coin.String())
+		return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid coin: %s", msg.Lock.Amount.String())
 	}
 
 	fromAddr, err := sdk.AccAddressFromBech32(msg.FromAddress)
@@ -37,7 +37,7 @@ func (k msgServer) SendDelegateAndLock(goCtx context.Context, msg *types.MsgSend
 		return nil, sdkerrors.ErrInvalidAddress.Wrapf("invalid to address: %s", err)
 	}
 
-	err = k.bankKeeper.SendCoins(ctx, fromAddr, toAddr, sdk.NewCoins(msg.Lock.Coin))
+	err = k.bankKeeper.SendCoins(ctx, fromAddr, toAddr, sdk.NewCoins(msg.Lock.Amount))
 	if err != nil {
 		return nil, err
 	}
@@ -52,7 +52,7 @@ func (k msgServer) SendDelegateAndLock(goCtx context.Context, msg *types.MsgSend
 		return nil, err
 	}
 
-	newShares, err := k.stakingKeeper.Delegate(ctx, toAddr, msg.Lock.Coin.Amount, stakingtypes.Unbonded, validator, true)
+	newShares, err := k.stakingKeeper.Delegate(ctx, toAddr, msg.Lock.Amount.Amount, stakingtypes.Unbonded, validator, true)
 	if err != nil {
 		return nil, err
 	}
@@ -65,7 +65,7 @@ func (k msgServer) SendDelegateAndLock(goCtx context.Context, msg *types.MsgSend
 			stakingtypes.EventTypeDelegate,
 			sdk.NewAttribute(stakingtypes.AttributeKeyValidator, msg.ValidatorAddress),
 			sdk.NewAttribute(stakingtypes.AttributeKeyDelegator, msg.ToAddress),
-			sdk.NewAttribute(sdk.AttributeKeyAmount, msg.Lock.Coin.String()),
+			sdk.NewAttribute(sdk.AttributeKeyAmount, msg.Lock.Amount.String()),
 			sdk.NewAttribute(stakingtypes.AttributeKeyNewShares, newShares.String()),
 		),
 	})

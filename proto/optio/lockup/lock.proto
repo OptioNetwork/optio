@@ -7,6 +7,6 @@ import "cosmos/base/v1beta1/coin.proto";
 
 message Lock {
   
-  string unlockDate = 1; 
-  cosmos.base.v1beta1.Coin coin = 2 [(gogoproto.nullable) = false]; 
+  string unlock_date = 1; 
+  cosmos.base.v1beta1.Coin amount = 2 [(gogoproto.nullable) = false]; 
 }

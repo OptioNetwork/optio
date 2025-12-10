@@ -41,19 +41,19 @@ message MsgExtend {
 message MsgExtendResponse {}
 
 message MsgSendDelegateAndLock {
-  option (cosmos.msg.v1.signer) = "fromAddress";
-  string fromAddress = 1;
-  string toAddress   = 2;
-  string validatorAddress = 3;
+  option (cosmos.msg.v1.signer) = "from_address";
+  string from_address = 1;
+  string to_address   = 2;
+  string validator_address = 3;
   Lock   lock        = 4;
 }
 
 message MsgSendDelegateAndLockResponse {}
 
 message MsgMultiSendDelegateAndLock {
-  option (cosmos.msg.v1.signer) = "fromAddress";
-  string fromAddress = 1;
-  string totalAmount  = 2;
+  option (cosmos.msg.v1.signer) = "from_address";
+  string from_address = 1;
+  string total_amount  = 2;
   repeated Output outputs = 3;
 }
 

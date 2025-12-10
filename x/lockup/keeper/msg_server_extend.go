@@ -35,13 +35,13 @@ func (k msgServer) Extend(goCtx context.Context, msg *types.MsgExtend) (*types.M
 
 	events := sdk.Events{}
 	for _, extension := range msg.Extensions {
-		if extension.Lock.Coin.Denom != bondDenom {
-			return nil, sdkerrors.ErrInvalidRequest.Wrapf("invalid coin denomination: got %s, expected %s", extension.Lock.Coin.Denom, bondDenom)
+		if extension.Lock.Amount.Denom != bondDenom {
+			return nil, sdkerrors.ErrInvalidRequest.Wrapf("invalid coin denomination: got %s, expected %s", extension.Lock.Amount.Denom, bondDenom)
 		}
 
-		from, err := time.Parse(time.DateOnly, extension.From)
+		from, err := time.Parse(time.DateOnly, extension.FromDate)
 		if err != nil {
-			return nil, sdkerrors.ErrInvalidRequest.Wrapf("invalid from format: %s", extension.From)
+			return nil, sdkerrors.ErrInvalidRequest.Wrapf("invalid from format: %s", extension.FromDate)
 		}
 
 		unlock, err := time.Parse(time.DateOnly, extension.Lock.UnlockDate)
@@ -53,23 +53,23 @@ func (k msgServer) Extend(goCtx context.Context, msg *types.MsgExtend) (*types.M
 			return nil, sdkerrors.ErrInvalidRequest.Wrapf("unlock date must be after from date")
 		}
 
-		fromLockup, idx, found := lockupAcc.FindLock(extension.From)
+		fromLockup, idx, found := lockupAcc.FindLock(extension.FromDate)
 		if !found {
-			return nil, types.ErrLockupNotFound.Wrapf("no lockup found for unlock date: %s", extension.From)
+			return nil, types.ErrLockupNotFound.Wrapf("no lockup found for unlock date: %s", extension.FromDate)
 		}
 
-		if !fromLockup.Coin.Amount.Equal(extension.Lock.Coin.Amount) {
-			return nil, sdkerrors.ErrInvalidRequest.Wrapf("extension amount mismatch for unlock from date: %s. you must extend the entire amount: %s", extension.From, fromLockup.Coin.Amount.String())
+		if !fromLockup.Amount.Amount.Equal(extension.Lock.Amount.Amount) {
+			return nil, sdkerrors.ErrInvalidRequest.Wrapf("extension amount mismatch for unlock from date: %s. you must extend the entire amount: %s", extension.FromDate, fromLockup.Amount.Amount.String())
 		}
 
-		amountToMove := fromLockup.Coin.Amount
+		amountToMove := fromLockup.Amount.Amount
 		lockupAcc.Locks = lockupAcc.RemoveLock(idx)
 		lockupAcc.Locks = lockupAcc.UpsertLock(extension.Lock.UnlockDate, sdk.NewCoin(bondDenom, amountToMove))
 
 		events = events.AppendEvent(sdk.NewEvent(
 			types.EventTypeLockExtended,
 			sdk.NewAttribute(types.AttributeKeyLockAddress, msg.Address),
-			sdk.NewAttribute(types.AttributeKeyOldUnlockDate, extension.From),
+			sdk.NewAttribute(types.AttributeKeyOldUnlockDate, extension.FromDate),
 			sdk.NewAttribute(types.AttributeKeyUnlockDate, extension.Lock.UnlockDate),
 			sdk.NewAttribute(sdk.AttributeKeyAmount, amountToMove.String()),
 		))
