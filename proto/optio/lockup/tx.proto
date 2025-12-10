@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package optio.lockup;
+
+import "amino/amino.proto";
+import "cosmos/msg/v1/msg.proto";
+import "cosmos/base/v1beta1/coin.proto";
+import "cosmos_proto/cosmos.proto";
+import "gogoproto/gogo.proto";
+import "optio/lockup/account.proto";
+import "optio/lockup/lock.proto";
+import "optio/lockup/extension.proto";
+import "optio/lockup/output.proto";
+
+option go_package = "github.com/OptioNetwork/optio/x/lockup/types";
+
+// Msg defines the Msg service.
+service Msg {
+  option (cosmos.msg.v1.service) = true;
+  
+  rpc Lock                     (MsgLock                    ) returns (MsgLockResponse                    );
+  rpc Extend                   (MsgExtend                  ) returns (MsgExtendResponse                  );
+  rpc SendDelegateAndLock      (MsgSendDelegateAndLock     ) returns (MsgSendDelegateAndLockResponse     );
+  rpc MultiSendDelegateAndLock (MsgMultiSendDelegateAndLock) returns (MsgMultiSendDelegateAndLockResponse);
+}
+
+message MsgLock {
+  option (cosmos.msg.v1.signer) = "address";
+           string address = 1;
+  repeated Lock   locks         = 2;
+}
+
+message MsgLockResponse {}
+
+message MsgExtend {
+  option (cosmos.msg.v1.signer) = "address";
+           string    address = 1;
+  repeated Extension extensions       = 2;
+}
+
+message MsgExtendResponse {}
+
+message MsgSendDelegateAndLock {
+  option (cosmos.msg.v1.signer) = "from_address";
+  string from_address = 1;
+  string to_address   = 2;
+  string validator_address = 3;
+  Lock   lock        = 4;
+}
+
+message MsgSendDelegateAndLockResponse {}
+
+message MsgMultiSendDelegateAndLock {
+  option (cosmos.msg.v1.signer) = "from_address";
+  string from_address = 1;
+  string total_amount  = 2;
+  repeated Output outputs = 3;
+}
+
+message MsgMultiSendDelegateAndLockResponse {}
+

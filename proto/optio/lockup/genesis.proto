@@ -1,0 +1,7 @@
+syntax = "proto3";
+package optio.lockup;
+
+option go_package = "github.com/OptioNetwork/optio/x/lockup/types";
+
+// GenesisState defines the lockup module's genesis state.
+message GenesisState {}
