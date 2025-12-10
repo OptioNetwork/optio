@@ -24,11 +24,11 @@ func (k msgServer) MultiSendDelegateAndLock(goCtx context.Context, msg *types.Ms
 
 	totalOutputs := math.ZeroInt()
 	for _, output := range msg.Outputs {
-		err := output.Lock.Coin.Validate()
+		err := output.Lock.Amount.Validate()
 		if err != nil {
 			return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid coin in output to %s: %s", output.ToAddress, err)
 		}
-		totalOutputs = totalOutputs.Add(output.Lock.Coin.Amount)
+		totalOutputs = totalOutputs.Add(output.Lock.Amount.Amount)
 	}
 	if !total.Equal(totalOutputs) {
 		return nil, sdkerrors.ErrInvalidRequest.Wrapf("total amount %s does not match sum of outputs %s", total.String(), totalOutputs.String())
@@ -38,7 +38,7 @@ func (k msgServer) MultiSendDelegateAndLock(goCtx context.Context, msg *types.Ms
 		msg := &types.MsgSendDelegateAndLock{
 			FromAddress:      msg.FromAddress,
 			ToAddress:        output.ToAddress,
-			ValidatorAddress: output.ValAddress,
+			ValidatorAddress: output.ValidatorAddress,
 			Lock:             output.Lock,
 		}
 		_, err := k.SendDelegateAndLock(ctx, msg)

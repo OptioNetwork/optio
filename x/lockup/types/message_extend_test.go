@@ -43,9 +43,9 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 				Address: sample.AccAddress(),
 				Extensions: []*Extension{
 					{
-						From: "",
+						FromDate: "",
 						Lock: &Lock{
-							Coin:       sdk.NewInt64Coin("uOPT", 100),
+							Amount:     sdk.NewInt64Coin("uOPT", 100),
 							UnlockDate: time.Now().AddDate(2, 0, 0).Format(time.DateOnly),
 						},
 					},
@@ -58,8 +58,8 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 				Address: sample.AccAddress(),
 				Extensions: []*Extension{
 					{
-						From: "12-04-2025",
-						Lock: &Lock{},
+						FromDate: "12-04-2025",
+						Lock:     &Lock{},
 					},
 				},
 			},
@@ -70,8 +70,8 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 				Address: sample.AccAddress(),
 				Extensions: []*Extension{
 					{
-						From: time.Now().Format(time.DateOnly),
-						Lock: nil,
+						FromDate: time.Now().Format(time.DateOnly),
+						Lock:     nil,
 					},
 				},
 			},
@@ -82,9 +82,9 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 				Address: sample.AccAddress(),
 				Extensions: []*Extension{
 					{
-						From: time.Now().Format(time.DateOnly),
+						FromDate: time.Now().Format(time.DateOnly),
 						Lock: &Lock{
-							Coin: sdk.Coin{
+							Amount: sdk.Coin{
 								Denom:  "uOPT",
 								Amount: math.NewInt(-100),
 							},
@@ -100,9 +100,9 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 				Address: sample.AccAddress(),
 				Extensions: []*Extension{
 					{
-						From: time.Now().Format(time.DateOnly),
+						FromDate: time.Now().Format(time.DateOnly),
 						Lock: &Lock{
-							Coin: sdk.Coin{
+							Amount: sdk.Coin{
 								Denom:  "uOPT",
 								Amount: math.ZeroInt(),
 							},
@@ -118,9 +118,9 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 				Address: sample.AccAddress(),
 				Extensions: []*Extension{
 					{
-						From: time.Now().Format(time.DateOnly),
+						FromDate: time.Now().Format(time.DateOnly),
 						Lock: &Lock{
-							Coin: sdk.Coin{
+							Amount: sdk.Coin{
 								Denom:  "",
 								Amount: math.ZeroInt(),
 							},
@@ -136,9 +136,9 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 				Address: sample.AccAddress(),
 				Extensions: []*Extension{
 					{
-						From: time.Now().Format(time.DateOnly),
+						FromDate: time.Now().Format(time.DateOnly),
 						Lock: &Lock{
-							Coin: sdk.Coin{
+							Amount: sdk.Coin{
 								Denom:  "invalid_denom",
 								Amount: math.ZeroInt(),
 							},
@@ -154,9 +154,9 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 				Address: sample.AccAddress(),
 				Extensions: []*Extension{
 					{
-						From: time.Now().Format(time.DateOnly),
+						FromDate: time.Now().Format(time.DateOnly),
 						Lock: &Lock{
-							Coin:       sdk.NewInt64Coin("uOPT", 1000000000),
+							Amount:     sdk.NewInt64Coin("uOPT", 1000000000),
 							UnlockDate: "",
 						},
 					},
@@ -169,9 +169,9 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 				Address: sample.AccAddress(),
 				Extensions: []*Extension{
 					{
-						From: time.Now().Format(time.DateOnly),
+						FromDate: time.Now().Format(time.DateOnly),
 						Lock: &Lock{
-							Coin:       sdk.NewInt64Coin("uOPT", 1000000000),
+							Amount:     sdk.NewInt64Coin("uOPT", 1000000000),
 							UnlockDate: "12-04-2025",
 						},
 					},
@@ -184,9 +184,9 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 				Address: sample.AccAddress(),
 				Extensions: []*Extension{
 					{
-						From: time.Now().Format(time.DateOnly),
+						FromDate: time.Now().Format(time.DateOnly),
 						Lock: &Lock{
-							Coin:       sdk.NewInt64Coin("uOPT", 1000000000),
+							Amount:     sdk.NewInt64Coin("uOPT", 1000000000),
 							UnlockDate: time.Now().AddDate(0, 0, -1).Format(time.DateOnly),
 						},
 					},
@@ -199,9 +199,9 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 				Address: sample.AccAddress(),
 				Extensions: []*Extension{
 					{
-						From: time.Now().Format(time.DateOnly),
+						FromDate: time.Now().Format(time.DateOnly),
 						Lock: &Lock{
-							Coin:       sdk.NewInt64Coin("uOPT", 1000000000),
+							Amount:     sdk.NewInt64Coin("uOPT", 1000000000),
 							UnlockDate: time.Now().AddDate(0, 0, 1).Format(time.DateOnly),
 						},
 					},

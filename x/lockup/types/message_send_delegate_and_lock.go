@@ -9,7 +9,7 @@ import (
 
 var _ sdk.Msg = &MsgSendDelegateAndLock{}
 
-func NewMsgSendDelegateAndLock(fromAddress string, toAddress string, valAddress string, amount string, unlockDate string) *MsgSendDelegateAndLock {
+func NewMsgSendDelegateAndLock(fromAddress string, toAddress string, ValidatorAddress string, amount string, unlockDate string) *MsgSendDelegateAndLock {
 	a, ok := math.NewIntFromString(amount)
 	if !ok {
 		panic("invalid amount string")
@@ -18,10 +18,10 @@ func NewMsgSendDelegateAndLock(fromAddress string, toAddress string, valAddress 
 	return &MsgSendDelegateAndLock{
 		FromAddress:      fromAddress,
 		ToAddress:        toAddress,
-		ValidatorAddress: valAddress,
+		ValidatorAddress: ValidatorAddress,
 		Lock: &Lock{
 			UnlockDate: unlockDate,
-			Coin:       sdk.Coin{Denom: "uOPT", Amount: a},
+			Amount:     sdk.Coin{Denom: "uOPT", Amount: a},
 		},
 	}
 }

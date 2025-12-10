@@ -32,11 +32,11 @@ func (msg *MsgExtend) ValidateBasic() error {
 			return errorsmod.Wrapf(sdkerrors.ErrInvalidRequest, "extension cannot be nil")
 		}
 
-		if extension.From == "" {
+		if extension.FromDate == "" {
 			return errorsmod.Wrapf(ErrInvalidDate, "extension from date cannot be empty")
 		}
 
-		fromTime, err := time.Parse(time.DateOnly, extension.From)
+		fromTime, err := time.Parse(time.DateOnly, extension.FromDate)
 		if err != nil {
 			return errorsmod.Wrapf(ErrInvalidDate, "extension at index %d has invalid 'from' date format: %s", i, err)
 		}
@@ -45,15 +45,15 @@ func (msg *MsgExtend) ValidateBasic() error {
 			return errorsmod.Wrapf(sdkerrors.ErrInvalidRequest, "extension lock cannot be nil")
 		}
 
-		if !extension.Lock.Coin.IsValid() || extension.Lock.Coin.IsZero() {
-			return errorsmod.Wrapf(sdkerrors.ErrInvalidCoins, "invalid lock amount: %s", extension.Lock.Coin.String())
+		if !extension.Lock.Amount.IsValid() || extension.Lock.Amount.IsZero() {
+			return errorsmod.Wrapf(sdkerrors.ErrInvalidCoins, "invalid lock amount: %s", extension.Lock.Amount.String())
 		}
 
-		if extension.Lock.Coin.Denom == "" {
+		if extension.Lock.Amount.Denom == "" {
 			return errorsmod.Wrapf(sdkerrors.ErrInvalidCoins, "lock coin denom cannot be empty")
 		}
 
-		if extension.Lock.Coin.Denom != "uOPT" {
+		if extension.Lock.Amount.Denom != "uOPT" {
 			return errorsmod.Wrapf(sdkerrors.ErrInvalidCoins, "lock coin denom must be 'uOPT'")
 		}
 

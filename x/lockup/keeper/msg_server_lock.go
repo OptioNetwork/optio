@@ -47,12 +47,12 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 	}
 
 	for _, lock := range msg.Locks {
-		if !lock.Coin.IsValid() || lock.Coin.IsZero() {
-			return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid lock amount: %s", lock.Coin.String())
+		if !lock.Amount.IsValid() || lock.Amount.IsZero() {
+			return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid lock amount: %s", lock.Amount.String())
 		}
 
-		if lock.Coin.Denom != bondDenom {
-			return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid denom: %s, expected: %s", lock.Coin.Denom, bondDenom)
+		if lock.Amount.Denom != bondDenom {
+			return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid denom: %s, expected: %s", lock.Amount.Denom, bondDenom)
 		}
 
 		unlockTime, err := time.Parse(time.DateOnly, lock.UnlockDate)
@@ -66,7 +66,7 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 		if ctx.BlockTime().AddDate(2, 0, 0).Before(unlockTime) {
 			return nil, sdkerrors.ErrInvalidRequest.Wrapf("unlock time cannot be more than 2 years from now")
 		}
-		amountToLock = amountToLock.Add(lock.Coin.Amount)
+		amountToLock = amountToLock.Add(lock.Amount.Amount)
 	}
 
 	currentLockedAmount := lockupAcc.GetLockedAmount(ctx.BlockTime())
@@ -86,14 +86,14 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 
 	events := sdk.Events{}
 	for _, lock := range msg.Locks {
-		lockupAcc.Locks = lockupAcc.UpsertLock(lock.UnlockDate, lock.Coin)
+		lockupAcc.Locks = lockupAcc.UpsertLock(lock.UnlockDate, lock.Amount)
 
 		unlockTime, err := time.Parse(time.DateOnly, lock.UnlockDate)
 		if err != nil {
 			return nil, err
 		}
 
-		if err := k.AddToExpirationQueue(ctx, unlockTime, lockupAddr, lock.Coin.Amount); err != nil {
+		if err := k.AddToExpirationQueue(ctx, unlockTime, lockupAddr, lock.Amount.Amount); err != nil {
 			return nil, err
 		}
 
@@ -101,7 +101,7 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 			types.EventTypeLock,
 			sdk.NewAttribute(types.AttributeKeyLockAddress, msg.Address),
 			sdk.NewAttribute(types.AttributeKeyUnlockDate, lock.UnlockDate),
-			sdk.NewAttribute(sdk.AttributeKeyAmount, lock.Coin.String()),
+			sdk.NewAttribute(sdk.AttributeKeyAmount, lock.Amount.String()),
 		))
 	}
 
