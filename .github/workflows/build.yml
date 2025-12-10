@@ -45,7 +45,7 @@ jobs:
     - name: Upload binary artifact
       uses: actions/upload-artifact@v4
       with:
-        name: optiod-linux-${{ github.event.inputs.version || '1.0.0' }}
+        name: optio-linux-${{ github.event.inputs.version || '1.0.0' }}
         path: build/optio-linux
         retention-days: 30
 
@@ -72,7 +72,7 @@ jobs:
     - name: Download binary artifact
       uses: actions/download-artifact@v4
       with:
-        name: optiod-linux-${{ github.event.inputs.version || '1.0.0' }}
+        name: optio-linux-${{ github.event.inputs.version || '1.0.0' }}
         path: build/
 
     - name: Create Release
@@ -84,20 +84,20 @@ jobs:
           ## v${{ github.event.inputs.version || '1.0.0' }}
           
           ### Downloads
-          - **Linux (x86_64)**: `optiod-linux`
+          - **Linux (x86_64)**: `optio-linux`
           
           ### Installation
           ```bash
           # Download and make executable
-          chmod +x optiod-linux
+          chmod +x optio-linux
           
           # Move to your PATH
-          sudo mv optiod-linux /usr/local/bin/optiod
+          sudo mv optio-linux /usr/local/bin/optiod
           ```
           
           ### Version Info
           Built with Go 1.23.6
         draft: false
         prerelease: false
-        files: build/optiod-linux
+        files: build/optio-linux
         token: ${{ secrets.GITHUB_TOKEN }} 
