@@ -3,6 +3,7 @@ package v3_lockup
 import (
 	store "cosmossdk.io/store/types"
 	"github.com/OptioNetwork/optio/app/upgrades"
+	distrotypes "github.com/OptioNetwork/optio/x/distro/types"
 	lockuptypes "github.com/OptioNetwork/optio/x/lockup/types"
 )
 
@@ -12,6 +13,6 @@ var Upgrade = upgrades.Upgrade{
 	UpgradeName:          UpgradeName,
 	CreateUpgradeHandler: CreateUpgradeHandler,
 	StoreUpgrades: store.StoreUpgrades{
-		Added: []string{lockuptypes.ModuleName},
+		Added: []string{distrotypes.ModuleName, lockuptypes.ModuleName},
 	},
 }
