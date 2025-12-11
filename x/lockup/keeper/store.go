@@ -52,7 +52,6 @@ func (k Keeper) AddToExpirationQueue(ctx context.Context, unlockTime time.Time, 
 	store := k.storeService.OpenKVStore(ctx)
 	key := k.GetLockExpirationKey(unlockTime, addr)
 
-	// Check existing
 	bz, err := store.Get(key)
 	if err != nil {
 		return err
@@ -66,6 +65,44 @@ func (k Keeper) AddToExpirationQueue(ctx context.Context, unlockTime time.Time, 
 	}
 
 	newAmount := currentAmount.Add(amount)
+	bz, err = newAmount.Marshal()
+	if err != nil {
+		return err
+	}
+
+	return store.Set(key, bz)
+}
+
+// RemoveFromExpirationQueue removes an amount from the expiration queue
+// If the resulting amount is zero, deletes the entry
+func (k Keeper) RemoveFromExpirationQueue(ctx context.Context, unlockTime time.Time, addr sdk.AccAddress, amount math.Int) error {
+	store := k.storeService.OpenKVStore(ctx)
+	key := k.GetLockExpirationKey(unlockTime, addr)
+
+	bz, err := store.Get(key)
+	if err != nil {
+		return err
+	}
+
+	if bz == nil {
+		return types.ErrLockupNotFound.Wrapf("no entry in expiration queue for time %s", unlockTime.Format(time.DateOnly))
+	}
+
+	currentAmount := math.ZeroInt()
+	if err := currentAmount.Unmarshal(bz); err != nil {
+		return err
+	}
+
+	if currentAmount.LT(amount) {
+		return types.ErrInvalidAmount.Wrapf("cannot remove %s from expiration queue, only %s available", amount.String(), currentAmount.String())
+	}
+
+	newAmount := currentAmount.Sub(amount)
+
+	if newAmount.IsZero() {
+		return store.Delete(key)
+	}
+
 	bz, err = newAmount.Marshal()
 	if err != nil {
 		return err

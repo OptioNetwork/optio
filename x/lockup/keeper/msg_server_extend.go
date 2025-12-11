@@ -66,6 +66,15 @@ func (k msgServer) Extend(goCtx context.Context, msg *types.MsgExtend) (*types.M
 		lockupAcc.Locks = lockupAcc.RemoveLock(idx)
 		lockupAcc.Locks = lockupAcc.UpsertLock(extension.Lock.UnlockDate, sdk.NewCoin(bondDenom, amountToMove))
 
+		// Update expiration queue: remove from old date, add to new date
+		if err := k.RemoveFromExpirationQueue(ctx, from, addr, amountToMove); err != nil {
+			return nil, err
+		}
+
+		if err := k.AddToExpirationQueue(ctx, unlock, addr, amountToMove); err != nil {
+			return nil, err
+		}
+
 		events = events.AppendEvent(sdk.NewEvent(
 			types.EventTypeLockExtended,
 			sdk.NewAttribute(types.AttributeKeyLockAddress, msg.Address),
