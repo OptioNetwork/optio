@@ -27,10 +27,10 @@ func NewLockedDelegationsDecorator(accountKeeper ante.AccountKeeper, bankKeeper 
 	}
 }
 
-func (lbd LockedDelegationsDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulate bool, next sdk.AnteHandler) (newCtx sdk.Context, err error) {
+func (d LockedDelegationsDecorator) AnteHandle(ctx sdk.Context, tx sdk.Tx, simulate bool, next sdk.AnteHandler) (newCtx sdk.Context, err error) {
 	msgs := tx.GetMsgs()
 
-	err = handleMsgs(ctx, msgs, lbd)
+	err = handleMsgs(ctx, msgs, d)
 	if err != nil {
 		return ctx, err
 	}
@@ -90,7 +90,7 @@ func handleMsgUndelegate(ctx sdk.Context, msg sdk.Msg, lbd LockedDelegationsDeco
 		if delegatedAfterUndelegate.LT(totalLocked) {
 			return errorsmod.Wrapf(
 				types.ErrInsufficientDelegations,
-				"undelegation would cause new delegated amount to be less than the locked amount: %s < %s",
+				"unbond would cause new delegated amount to be less than the locked amount: %s < %s",
 				delegatedAfterUndelegate.String(),
 				totalLocked.String(),
 			)

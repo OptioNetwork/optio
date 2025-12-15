@@ -28,7 +28,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type QueryClient interface {
-	// ActiveLocks queries all active locks with an unlock time in the future.
+	// ActiveLocks queries all active locks with an unlock date in the future.
 	ActiveLocks(ctx context.Context, in *QueryActiveLocksRequest, opts ...grpc.CallOption) (*QueryActiveLocksResponse, error)
 	// TotalLockedAmount queries the total amount of tokens locked across all accounts.
 	TotalLockedAmount(ctx context.Context, in *QueryTotalLockedAmountRequest, opts ...grpc.CallOption) (*QueryTotalLockedAmountResponse, error)
@@ -75,7 +75,7 @@ func (c *queryClient) AccountLocks(ctx context.Context, in *QueryAccountLocksReq
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
 type QueryServer interface {
-	// ActiveLocks queries all active locks with an unlock time in the future.
+	// ActiveLocks queries all active locks with an unlock date in the future.
 	ActiveLocks(context.Context, *QueryActiveLocksRequest) (*QueryActiveLocksResponse, error)
 	// TotalLockedAmount queries the total amount of tokens locked across all accounts.
 	TotalLockedAmount(context.Context, *QueryTotalLockedAmountRequest) (*QueryTotalLockedAmountResponse, error)

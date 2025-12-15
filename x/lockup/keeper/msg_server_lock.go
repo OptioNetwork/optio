@@ -60,11 +60,14 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 			return nil, sdkerrors.ErrInvalidRequest.Wrapf("invalid unlock date format: %s", lock.UnlockDate)
 		}
 
-		if ctx.BlockTime().AddDate(0, 6, 0).After(unlockTime) {
-			return nil, sdkerrors.ErrInvalidRequest.Wrapf("unlock time must be at least 6 months from now")
+		blockTime := ctx.BlockTime()
+
+		if blockTime.After(unlockTime) {
+			return nil, sdkerrors.ErrInvalidRequest.Wrapf("unlock date must be in the future")
 		}
-		if ctx.BlockTime().AddDate(2, 0, 0).Before(unlockTime) {
-			return nil, sdkerrors.ErrInvalidRequest.Wrapf("unlock time cannot be more than 2 years from now")
+
+		if blockTime.AddDate(2, 0, 0).Before(unlockTime) {
+			return nil, sdkerrors.ErrInvalidRequest.Wrapf("unlock date cannot be more than 2 years from now")
 		}
 		amountToLock = amountToLock.Add(lock.Amount.Amount)
 	}

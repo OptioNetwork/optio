@@ -10,7 +10,7 @@ option go_package = "github.com/OptioNetwork/optio/x/lockup/types";
 
 // Query defines the gRPC querier service.
 service Query {
-  // ActiveLocks queries all active locks with an unlock time in the future.
+  // ActiveLocks queries all active locks with an unlock date in the future.
   rpc ActiveLocks(QueryActiveLocksRequest) returns (QueryActiveLocksResponse) {
     option (google.api.http).get = "/optio/lockup/active_locks";
   }
