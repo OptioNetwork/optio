@@ -3,6 +3,8 @@ package optio.lockup.module;
 
 import "cosmos/app/v1alpha1/module.proto";
 
+option go_package = "github.com/OptioNetwork/optio/api/optio/lockup/module";
+
 // Module is the config object for the module.
 message Module {
   option (cosmos.app.v1alpha1.module) = {
