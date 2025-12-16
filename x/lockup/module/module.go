@@ -162,8 +162,8 @@ func (am AppModule) BeginBlock(_ context.Context) error {
 
 // EndBlock contains the logic that is automatically triggered at the end of each block.
 // The end block implementation is optional.
-func (am AppModule) EndBlock(goCtx context.Context) error {
-	return am.keeper.EndBlocker(goCtx)
+func (am AppModule) EndBlock(_ context.Context) error {
+	return nil
 }
 
 // IsOnePerModuleType implements the depinject.OnePerModuleType interface.

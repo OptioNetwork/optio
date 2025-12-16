@@ -14,7 +14,6 @@ const (
 var (
 	LockExpirationKey = []byte("lock_expiration")
 	TotalLockedKey    = []byte("total_locked")
-	AccountLocksKey   = []byte("account_locks")
 )
 
 func KeyPrefix(p string) []byte {
