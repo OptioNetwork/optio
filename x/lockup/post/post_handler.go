@@ -49,12 +49,6 @@ func (d RemoveExpiredLocksDecorator) PostHandle(ctx sdk.Context, tx sdk.Tx, simu
 		return next(ctx, tx, simulate, success)
 	}
 
-	globalTotal, err := d.lockupKeeper.GetTotalLocked(ctx)
-	if err != nil {
-		return next(ctx, tx, simulate, success)
-	}
-
-	newTotal := globalTotal
 	updated := false
 	i := 0
 	for i < len(lockupAcc.Locks) {
@@ -79,8 +73,6 @@ func (d RemoveExpiredLocksDecorator) PostHandle(ctx sdk.Context, tx sdk.Tx, simu
 				return ctx, err
 			}
 
-			newTotal = newTotal.Sub(lock.Amount.Amount)
-
 			updated = true
 		} else {
 			i++
@@ -89,10 +81,6 @@ func (d RemoveExpiredLocksDecorator) PostHandle(ctx sdk.Context, tx sdk.Tx, simu
 
 	if updated {
 		d.accountKeeper.SetAccount(ctx, lockupAcc)
-
-		if err := d.lockupKeeper.SetTotalLocked(ctx, newTotal); err != nil {
-			return ctx, err
-		}
 	}
 
 	return next(ctx, tx, simulate, success)

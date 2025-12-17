@@ -10,16 +10,6 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 
-// SetTotalLocked sets the total locked amount
-func (k Keeper) SetTotalLocked(ctx context.Context, amount math.Int) error {
-	store := k.storeService.OpenKVStore(ctx)
-	bz, err := amount.Marshal()
-	if err != nil {
-		return err
-	}
-	return store.Set(types.TotalLockedKey, bz)
-}
-
 // GetTotalLocked returns the total locked amount
 func (k Keeper) GetTotalLocked(ctx context.Context) (math.Int, error) {
 	store := k.storeService.OpenKVStore(ctx)
@@ -109,6 +99,53 @@ func (k Keeper) RemoveFromExpirationQueue(ctx context.Context, unlockTime time.T
 	}
 
 	return store.Set(key, bz)
+}
+
+// IterateActiveLocks iterates over all locks that have NOT expired yet (read-only)
+func (k Keeper) IterateActiveLocks(ctx context.Context, currentTime time.Time, cb func(addr sdk.AccAddress, unlockTime time.Time, amount math.Int) error) error {
+	store := k.storeService.OpenKVStore(ctx)
+
+	// Start key is Prefix + CurrentTime + 1 second (to exclude locks expiring at or before current time)
+	startTimeBz := make([]byte, 8)
+	binary.BigEndian.PutUint64(startTimeBz, uint64(currentTime.Unix()+1))
+	startKey := append(types.LockExpirationKey, startTimeBz...)
+
+	// End key is nil to iterate to the end
+	iter, err := store.Iterator(startKey, nil)
+	if err != nil {
+		return err
+	}
+	defer iter.Close()
+
+	for ; iter.Valid(); iter.Next() {
+		key := iter.Key()
+		// Parse Key
+		// Prefix (len) + Time (8) + Addr (Remainder)
+		prefixLen := len(types.LockExpirationKey)
+
+		// Make sure key is long enough
+		if len(key) < prefixLen+8 {
+			continue
+		}
+
+		timeBz := key[prefixLen : prefixLen+8]
+		addrBz := key[prefixLen+8:]
+
+		unlockUnix := binary.BigEndian.Uint64(timeBz)
+		unlockTime := time.Unix(int64(unlockUnix), 0)
+		addr := sdk.AccAddress(addrBz)
+
+		var amount math.Int
+		if err := amount.Unmarshal(iter.Value()); err != nil {
+			return err
+		}
+
+		if err := cb(addr, unlockTime, amount); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 // IterateAndDeleteExpiredLocks iterates over locks that have expired before or at cutoffTime and deletes them

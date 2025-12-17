@@ -10,11 +10,11 @@ on:
       create_release:
         description: 'Create GitHub release'
         required: false
-        default: 'false'
+        default: 'true'
       prerelease:
         description: 'Mark as prerelease'
         required: false
-        default: 'false'
+        default: 'true'
 
 jobs:
   build:

@@ -108,15 +108,6 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 		))
 	}
 
-	currentTotal, err := k.GetTotalLocked(ctx)
-	if err != nil {
-		return nil, err
-	}
-	newTotal := currentTotal.Add(amountToLock)
-	if err := k.SetTotalLocked(ctx, newTotal); err != nil {
-		return nil, err
-	}
-
 	k.accountKeeper.SetAccount(ctx, lockupAcc)
 
 	ctx.EventManager().EmitEvents(events)

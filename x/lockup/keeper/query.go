@@ -98,12 +98,23 @@ func (k Keeper) TotalLockedAmount(goCtx context.Context, req *types.QueryTotalLo
 
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
+	// Calculate total locked by iterating all active locks in the expiration queue
 	totalLocked := math.ZeroInt()
-	total, err := k.GetTotalLocked(ctx)
+
+	blockTime := ctx.BlockTime()
+	blockTimeDateOnly, err := time.Parse(time.DateOnly, blockTime.Format(time.DateOnly))
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
-	totalLocked = totalLocked.Add(total)
+
+	err = k.IterateActiveLocks(ctx, blockTimeDateOnly, func(addr sdk.AccAddress, unlockTime time.Time, amount math.Int) error {
+		totalLocked = totalLocked.Add(amount)
+		return nil
+	})
+
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
 
 	return &types.QueryTotalLockedAmountResponse{
 		TotalLocked: totalLocked,
