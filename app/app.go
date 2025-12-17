@@ -363,6 +363,7 @@ func (app *App) setAnteHandler() {
 			AccountKeeper:   app.AccountKeeper,
 			BankKeeper:      app.BankKeeper,
 			LockupKeeper:    app.LockupKeeper,
+			StakingKeeper:   *app.StakingKeeper,
 			SignModeHandler: app.txConfig.SignModeHandler(),
 			FeegrantKeeper:  app.FeeGrantKeeper,
 			SigGasConsumer:  ante.DefaultSigVerificationGasConsumer,
