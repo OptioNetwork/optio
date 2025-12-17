@@ -75,7 +75,7 @@ func (k Keeper) RemoveFromExpirationQueue(ctx context.Context, unlockTime time.T
 	}
 
 	if bz == nil {
-		return types.ErrLockupNotFound.Wrapf("no entry in expiration queue for time %s", unlockTime.Format(time.DateOnly))
+		return nil
 	}
 
 	currentAmount := math.ZeroInt()
