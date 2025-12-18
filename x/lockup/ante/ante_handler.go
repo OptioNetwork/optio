@@ -289,6 +289,41 @@ func (d LockedDelegationsDecorator) handleMsgs(ctx sdk.Context, msgs []sdk.Msg, 
 				}
 			}
 
+		case *distributiontypes.MsgDepositValidatorRewardsPool:
+
+			fromAddr, err := sdk.AccAddressFromBech32(m.Depositor)
+			if err != nil {
+				return err
+			}
+			acc := d.accountKeeper.GetAccount(ctx, fromAddr)
+
+			if ltsAcc, ok := acc.(*types.Account); ok {
+
+				ok, lockedAboveDelegated, err := checkDelegationsAgainstLocked(ctx, ltsAcc, d.lockupKeeper)
+				if err != nil {
+					return err
+				}
+
+				if ok {
+					return nil
+				}
+
+				for _, coin := range m.Amount {
+					if coin.Denom != bondDenom {
+						continue
+					}
+
+					totalBalance := d.bankKeeper.GetBalance(ctx, fromAddr, coin.Denom).Amount
+					available := totalBalance.Sub(*lockedAboveDelegated)
+					if available.LT(coin.Amount) {
+						if available.IsNegative() {
+							available = math.ZeroInt()
+						}
+						return errorsmod.Wrapf(errortypes.ErrInsufficientFunds, "insufficient unlocked balance: available %s, required %s", available, coin.Amount)
+					}
+				}
+			}
+
 		case *feegrant.MsgGrantAllowance:
 
 			fromAddr, err := sdk.AccAddressFromBech32(m.Granter)
