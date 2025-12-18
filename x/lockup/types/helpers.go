@@ -7,5 +7,7 @@ func IsLocked(currentTime time.Time, unlockDate string) bool {
 	if err != nil {
 		return false
 	}
-	return currentTime.Truncate(24 * time.Hour).Before(unlockTime)
+
+	currentDay := time.Date(currentTime.Year(), currentTime.Month(), currentTime.Day(), 0, 0, 0, 0, time.UTC)
+	return currentDay.Before(unlockTime)
 }

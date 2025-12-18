@@ -123,7 +123,6 @@ func (k Keeper) IterateActiveLocks(ctx context.Context, currentTime time.Time, c
 		// Prefix (len) + Time (8) + Addr (Remainder)
 		prefixLen := len(types.LockExpirationKey)
 
-		// Make sure key is long enough
 		if len(key) < prefixLen+8 {
 			continue
 		}

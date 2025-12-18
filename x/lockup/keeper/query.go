@@ -68,6 +68,15 @@ func (k Keeper) ActiveLocks(goCtx context.Context, req *types.QueryActiveLocksRe
 
 		unlockUnix := binary.BigEndian.Uint64(timeBz)
 		unlockTime := time.Unix(int64(unlockUnix), 0)
+		unlockDate := unlockTime.UTC().Format(time.DateOnly)
+
+		blockTime := ctx.BlockTime()
+		blockDay := time.Date(blockTime.Year(), blockTime.Month(), blockTime.Day(), 0, 0, 0, 0, time.UTC)
+
+		if !types.IsLocked(blockDay, unlockDate) {
+			continue
+		}
+
 		addr := sdk.AccAddress(addrBz)
 
 		var amount math.Int
@@ -82,7 +91,7 @@ func (k Keeper) ActiveLocks(goCtx context.Context, req *types.QueryActiveLocksRe
 
 		locks = append(locks, types.ActiveLock{
 			Address:    addr.String(),
-			UnlockDate: unlockTime.Format(time.DateOnly),
+			UnlockDate: unlockDate,
 			Amount:     sdk.NewCoin(bondDenom, amount),
 		})
 
@@ -104,16 +113,12 @@ func (k Keeper) TotalLockedAmount(goCtx context.Context, req *types.QueryTotalLo
 
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	// Calculate total locked by iterating all active locks in the expiration queue
 	totalLocked := math.ZeroInt()
 
 	blockTime := ctx.BlockTime()
-	blockTimeDateOnly, err := time.Parse(time.DateOnly, blockTime.Format(time.DateOnly))
-	if err != nil {
-		return nil, status.Error(codes.Internal, err.Error())
-	}
+	blockDay := time.Date(blockTime.Year(), blockTime.Month(), blockTime.Day(), 0, 0, 0, 0, time.UTC)
 
-	err = k.IterateActiveLocks(ctx, blockTimeDateOnly, func(addr sdk.AccAddress, unlockTime time.Time, amount math.Int) error {
+	err := k.IterateActiveLocks(ctx, blockDay, func(addr sdk.AccAddress, unlockTime time.Time, amount math.Int) error {
 		totalLocked = totalLocked.Add(amount)
 		return nil
 	})
@@ -173,14 +178,15 @@ func (k Keeper) AccountLocks(goCtx context.Context, req *types.QueryAccountLocks
 			continue
 		}
 
-		now := ctx.BlockTime()
+		blockTime := ctx.BlockTime()
+		blockDay := time.Date(blockTime.Year(), blockTime.Month(), blockTime.Day(), 0, 0, 0, 0, time.UTC)
 		activeLocks := make([]types.Lock, 0)
 		for _, lock := range lockupAcc.Locks {
 			unlockTime, err := time.Parse(time.DateOnly, lock.UnlockDate)
 			if err != nil {
 				continue
 			}
-			if unlockTime.After(now) {
+			if unlockTime.After(blockDay) {
 				activeLocks = append(activeLocks, *lock)
 			}
 		}

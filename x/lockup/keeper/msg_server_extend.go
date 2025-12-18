@@ -55,12 +55,13 @@ func (k msgServer) Extend(goCtx context.Context, msg *types.MsgExtend) (*types.M
 		}
 
 		blockTime := ctx.BlockTime()
+		blockDay := time.Date(blockTime.Year(), blockTime.Month(), blockTime.Day(), 0, 0, 0, 0, time.UTC)
 
-		if blockTime.After(toDate) {
+		if blockDay.After(toDate) || blockDay.Equal(toDate) {
 			return nil, sdkerrors.ErrInvalidRequest.Wrapf("to date must be in the future")
 		}
 
-		if blockTime.AddDate(2, 0, 0).Before(toDate) {
+		if blockDay.AddDate(2, 0, 0).Before(toDate) {
 			return nil, sdkerrors.ErrInvalidRequest.Wrapf("to date cannot be more than 2 years from now")
 		}
 

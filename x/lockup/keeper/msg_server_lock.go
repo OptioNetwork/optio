@@ -57,12 +57,13 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 	}
 
 	blockTime := ctx.BlockTime()
+	blockDay := time.Date(blockTime.Year(), blockTime.Month(), blockTime.Day(), 0, 0, 0, 0, time.UTC)
 
-	if blockTime.After(unlockDate) {
+	if blockDay.After(unlockDate) || blockDay.Equal(unlockDate) {
 		return nil, sdkerrors.ErrInvalidRequest.Wrapf("unlock date must be in the future")
 	}
 
-	if blockTime.AddDate(2, 0, 0).Before(unlockDate) {
+	if blockDay.AddDate(2, 0, 0).Before(unlockDate) {
 		return nil, sdkerrors.ErrInvalidRequest.Wrapf("unlock date cannot be more than 2 years from now")
 	}
 
