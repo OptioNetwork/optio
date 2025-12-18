@@ -5,6 +5,7 @@ import (
 
 	"cosmossdk.io/math"
 	"github.com/OptioNetwork/optio/testutil/sample"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/stretchr/testify/require"
 )
@@ -22,7 +23,7 @@ func TestMsgLock_ValidateBasic(t *testing.T) {
 			msg: MsgLock{
 				Address:    "invalid_address",
 				UnlockDate: "2026-12-01",
-				Amount:     math.NewInt(1000),
+				Amount:     sdk.NewCoin(bondDenom, math.NewInt(1000)),
 			},
 			err: sdkerrors.ErrInvalidAddress,
 		},
@@ -31,7 +32,7 @@ func TestMsgLock_ValidateBasic(t *testing.T) {
 			msg: MsgLock{
 				Address:    validAddr,
 				UnlockDate: "",
-				Amount:     math.NewInt(1000),
+				Amount:     sdk.NewCoin(bondDenom, math.NewInt(1000)),
 			},
 			err: ErrInvalidDate,
 		},
@@ -40,7 +41,7 @@ func TestMsgLock_ValidateBasic(t *testing.T) {
 			msg: MsgLock{
 				Address:    validAddr,
 				UnlockDate: "12/01/2026",
-				Amount:     math.NewInt(1000),
+				Amount:     sdk.NewCoin(bondDenom, math.NewInt(1000)),
 			},
 			err: ErrInvalidDate,
 		},
@@ -49,7 +50,7 @@ func TestMsgLock_ValidateBasic(t *testing.T) {
 			msg: MsgLock{
 				Address:    validAddr,
 				UnlockDate: "not-a-date",
-				Amount:     math.NewInt(1000),
+				Amount:     sdk.NewCoin(bondDenom, math.NewInt(1000)),
 			},
 			err: ErrInvalidDate,
 		},
@@ -58,7 +59,7 @@ func TestMsgLock_ValidateBasic(t *testing.T) {
 			msg: MsgLock{
 				Address:    validAddr,
 				UnlockDate: "2026-12-01",
-				Amount:     math.NewInt(0),
+				Amount:     sdk.NewCoin(bondDenom, math.NewInt(0)),
 			},
 			err: sdkerrors.ErrInvalidCoins,
 		},
@@ -67,7 +68,7 @@ func TestMsgLock_ValidateBasic(t *testing.T) {
 			msg: MsgLock{
 				Address:    validAddr,
 				UnlockDate: "2026-12-01",
-				Amount:     math.NewInt(-1000),
+				Amount:     sdk.NewCoin(bondDenom, math.NewInt(-1000)),
 			},
 			err: sdkerrors.ErrInvalidCoins,
 		},
@@ -76,7 +77,7 @@ func TestMsgLock_ValidateBasic(t *testing.T) {
 			msg: MsgLock{
 				Address:    validAddr,
 				UnlockDate: "2026-12-01",
-				Amount:     math.NewInt(1000),
+				Amount:     sdk.NewCoin(bondDenom, math.NewInt(1000)),
 			},
 		},
 	}

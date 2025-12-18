@@ -22,10 +22,11 @@ func (k msgServer) MultiSendDelegateAndLock(goCtx context.Context, msg *types.Ms
 		if !output.Amount.IsPositive() {
 			return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid amount in output to %s: %s", output.ToAddress, output.Amount.String())
 		}
-		totalOutputs = totalOutputs.Add(output.Amount)
+		totalOutputs = totalOutputs.Add(output.Amount.Amount)
 	}
-	if !msg.Input.Equal(totalOutputs) {
-		return nil, sdkerrors.ErrInvalidRequest.Wrapf("input %s does not match sum of outputs %s", msg.Input.String(), totalOutputs.String())
+
+	if !msg.TotalAmount.Amount.Equal(totalOutputs) {
+		return nil, sdkerrors.ErrInvalidRequest.Wrapf("input %s does not match sum of outputs %s", msg.TotalAmount.String(), totalOutputs.String())
 	}
 
 	for _, output := range msg.Outputs {

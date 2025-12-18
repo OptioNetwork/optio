@@ -32,8 +32,11 @@ func (k msgServer) SendDelegateAndLock(goCtx context.Context, msg *types.MsgSend
 		return nil, err
 	}
 
-	coin := sdk.NewCoin(bondDenom, msg.Amount)
-	err = k.bankKeeper.SendCoins(ctx, fromAddr, toAddr, sdk.NewCoins(coin))
+	if msg.Amount.Denom != bondDenom {
+		return nil, sdkerrors.ErrInvalidRequest.Wrapf("invalid denom: %s, expected: %s", msg.Amount.Denom, bondDenom)
+	}
+
+	err = k.bankKeeper.SendCoins(ctx, fromAddr, toAddr, sdk.NewCoins(msg.Amount))
 	if err != nil {
 		return nil, err
 	}
@@ -48,7 +51,7 @@ func (k msgServer) SendDelegateAndLock(goCtx context.Context, msg *types.MsgSend
 		return nil, err
 	}
 
-	newShares, err := k.stakingKeeper.Delegate(ctx, toAddr, msg.Amount, stakingtypes.Unbonded, validator, true)
+	newShares, err := k.stakingKeeper.Delegate(ctx, toAddr, msg.Amount.Amount, stakingtypes.Unbonded, validator, true)
 	if err != nil {
 		return nil, err
 	}

@@ -3,19 +3,15 @@ package optio.lockup;
 
 import "gogoproto/gogo.proto";
 import "cosmos_proto/cosmos.proto";
+import "cosmos/base/v1beta1/coin.proto";
 import "amino/amino.proto";
 
 option go_package = "github.com/OptioNetwork/optio/x/lockup/types";
 
 message MultiSendDelegateAndLockOutput {
-  string from_address     = 1;
-  string to_address     = 2;
-  string validator_address    = 3;
-  string unlock_date            = 4;
-  string amount = 5 [
-    (cosmos_proto.scalar)  = "cosmos.Int",
-    (gogoproto.customtype) = "cosmossdk.io/math.Int",
-    (gogoproto.nullable)   = false,
-    (amino.dont_omitempty) = true
-  ];
+  string                   from_address      = 1;
+  string                   to_address        = 2;
+  string                   validator_address = 3;
+  string                   unlock_date       = 4;
+  cosmos.base.v1beta1.Coin amount            = 5 [(gogoproto.nullable) = false];
 }

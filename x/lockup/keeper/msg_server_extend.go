@@ -31,6 +31,15 @@ func (k msgServer) Extend(goCtx context.Context, msg *types.MsgExtend) (*types.M
 	events := sdk.Events{}
 	for _, extension := range msg.Extensions {
 
+		bondDenom, err := k.stakingKeeper.BondDenom(ctx)
+		if err != nil {
+			return nil, err
+		}
+
+		if extension.Amount.Denom != bondDenom {
+			return nil, sdkerrors.ErrInvalidRequest.Wrapf("invalid denom: %s, expected: %s", extension.Amount.Denom, bondDenom)
+		}
+
 		fromDate, err := time.Parse(time.DateOnly, extension.FromDate)
 		if err != nil {
 			return nil, sdkerrors.ErrInvalidRequest.Wrapf("invalid from date format: %s", extension.FromDate)
@@ -60,7 +69,7 @@ func (k msgServer) Extend(goCtx context.Context, msg *types.MsgExtend) (*types.M
 			return nil, types.ErrLockupNotFound.Wrapf("no lockup found for from date (%s)", extension.FromDate)
 		}
 
-		amountToMove := extension.Amount
+		amountToMove := extension.Amount.Amount
 		if existingLock.Amount.Amount.LT(amountToMove) {
 			return nil, sdkerrors.ErrInvalidRequest.Wrapf("extension amount exceeds existing lock amount date (%s)", extension.FromDate)
 		} else if existingLock.Amount.Amount.Equal(amountToMove) {
@@ -68,12 +77,12 @@ func (k msgServer) Extend(goCtx context.Context, msg *types.MsgExtend) (*types.M
 		} else {
 			updatedLock := &types.Lock{
 				UnlockDate: existingLock.UnlockDate,
-				Amount:     &sdk.Coin{Denom: "uOPT", Amount: existingLock.Amount.Amount.Sub(amountToMove)},
+				Amount:     sdk.Coin{Denom: bondDenom, Amount: existingLock.Amount.Amount.Sub(amountToMove)},
 			}
 			lockupAcc.Locks = lockupAcc.UpdateLock(idx, updatedLock)
 		}
 
-		lockupAcc.Locks = lockupAcc.UpsertLock(extension.ToDate, amountToMove)
+		lockupAcc.Locks = lockupAcc.UpsertLock(extension.ToDate, sdk.Coin{Denom: bondDenom, Amount: amountToMove})
 
 		if err := k.RemoveFromExpirationQueue(ctx, fromDate, addr, amountToMove); err != nil {
 			return nil, err

@@ -28,14 +28,9 @@ service Msg {
 
 message MsgLock {
   option (cosmos.msg.v1.signer) = "address";
-  string address     = 1;
-  string unlock_date = 2;
-  string amount      = 3 [
-  (cosmos_proto.scalar)  = "cosmos.Int",
-  (gogoproto.customtype) = "cosmossdk.io/math.Int",
-  (gogoproto.nullable)   = false,
-  (amino.dont_omitempty) = true
-  ];
+  string                   address     = 1;
+  string                   unlock_date = 2;
+  cosmos.base.v1beta1.Coin amount      = 3 [(gogoproto.nullable) = false];
 }
 
 message MsgLockResponse {}
@@ -50,16 +45,11 @@ message MsgExtendResponse {}
 
 message MsgSendDelegateAndLock {
   option (cosmos.msg.v1.signer) = "from_address";
-  string from_address      = 1;
-  string to_address        = 2;
-  string validator_address = 3;
-  string unlock_date       = 4;
-  string amount            = 5 [
-  (cosmos_proto.scalar)  = "cosmos.Int",
-  (gogoproto.customtype) = "cosmossdk.io/math.Int",
-  (gogoproto.nullable)   = false,
-  (amino.dont_omitempty) = true
-  ];
+  string                   from_address      = 1;
+  string                   to_address        = 2;
+  string                   validator_address = 3;
+  string                   unlock_date       = 4;
+  cosmos.base.v1beta1.Coin amount            = 5 [(gogoproto.nullable) = false];
 }
 
 message MsgSendDelegateAndLockResponse {}
@@ -67,12 +57,7 @@ message MsgSendDelegateAndLockResponse {}
 message MsgMultiSendDelegateAndLock {
   option (cosmos.msg.v1.signer) = "from_address";
   string                                  from_address = 1;
-  string                                  input        = 2 [
-  (cosmos_proto.scalar)  = "cosmos.Int",
-  (gogoproto.customtype) = "cosmossdk.io/math.Int",
-  (gogoproto.nullable)   = false,
-  (amino.dont_omitempty) = true
-  ];
+  cosmos.base.v1beta1.Coin                total_amount  = 2 [(gogoproto.nullable) = false];
   repeated MultiSendDelegateAndLockOutput outputs      = 3;
 }
 

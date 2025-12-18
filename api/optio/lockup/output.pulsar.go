@@ -3,6 +3,7 @@ package lockup
 
 import (
 	_ "cosmossdk.io/api/amino"
+	v1beta1 "cosmossdk.io/api/cosmos/base/v1beta1"
 	fmt "fmt"
 	_ "github.com/cosmos/cosmos-proto"
 	runtime "github.com/cosmos/cosmos-proto/runtime"
@@ -123,8 +124,8 @@ func (x *fastReflection_MultiSendDelegateAndLockOutput) Range(f func(protoreflec
 			return
 		}
 	}
-	if x.Amount != "" {
-		value := protoreflect.ValueOfString(x.Amount)
+	if x.Amount != nil {
+		value := protoreflect.ValueOfMessage(x.Amount.ProtoReflect())
 		if !f(fd_MultiSendDelegateAndLockOutput_amount, value) {
 			return
 		}
@@ -153,7 +154,7 @@ func (x *fastReflection_MultiSendDelegateAndLockOutput) Has(fd protoreflect.Fiel
 	case "optio.lockup.MultiSendDelegateAndLockOutput.unlock_date":
 		return x.UnlockDate != ""
 	case "optio.lockup.MultiSendDelegateAndLockOutput.amount":
-		return x.Amount != ""
+		return x.Amount != nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.MultiSendDelegateAndLockOutput"))
@@ -179,7 +180,7 @@ func (x *fastReflection_MultiSendDelegateAndLockOutput) Clear(fd protoreflect.Fi
 	case "optio.lockup.MultiSendDelegateAndLockOutput.unlock_date":
 		x.UnlockDate = ""
 	case "optio.lockup.MultiSendDelegateAndLockOutput.amount":
-		x.Amount = ""
+		x.Amount = nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.MultiSendDelegateAndLockOutput"))
@@ -210,7 +211,7 @@ func (x *fastReflection_MultiSendDelegateAndLockOutput) Get(descriptor protorefl
 		return protoreflect.ValueOfString(value)
 	case "optio.lockup.MultiSendDelegateAndLockOutput.amount":
 		value := x.Amount
-		return protoreflect.ValueOfString(value)
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.MultiSendDelegateAndLockOutput"))
@@ -240,7 +241,7 @@ func (x *fastReflection_MultiSendDelegateAndLockOutput) Set(fd protoreflect.Fiel
 	case "optio.lockup.MultiSendDelegateAndLockOutput.unlock_date":
 		x.UnlockDate = value.Interface().(string)
 	case "optio.lockup.MultiSendDelegateAndLockOutput.amount":
-		x.Amount = value.Interface().(string)
+		x.Amount = value.Message().Interface().(*v1beta1.Coin)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.MultiSendDelegateAndLockOutput"))
@@ -261,6 +262,11 @@ func (x *fastReflection_MultiSendDelegateAndLockOutput) Set(fd protoreflect.Fiel
 // Mutable is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_MultiSendDelegateAndLockOutput) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
+	case "optio.lockup.MultiSendDelegateAndLockOutput.amount":
+		if x.Amount == nil {
+			x.Amount = new(v1beta1.Coin)
+		}
+		return protoreflect.ValueOfMessage(x.Amount.ProtoReflect())
 	case "optio.lockup.MultiSendDelegateAndLockOutput.from_address":
 		panic(fmt.Errorf("field from_address of message optio.lockup.MultiSendDelegateAndLockOutput is not mutable"))
 	case "optio.lockup.MultiSendDelegateAndLockOutput.to_address":
@@ -269,8 +275,6 @@ func (x *fastReflection_MultiSendDelegateAndLockOutput) Mutable(fd protoreflect.
 		panic(fmt.Errorf("field validator_address of message optio.lockup.MultiSendDelegateAndLockOutput is not mutable"))
 	case "optio.lockup.MultiSendDelegateAndLockOutput.unlock_date":
 		panic(fmt.Errorf("field unlock_date of message optio.lockup.MultiSendDelegateAndLockOutput is not mutable"))
-	case "optio.lockup.MultiSendDelegateAndLockOutput.amount":
-		panic(fmt.Errorf("field amount of message optio.lockup.MultiSendDelegateAndLockOutput is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.MultiSendDelegateAndLockOutput"))
@@ -293,7 +297,8 @@ func (x *fastReflection_MultiSendDelegateAndLockOutput) NewField(fd protoreflect
 	case "optio.lockup.MultiSendDelegateAndLockOutput.unlock_date":
 		return protoreflect.ValueOfString("")
 	case "optio.lockup.MultiSendDelegateAndLockOutput.amount":
-		return protoreflect.ValueOfString("")
+		m := new(v1beta1.Coin)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.MultiSendDelegateAndLockOutput"))
@@ -379,8 +384,8 @@ func (x *fastReflection_MultiSendDelegateAndLockOutput) ProtoMethods() *protoifa
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		l = len(x.Amount)
-		if l > 0 {
+		if x.Amount != nil {
+			l = options.Size(x.Amount)
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
 		if x.unknownFields != nil {
@@ -412,10 +417,17 @@ func (x *fastReflection_MultiSendDelegateAndLockOutput) ProtoMethods() *protoifa
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
 		}
-		if len(x.Amount) > 0 {
-			i -= len(x.Amount)
-			copy(dAtA[i:], x.Amount)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Amount)))
+		if x.Amount != nil {
+			encoded, err := options.Marshal(x.Amount)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 			i--
 			dAtA[i] = 0x2a
 		}
@@ -628,7 +640,7 @@ func (x *fastReflection_MultiSendDelegateAndLockOutput) ProtoMethods() *protoifa
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Amount", wireType)
 				}
-				var stringLen uint64
+				var msglen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -638,23 +650,27 @@ func (x *fastReflection_MultiSendDelegateAndLockOutput) ProtoMethods() *protoifa
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					msglen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
+				if msglen < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
-				postIndex := iNdEx + intStringLen
+				postIndex := iNdEx + msglen
 				if postIndex < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.Amount = string(dAtA[iNdEx:postIndex])
+				if x.Amount == nil {
+					x.Amount = &v1beta1.Coin{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Amount); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
 				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
@@ -709,11 +725,11 @@ type MultiSendDelegateAndLockOutput struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	FromAddress      string `protobuf:"bytes,1,opt,name=from_address,json=fromAddress,proto3" json:"from_address,omitempty"`
-	ToAddress        string `protobuf:"bytes,2,opt,name=to_address,json=toAddress,proto3" json:"to_address,omitempty"`
-	ValidatorAddress string `protobuf:"bytes,3,opt,name=validator_address,json=validatorAddress,proto3" json:"validator_address,omitempty"`
-	UnlockDate       string `protobuf:"bytes,4,opt,name=unlock_date,json=unlockDate,proto3" json:"unlock_date,omitempty"`
-	Amount           string `protobuf:"bytes,5,opt,name=amount,proto3" json:"amount,omitempty"`
+	FromAddress      string        `protobuf:"bytes,1,opt,name=from_address,json=fromAddress,proto3" json:"from_address,omitempty"`
+	ToAddress        string        `protobuf:"bytes,2,opt,name=to_address,json=toAddress,proto3" json:"to_address,omitempty"`
+	ValidatorAddress string        `protobuf:"bytes,3,opt,name=validator_address,json=validatorAddress,proto3" json:"validator_address,omitempty"`
+	UnlockDate       string        `protobuf:"bytes,4,opt,name=unlock_date,json=unlockDate,proto3" json:"unlock_date,omitempty"`
+	Amount           *v1beta1.Coin `protobuf:"bytes,5,opt,name=amount,proto3" json:"amount,omitempty"`
 }
 
 func (x *MultiSendDelegateAndLockOutput) Reset() {
@@ -764,11 +780,11 @@ func (x *MultiSendDelegateAndLockOutput) GetUnlockDate() string {
 	return ""
 }
 
-func (x *MultiSendDelegateAndLockOutput) GetAmount() string {
+func (x *MultiSendDelegateAndLockOutput) GetAmount() *v1beta1.Coin {
 	if x != nil {
 		return x.Amount
 	}
-	return ""
+	return nil
 }
 
 var File_optio_lockup_output_proto protoreflect.FileDescriptor
@@ -779,8 +795,10 @@ var file_optio_lockup_output_proto_rawDesc = []byte{
 	0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x1a, 0x14, 0x67, 0x6f, 0x67, 0x6f, 0x70,
 	0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x67, 0x6f, 0x67, 0x6f, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a,
 	0x19, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x5f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x63, 0x6f,
-	0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x11, 0x61, 0x6d, 0x69, 0x6e,
-	0x6f, 0x2f, 0x61, 0x6d, 0x69, 0x6e, 0x6f, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xfa, 0x01,
+	0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1e, 0x63, 0x6f, 0x73, 0x6d,
+	0x6f, 0x73, 0x2f, 0x62, 0x61, 0x73, 0x65, 0x2f, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2f,
+	0x63, 0x6f, 0x69, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x11, 0x61, 0x6d, 0x69, 0x6e,
+	0x6f, 0x2f, 0x61, 0x6d, 0x69, 0x6e, 0x6f, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xe9, 0x01,
 	0x0a, 0x1e, 0x4d, 0x75, 0x6c, 0x74, 0x69, 0x53, 0x65, 0x6e, 0x64, 0x44, 0x65, 0x6c, 0x65, 0x67,
 	0x61, 0x74, 0x65, 0x41, 0x6e, 0x64, 0x4c, 0x6f, 0x63, 0x6b, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74,
 	0x12, 0x21, 0x0a, 0x0c, 0x66, 0x72, 0x6f, 0x6d, 0x5f, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73,
@@ -792,22 +810,21 @@ var file_optio_lockup_output_proto_rawDesc = []byte{
 	0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x6f, 0x72, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12,
 	0x1f, 0x0a, 0x0b, 0x75, 0x6e, 0x6c, 0x6f, 0x63, 0x6b, 0x5f, 0x64, 0x61, 0x74, 0x65, 0x18, 0x04,
 	0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x75, 0x6e, 0x6c, 0x6f, 0x63, 0x6b, 0x44, 0x61, 0x74, 0x65,
-	0x12, 0x48, 0x0a, 0x06, 0x61, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09,
-	0x42, 0x30, 0xc8, 0xde, 0x1f, 0x00, 0xda, 0xde, 0x1f, 0x15, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73,
-	0x73, 0x64, 0x6b, 0x2e, 0x69, 0x6f, 0x2f, 0x6d, 0x61, 0x74, 0x68, 0x2e, 0x49, 0x6e, 0x74, 0xd2,
-	0xb4, 0x2d, 0x0a, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x49, 0x6e, 0x74, 0xa8, 0xe7, 0xb0,
-	0x2a, 0x01, 0x52, 0x06, 0x61, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x42, 0xa0, 0x01, 0x0a, 0x10, 0x63,
-	0x6f, 0x6d, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x42,
-	0x0b, 0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x2e,
-	0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x4f, 0x70, 0x74, 0x69, 0x6f,
-	0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f, 0x61, 0x70,
-	0x69, 0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0xa2, 0x02,
-	0x03, 0x4f, 0x4c, 0x58, 0xaa, 0x02, 0x0c, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x4c, 0x6f, 0x63,
-	0x6b, 0x75, 0x70, 0xca, 0x02, 0x0c, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x5c, 0x4c, 0x6f, 0x63, 0x6b,
-	0x75, 0x70, 0xe2, 0x02, 0x18, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x5c, 0x4c, 0x6f, 0x63, 0x6b, 0x75,
-	0x70, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x0d,
-	0x4f, 0x70, 0x74, 0x69, 0x6f, 0x3a, 0x3a, 0x4c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x62, 0x06, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x12, 0x37, 0x0a, 0x06, 0x61, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x19, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x76,
+	0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x43, 0x6f, 0x69, 0x6e, 0x42, 0x04, 0xc8, 0xde, 0x1f,
+	0x00, 0x52, 0x06, 0x61, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x42, 0xa0, 0x01, 0x0a, 0x10, 0x63, 0x6f,
+	0x6d, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x42, 0x0b,
+	0x4f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x2e, 0x67,
+	0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x4e,
+	0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f, 0x61, 0x70, 0x69,
+	0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0xa2, 0x02, 0x03,
+	0x4f, 0x4c, 0x58, 0xaa, 0x02, 0x0c, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x4c, 0x6f, 0x63, 0x6b,
+	0x75, 0x70, 0xca, 0x02, 0x0c, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x5c, 0x4c, 0x6f, 0x63, 0x6b, 0x75,
+	0x70, 0xe2, 0x02, 0x18, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x5c, 0x4c, 0x6f, 0x63, 0x6b, 0x75, 0x70,
+	0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x0d, 0x4f,
+	0x70, 0x74, 0x69, 0x6f, 0x3a, 0x3a, 0x4c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x62, 0x06, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -825,13 +842,15 @@ func file_optio_lockup_output_proto_rawDescGZIP() []byte {
 var file_optio_lockup_output_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_optio_lockup_output_proto_goTypes = []interface{}{
 	(*MultiSendDelegateAndLockOutput)(nil), // 0: optio.lockup.MultiSendDelegateAndLockOutput
+	(*v1beta1.Coin)(nil),                   // 1: cosmos.base.v1beta1.Coin
 }
 var file_optio_lockup_output_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	1, // 0: optio.lockup.MultiSendDelegateAndLockOutput.amount:type_name -> cosmos.base.v1beta1.Coin
+	1, // [1:1] is the sub-list for method output_type
+	1, // [1:1] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_optio_lockup_output_proto_init() }

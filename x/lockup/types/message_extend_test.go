@@ -6,6 +6,7 @@ import (
 
 	"cosmossdk.io/math"
 	"github.com/OptioNetwork/optio/testutil/sample"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/stretchr/testify/require"
 )
@@ -43,7 +44,7 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 				Extensions: []*Extension{
 					{
 						FromDate: "",
-						Amount:   math.NewInt(100),
+						Amount:   sdk.NewCoin(bondDenom, math.NewInt(100)),
 						ToDate:   time.Now().AddDate(2, 0, 0).Format(time.DateOnly),
 					},
 				},
@@ -78,7 +79,7 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 				Extensions: []*Extension{
 					{
 						FromDate: time.Now().Format(time.DateOnly),
-						Amount:   math.NewInt(-100),
+						Amount:   sdk.NewCoin(bondDenom, math.NewInt(-100)),
 						ToDate:   time.Now().AddDate(2, 0, 0).Format(time.DateOnly),
 					},
 				},
@@ -92,7 +93,7 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 					{
 						FromDate: time.Now().Format(time.DateOnly),
 						ToDate:   time.Now().AddDate(2, 0, 0).Format(time.DateOnly),
-						Amount:   math.ZeroInt(),
+						Amount:   sdk.NewCoin(bondDenom, math.ZeroInt()),
 					},
 				},
 			},
@@ -105,7 +106,7 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 					{
 						FromDate: time.Now().Format(time.DateOnly),
 						ToDate:   "",
-						Amount:   math.NewInt(1000000000),
+						Amount:   sdk.NewCoin(bondDenom, math.NewInt(1000000000)),
 					},
 				},
 			},
@@ -118,7 +119,7 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 					{
 						FromDate: time.Now().Format(time.DateOnly),
 						ToDate:   "12-04-2025",
-						Amount:   math.NewInt(1000000000),
+						Amount:   sdk.NewCoin(bondDenom, math.NewInt(1000000000)),
 					},
 				},
 			},
@@ -131,7 +132,7 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 					{
 						FromDate: time.Now().Format(time.DateOnly),
 						ToDate:   time.Now().AddDate(0, 0, -1).Format(time.DateOnly),
-						Amount:   math.NewInt(1000000000),
+						Amount:   sdk.NewCoin(bondDenom, math.NewInt(1000000000)),
 					},
 				},
 			},
@@ -144,7 +145,7 @@ func TestMsgExtend_ValidateBasic(t *testing.T) {
 					{
 						FromDate: time.Now().Format(time.DateOnly),
 						ToDate:   time.Now().AddDate(0, 0, 1).Format(time.DateOnly),
-						Amount:   math.NewInt(1000000000),
+						Amount:   sdk.NewCoin(bondDenom, math.NewInt(1000000000)),
 					},
 				},
 			},

@@ -4,14 +4,13 @@ import (
 	"time"
 
 	errorsmod "cosmossdk.io/errors"
-	"cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
 var _ sdk.Msg = &MsgLock{}
 
-func NewMsgLock(lockupAddress string, unlockDate string, amount math.Int) *MsgLock {
+func NewMsgLock(lockupAddress string, unlockDate string, amount sdk.Coin) *MsgLock {
 	return &MsgLock{
 		Address:    lockupAddress,
 		UnlockDate: unlockDate,

@@ -8,6 +8,7 @@ import (
 	"cosmossdk.io/math"
 	"github.com/OptioNetwork/optio/x/lockup/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/cosmos/cosmos-sdk/types/query"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -74,10 +75,15 @@ func (k Keeper) ActiveLocks(goCtx context.Context, req *types.QueryActiveLocksRe
 			return nil, status.Error(codes.Internal, "failed to unmarshal amount")
 		}
 
+		bondDenom, err := k.stakingKeeper.BondDenom(ctx)
+		if err != nil {
+			return nil, status.Error(codes.Internal, err.Error())
+		}
+
 		locks = append(locks, types.ActiveLock{
 			Address:    addr.String(),
 			UnlockDate: unlockTime.Format(time.DateOnly),
-			Amount:     amount,
+			Amount:     sdk.NewCoin(bondDenom, amount),
 		})
 
 		count++
@@ -116,8 +122,13 @@ func (k Keeper) TotalLockedAmount(goCtx context.Context, req *types.QueryTotalLo
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 
+	bondDenom, err := k.stakingKeeper.BondDenom(ctx)
+	if err != nil {
+		return nil, sdkerrors.ErrInvalidType.Wrapf("invalid bond denom: %s", err)
+	}
+
 	return &types.QueryTotalLockedAmountResponse{
-		TotalLocked: totalLocked,
+		TotalLocked: sdk.NewCoin(bondDenom, totalLocked),
 	}, nil
 }
 

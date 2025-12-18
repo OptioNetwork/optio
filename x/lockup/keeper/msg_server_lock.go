@@ -16,6 +16,15 @@ import (
 func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLockResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
+	bondDenom, err := k.stakingKeeper.BondDenom(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	if msg.Amount.Denom != bondDenom {
+		return nil, sdkerrors.ErrInvalidRequest.Wrapf("invalid denom: %s, expected: %s", msg.Amount.Denom, bondDenom)
+	}
+
 	address, err := sdk.AccAddressFromBech32(msg.Address)
 	if err != nil {
 		return nil, sdkerrors.ErrInvalidAddress.Wrapf("invalid lockup address: %s", err)
@@ -63,18 +72,18 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 		return nil, err
 	}
 
-	if totalDelegatedAmount.LT(currentLockedAmount.Add(msg.Amount)) {
+	if totalDelegatedAmount.LT(currentLockedAmount.Add(msg.Amount.Amount)) {
 		return nil, errorsmod.Wrapf(
 			types.ErrInsufficientDelegations,
 			"insufficient delegated tokens to create new locks by the requested amount: %s < %s",
 			totalDelegatedAmount.String(),
-			currentLockedAmount.Add(msg.Amount).String(),
+			currentLockedAmount.Add(msg.Amount.Amount).String(),
 		)
 	}
 
 	lockupAcc.Locks = lockupAcc.UpsertLock(msg.UnlockDate, msg.Amount)
 
-	if err := k.AddToExpirationQueue(ctx, unlockDate, address, msg.Amount); err != nil {
+	if err := k.AddToExpirationQueue(ctx, unlockDate, address, msg.Amount.Amount); err != nil {
 		return nil, err
 	}
 
@@ -85,7 +94,7 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 			types.EventTypeLock,
 			sdk.NewAttribute(types.AttributeKeyLockAddress, msg.Address),
 			sdk.NewAttribute(types.AttributeKeyUnlockDate, msg.UnlockDate),
-			sdk.NewAttribute(sdk.AttributeKeyAmount, msg.Amount.String()),
+			sdk.NewAttribute(sdk.AttributeKeyAmount, msg.Amount.Amount.String()),
 		),
 	})
 

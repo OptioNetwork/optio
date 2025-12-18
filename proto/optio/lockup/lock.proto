@@ -11,5 +11,5 @@ option go_package = "github.com/OptioNetwork/optio/x/lockup/types";
 message Lock {
 
   string                   unlock_date = 1;
-  cosmos.base.v1beta1.Coin amount      = 2;;
+  cosmos.base.v1beta1.Coin amount      = 2 [(gogoproto.nullable) = false];
 }

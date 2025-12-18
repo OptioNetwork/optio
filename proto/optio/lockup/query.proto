@@ -4,6 +4,7 @@ package optio.lockup;
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
+import "cosmos/base/v1beta1/coin.proto";
 import "optio/lockup/lock.proto";
 
 option go_package = "github.com/OptioNetwork/optio/x/lockup/types";
@@ -33,17 +34,14 @@ message QueryActiveLocksRequest {
 
 // QueryActiveLocksResponse is response type for the Query/ActiveLocks RPC method.
 message QueryActiveLocksResponse {
-  repeated ActiveLock locks = 1 [(gogoproto.nullable) = false];
+  repeated ActiveLock                    locks      = 1 [(gogoproto.nullable) = false];
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
 message ActiveLock {
-  string address = 1;
-  string unlock_date = 2;
-  string amount = 3 [
-    (gogoproto.customtype) = "cosmossdk.io/math.Int",
-    (gogoproto.nullable)   = false
-  ];
+  string                   address     = 1;
+  string                   unlock_date = 2;
+  cosmos.base.v1beta1.Coin amount      = 3 [(gogoproto.nullable) = false];
 }
 
 // QueryTotalLockedAmountRequest is request type for the Query/TotalLockedAmount RPC method.
@@ -51,10 +49,7 @@ message QueryTotalLockedAmountRequest {}
 
 // QueryTotalLockedAmountResponse is response type for the Query/TotalLockedAmount RPC method.
 message QueryTotalLockedAmountResponse {
-  string total_locked = 1 [
-    (gogoproto.customtype) = "cosmossdk.io/math.Int",
-    (gogoproto.nullable)   = false
-  ];
+  cosmos.base.v1beta1.Coin total_locked      = 1 [(gogoproto.nullable) = false];
 }
 
 // QueryAccountLocksRequest is request type for the Query/AccountLocks RPC method.
@@ -68,6 +63,6 @@ message QueryAccountLocksResponse {
 }
 
 message AccountLocks {
-  string address = 1;
-  repeated Lock locks = 2 [(gogoproto.nullable) = false];
+  string        address = 1;
+  repeated Lock locks   = 2 [(gogoproto.nullable) = false];
 }

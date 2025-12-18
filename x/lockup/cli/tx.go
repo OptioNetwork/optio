@@ -9,6 +9,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/spf13/cobra"
 )
 
@@ -50,7 +51,7 @@ func CmdLock() *cobra.Command {
 			msg := &types.MsgLock{
 				Address:    clientCtx.GetFromAddress().String(),
 				UnlockDate: unlockDate,
-				Amount:     amount,
+				Amount:     sdk.NewCoin("uOPT", amount),
 			}
 
 			if err := msg.ValidateBasic(); err != nil {
@@ -95,7 +96,7 @@ func CmdExtend() *cobra.Command {
 				extensions = append(extensions, &types.Extension{
 					FromDate: fromDate,
 					ToDate:   toDate,
-					Amount:   amount,
+					Amount:   sdk.NewCoin("uOPT", amount),
 				})
 			}
 
@@ -143,7 +144,7 @@ Example:
 				ToAddress:        toAddress,
 				ValidatorAddress: validatorAddress,
 				UnlockDate:       unlockDate,
-				Amount:           amount,
+				Amount:           sdk.NewCoin("uOPT", amount),
 			}
 
 			if err := msg.ValidateBasic(); err != nil {
@@ -195,13 +196,13 @@ Example:
 					ToAddress:        toAddress,
 					ValidatorAddress: validatorAddress,
 					UnlockDate:       unlockDate,
-					Amount:           amount,
+					Amount:           sdk.NewCoin("uOPT", amount),
 				})
 			}
 
 			msg := &types.MsgMultiSendDelegateAndLock{
 				FromAddress: clientCtx.GetFromAddress().String(),
-				Input:       totalAmount,
+				TotalAmount: sdk.NewCoin("uOPT", totalAmount),
 				Outputs:     outputs,
 			}
 
