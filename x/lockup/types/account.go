@@ -22,7 +22,7 @@ func (a *Account) GetLockedAmount(currentTime time.Time) math.Int {
 	totalLockedAmount := math.ZeroInt()
 	for _, lock := range a.Locks {
 		if IsLocked(currentTime, lock.UnlockDate) {
-			totalLockedAmount = totalLockedAmount.Add(lock.Amount)
+			totalLockedAmount = totalLockedAmount.Add(lock.Amount.Amount)
 		}
 	}
 
@@ -60,13 +60,13 @@ func (a *Account) UpsertLock(unlockDate string, amount math.Int) []*Lock {
 	})
 
 	if idx < len(a.Locks) && a.Locks[idx].UnlockDate == unlockDate {
-		a.Locks[idx].Amount = a.Locks[idx].Amount.Add(amount)
+		a.Locks[idx].Amount.Amount = a.Locks[idx].Amount.Amount.Add(amount)
 		return a.Locks
 	}
 
 	newLockup := &Lock{
 		UnlockDate: unlockDate,
-		Amount:     amount,
+		Amount:     &sdk.Coin{Denom: "uOPT", Amount: amount},
 	}
 	a.Locks = append(a.Locks, nil)
 	copy(a.Locks[idx+1:], a.Locks[idx:])

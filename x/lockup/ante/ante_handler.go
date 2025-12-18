@@ -187,7 +187,7 @@ func (d LockedDelegationsDecorator) handleMsgs(ctx sdk.Context, msgs []sdk.Msg, 
 				blockTime := ctx.BlockTime()
 				for _, lock := range ltsAcc.Locks {
 					if types.IsLocked(blockTime, lock.UnlockDate) {
-						totalLocked = totalLocked.Add(lock.Amount)
+						totalLocked = totalLocked.Add(lock.Amount.Amount)
 					}
 				}
 

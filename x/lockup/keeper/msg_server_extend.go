@@ -61,14 +61,14 @@ func (k msgServer) Extend(goCtx context.Context, msg *types.MsgExtend) (*types.M
 		}
 
 		amountToMove := extension.Amount
-		if existingLock.Amount.LT(amountToMove) {
+		if existingLock.Amount.Amount.LT(amountToMove) {
 			return nil, sdkerrors.ErrInvalidRequest.Wrapf("extension amount exceeds existing lock amount date (%s)", extension.FromDate)
-		} else if existingLock.Amount.Equal(amountToMove) {
+		} else if existingLock.Amount.Amount.Equal(amountToMove) {
 			lockupAcc.Locks = lockupAcc.RemoveLock(idx)
 		} else {
 			updatedLock := &types.Lock{
 				UnlockDate: existingLock.UnlockDate,
-				Amount:     existingLock.Amount.Sub(amountToMove),
+				Amount:     &sdk.Coin{Denom: "uOPT", Amount: existingLock.Amount.Amount.Sub(amountToMove)},
 			}
 			lockupAcc.Locks = lockupAcc.UpdateLock(idx, updatedLock)
 		}
