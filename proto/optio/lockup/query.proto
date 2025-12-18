@@ -54,7 +54,7 @@ message QueryTotalLockedAmountResponse {
 
 // QueryAccountLocksRequest is request type for the Query/AccountLocks RPC method.
 message QueryAccountLocksRequest {
-  repeated string addresses = 1;
+  string addresses = 1;
 }
 
 // QueryAccountLocksResponse is response type for the Query/AccountLocks RPC method.

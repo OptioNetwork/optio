@@ -3,6 +3,7 @@ package keeper
 import (
 	"context"
 	"encoding/binary"
+	"strings"
 	"time"
 
 	"cosmossdk.io/math"
@@ -142,19 +143,24 @@ func (k Keeper) AccountLocks(goCtx context.Context, req *types.QueryAccountLocks
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
-	const maxAddresses = 100
-	if len(req.Addresses) == 0 {
-		return nil, status.Error(codes.InvalidArgument, "at least one address is required")
+	if req.Addresses == "" {
+		return nil, status.Error(codes.InvalidArgument, "addresses parameter is required")
 	}
-	if len(req.Addresses) > maxAddresses {
-		return nil, status.Error(codes.InvalidArgument, "too many addresses: maximum is 100")
+
+	addressList := strings.Split(req.Addresses, ",")
+	for i, addr := range addressList {
+		addressList[i] = strings.TrimSpace(addr)
+	}
+
+	if len(addressList) == 0 {
+		return nil, status.Error(codes.InvalidArgument, "at least one address is required")
 	}
 
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	accountLocks := make([]types.AccountLocks, 0, len(req.Addresses))
+	accountLocks := make([]types.AccountLocks, 0, len(addressList))
 
-	for _, addrStr := range req.Addresses {
+	for _, addrStr := range addressList {
 		addr, err := sdk.AccAddressFromBech32(addrStr)
 		if err != nil {
 			return nil, status.Error(codes.InvalidArgument, "invalid address: "+addrStr)
