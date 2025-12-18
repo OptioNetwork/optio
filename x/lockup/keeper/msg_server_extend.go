@@ -66,8 +66,11 @@ func (k msgServer) Extend(goCtx context.Context, msg *types.MsgExtend) (*types.M
 		} else if existingLock.Amount.Equal(amountToMove) {
 			lockupAcc.Locks = lockupAcc.RemoveLock(idx)
 		} else {
-			existingLock.Amount = existingLock.Amount.Sub(amountToMove)
-			lockupAcc.Locks = lockupAcc.UpdateLock(idx, existingLock)
+			updatedLock := &types.Lock{
+				UnlockDate: existingLock.UnlockDate,
+				Amount:     existingLock.Amount.Sub(amountToMove),
+			}
+			lockupAcc.Locks = lockupAcc.UpdateLock(idx, updatedLock)
 		}
 
 		lockupAcc.Locks = lockupAcc.UpsertLock(extension.ToDate, amountToMove)

@@ -5,7 +5,6 @@ import (
 	"time"
 
 	errorsmod "cosmossdk.io/errors"
-	"cosmossdk.io/math"
 
 	"github.com/OptioNetwork/optio/x/lockup/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -17,19 +16,18 @@ import (
 func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLockResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	lockupAddr, err := sdk.AccAddressFromBech32(msg.Address)
+	address, err := sdk.AccAddressFromBech32(msg.Address)
 	if err != nil {
 		return nil, sdkerrors.ErrInvalidAddress.Wrapf("invalid lockup address: %s", err)
 	}
-	acc := k.accountKeeper.GetAccount(ctx, lockupAddr)
+	acc := k.accountKeeper.GetAccount(ctx, address)
 
 	if acc == nil {
-		baseAcc := authtypes.NewBaseAccountWithAddress(lockupAddr)
+		baseAcc := authtypes.NewBaseAccountWithAddress(address)
 		lAcc := types.NewLockupAccount(baseAcc)
 		k.accountKeeper.SetAccount(ctx, lAcc)
 		acc = lAcc
 	} else {
-		acc = k.accountKeeper.GetAccount(ctx, lockupAddr)
 		_, ok := acc.(*types.Account)
 		if !ok {
 			lAcc := types.NewLockupAccount(acc.(*authtypes.BaseAccount))
@@ -39,51 +37,44 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 	}
 
 	lockupAcc := acc.(*types.Account)
-	amountToLock := math.ZeroInt()
 
 	if !msg.Amount.IsPositive() || msg.Amount.IsZero() {
 		return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid lock amount: %s", msg.Amount.String())
 	}
 
-	unlockTime, err := time.Parse(time.DateOnly, msg.UnlockDate)
+	unlockDate, err := time.Parse(time.DateOnly, msg.UnlockDate)
 	if err != nil {
 		return nil, sdkerrors.ErrInvalidRequest.Wrapf("invalid unlock date format: %s", msg.UnlockDate)
 	}
 
 	blockTime := ctx.BlockTime()
 
-	if blockTime.After(unlockTime) {
+	if blockTime.After(unlockDate) {
 		return nil, sdkerrors.ErrInvalidRequest.Wrapf("unlock date must be in the future")
 	}
 
-	if blockTime.AddDate(2, 0, 0).Before(unlockTime) {
+	if blockTime.AddDate(2, 0, 0).Before(unlockDate) {
 		return nil, sdkerrors.ErrInvalidRequest.Wrapf("unlock date cannot be more than 2 years from now")
 	}
-	amountToLock = amountToLock.Add(msg.Amount)
 
 	currentLockedAmount := lockupAcc.GetLockedAmount(ctx.BlockTime())
-	totalDelegatedAmount, err := k.GetTotalDelegatedAmount(ctx, lockupAddr)
+	totalDelegatedAmount, err := k.GetTotalDelegatedAmount(ctx, address)
 	if err != nil {
 		return nil, err
 	}
 
-	if totalDelegatedAmount.LT(currentLockedAmount.Add(amountToLock)) {
+	if totalDelegatedAmount.LT(currentLockedAmount.Add(msg.Amount)) {
 		return nil, errorsmod.Wrapf(
 			types.ErrInsufficientDelegations,
 			"insufficient delegated tokens to create new locks by the requested amount: %s < %s",
 			totalDelegatedAmount.String(),
-			currentLockedAmount.Add(amountToLock).String(),
+			currentLockedAmount.Add(msg.Amount).String(),
 		)
 	}
 
 	lockupAcc.Locks = lockupAcc.UpsertLock(msg.UnlockDate, msg.Amount)
 
-	unlockTime, err = time.Parse(time.DateOnly, msg.UnlockDate)
-	if err != nil {
-		return nil, err
-	}
-
-	if err := k.AddToExpirationQueue(ctx, unlockTime, lockupAddr, msg.Amount); err != nil {
+	if err := k.AddToExpirationQueue(ctx, unlockDate, address, msg.Amount); err != nil {
 		return nil, err
 	}
 
