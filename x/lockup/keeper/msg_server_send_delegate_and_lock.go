@@ -69,8 +69,9 @@ func (k msgServer) SendDelegateAndLock(goCtx context.Context, msg *types.MsgSend
 	_, err = k.Lock(
 		goCtx,
 		&types.MsgLock{
-			Address: msg.ToAddress,
-			Locks:   []*types.Lock{{UnlockDate: msg.UnlockDate, Amount: msg.Amount}},
+			Address:    msg.ToAddress,
+			UnlockDate: msg.UnlockDate,
+			Amount:     msg.Amount,
 		},
 	)
 

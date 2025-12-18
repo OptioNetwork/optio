@@ -20,168 +20,64 @@ func TestMsgLock_ValidateBasic(t *testing.T) {
 		{
 			name: "invalid address",
 			msg: MsgLock{
-				Address: "invalid_address",
-				Locks: []*Lock{
-					{
-						UnlockDate: "2026-12-01",
-						Amount:     math.NewInt(1000),
-					},
-				},
+				Address:    "invalid_address",
+				UnlockDate: "2026-12-01",
+				Amount:     math.NewInt(1000),
 			},
 			err: sdkerrors.ErrInvalidAddress,
 		},
 		{
-			name: "empty locks array",
-			msg: MsgLock{
-				Address: validAddr,
-				Locks:   []*Lock{},
-			},
-			err: sdkerrors.ErrInvalidRequest,
-		},
-		{
-			name: "nil locks array",
-			msg: MsgLock{
-				Address: validAddr,
-				Locks:   nil,
-			},
-			err: sdkerrors.ErrInvalidRequest,
-		},
-		{
-			name: "nil lock in array",
-			msg: MsgLock{
-				Address: validAddr,
-				Locks: []*Lock{
-					nil,
-				},
-			},
-			err: sdkerrors.ErrInvalidRequest,
-		},
-		{
 			name: "empty unlock date",
 			msg: MsgLock{
-				Address: validAddr,
-				Locks: []*Lock{
-					{
-						UnlockDate: "",
-						Amount:     math.NewInt(1000),
-					},
-				},
+				Address:    validAddr,
+				UnlockDate: "",
+				Amount:     math.NewInt(1000),
 			},
 			err: ErrInvalidDate,
 		},
 		{
 			name: "invalid unlock date format",
 			msg: MsgLock{
-				Address: validAddr,
-				Locks: []*Lock{
-					{
-						UnlockDate: "12/01/2026",
-						Amount:     math.NewInt(1000),
-					},
-				},
+				Address:    validAddr,
+				UnlockDate: "12/01/2026",
+				Amount:     math.NewInt(1000),
 			},
 			err: ErrInvalidDate,
 		},
 		{
 			name: "invalid unlock date format - not a date",
 			msg: MsgLock{
-				Address: validAddr,
-				Locks: []*Lock{
-					{
-						UnlockDate: "not-a-date",
-						Amount:     math.NewInt(1000),
-					},
-				},
+				Address:    validAddr,
+				UnlockDate: "not-a-date",
+				Amount:     math.NewInt(1000),
 			},
 			err: ErrInvalidDate,
 		},
 		{
-			name: "invalid coin - zero amount",
+			name: "invalid amount - zero",
 			msg: MsgLock{
-				Address: validAddr,
-				Locks: []*Lock{
-					{
-						UnlockDate: "2026-12-01",
-						Amount:     math.NewInt(0),
-					},
-				},
+				Address:    validAddr,
+				UnlockDate: "2026-12-01",
+				Amount:     math.NewInt(0),
 			},
 			err: sdkerrors.ErrInvalidCoins,
 		},
 		{
-			name: "invalid coin - negative amount",
+			name: "invalid amount - negative",
 			msg: MsgLock{
-				Address: validAddr,
-				Locks: []*Lock{
-					{
-						UnlockDate: "2026-12-01",
-						Amount:     math.NewInt(-1000),
-					},
-				},
-			},
-			err: sdkerrors.ErrInvalidCoins,
-		},
-		{
-			name: "invalid coin - invalid denom",
-			msg: MsgLock{
-				Address: validAddr,
-				Locks: []*Lock{
-					{
-						UnlockDate: "2026-12-01",
-						Amount:     math.NewInt(1000),
-					},
-				},
+				Address:    validAddr,
+				UnlockDate: "2026-12-01",
+				Amount:     math.NewInt(-1000),
 			},
 			err: sdkerrors.ErrInvalidCoins,
 		},
 		{
 			name: "valid single lock",
 			msg: MsgLock{
-				Address: validAddr,
-				Locks: []*Lock{
-					{
-						UnlockDate: "2026-12-01",
-						Amount:     math.NewInt(1000),
-					},
-				},
+				Address:    validAddr,
+				UnlockDate: "2026-12-01",
+				Amount:     math.NewInt(1000),
 			},
-		},
-		{
-			name: "valid multiple locks",
-			msg: MsgLock{
-				Address: validAddr,
-				Locks: []*Lock{
-					{
-						UnlockDate: "2026-06-01",
-						Amount:     math.NewInt(1000),
-					},
-					{
-						UnlockDate: "2026-12-01",
-						Amount:     math.NewInt(2000),
-					},
-					{
-						UnlockDate: "2027-06-01",
-						Amount:     math.NewInt(3000),
-					},
-				},
-			},
-		},
-		{
-			name: "second lock invalid - should catch it",
-			msg: MsgLock{
-				Address: validAddr,
-				Locks: []*Lock{
-					{
-						UnlockDate: "2026-06-01",
-						Amount:     math.NewInt(1000),
-					},
-					{
-						UnlockDate: "invalid-date",
-						Amount:     math.NewInt(2000),
-					},
-				},
-			},
-			err: ErrInvalidDate,
 		},
 	}
 	for _, tt := range tests {

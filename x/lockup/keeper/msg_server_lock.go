@@ -41,27 +41,25 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 	lockupAcc := acc.(*types.Account)
 	amountToLock := math.ZeroInt()
 
-	for _, lock := range msg.Locks {
-		if !lock.Amount.IsPositive() || lock.Amount.IsZero() {
-			return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid lock amount: %s", lock.Amount.String())
-		}
-
-		unlockTime, err := time.Parse(time.DateOnly, lock.UnlockDate)
-		if err != nil {
-			return nil, sdkerrors.ErrInvalidRequest.Wrapf("invalid unlock date format: %s", lock.UnlockDate)
-		}
-
-		blockTime := ctx.BlockTime()
-
-		if blockTime.After(unlockTime) {
-			return nil, sdkerrors.ErrInvalidRequest.Wrapf("unlock date must be in the future")
-		}
-
-		if blockTime.AddDate(2, 0, 0).Before(unlockTime) {
-			return nil, sdkerrors.ErrInvalidRequest.Wrapf("unlock date cannot be more than 2 years from now")
-		}
-		amountToLock = amountToLock.Add(lock.Amount)
+	if !msg.Amount.IsPositive() || msg.Amount.IsZero() {
+		return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid lock amount: %s", msg.Amount.String())
 	}
+
+	unlockTime, err := time.Parse(time.DateOnly, msg.UnlockDate)
+	if err != nil {
+		return nil, sdkerrors.ErrInvalidRequest.Wrapf("invalid unlock date format: %s", msg.UnlockDate)
+	}
+
+	blockTime := ctx.BlockTime()
+
+	if blockTime.After(unlockTime) {
+		return nil, sdkerrors.ErrInvalidRequest.Wrapf("unlock date must be in the future")
+	}
+
+	if blockTime.AddDate(2, 0, 0).Before(unlockTime) {
+		return nil, sdkerrors.ErrInvalidRequest.Wrapf("unlock date cannot be more than 2 years from now")
+	}
+	amountToLock = amountToLock.Add(msg.Amount)
 
 	currentLockedAmount := lockupAcc.GetLockedAmount(ctx.BlockTime())
 	totalDelegatedAmount, err := k.GetTotalDelegatedAmount(ctx, lockupAddr)
@@ -78,30 +76,27 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 		)
 	}
 
-	events := sdk.Events{}
-	for _, lock := range msg.Locks {
-		lockupAcc.Locks = lockupAcc.UpsertLock(lock.UnlockDate, lock.Amount)
+	lockupAcc.Locks = lockupAcc.UpsertLock(msg.UnlockDate, msg.Amount)
 
-		unlockTime, err := time.Parse(time.DateOnly, lock.UnlockDate)
-		if err != nil {
-			return nil, err
-		}
+	unlockTime, err = time.Parse(time.DateOnly, msg.UnlockDate)
+	if err != nil {
+		return nil, err
+	}
 
-		if err := k.AddToExpirationQueue(ctx, unlockTime, lockupAddr, lock.Amount); err != nil {
-			return nil, err
-		}
-
-		events = events.AppendEvent(sdk.NewEvent(
-			types.EventTypeLock,
-			sdk.NewAttribute(types.AttributeKeyLockAddress, msg.Address),
-			sdk.NewAttribute(types.AttributeKeyUnlockDate, lock.UnlockDate),
-			sdk.NewAttribute(sdk.AttributeKeyAmount, lock.Amount.String()),
-		))
+	if err := k.AddToExpirationQueue(ctx, unlockTime, lockupAddr, msg.Amount); err != nil {
+		return nil, err
 	}
 
 	k.accountKeeper.SetAccount(ctx, lockupAcc)
 
-	ctx.EventManager().EmitEvents(events)
+	ctx.EventManager().EmitEvents([]sdk.Event{
+		sdk.NewEvent(
+			types.EventTypeLock,
+			sdk.NewAttribute(types.AttributeKeyLockAddress, msg.Address),
+			sdk.NewAttribute(types.AttributeKeyUnlockDate, msg.UnlockDate),
+			sdk.NewAttribute(sdk.AttributeKeyAmount, msg.Amount.String()),
+		),
+	})
 
 	return &types.MsgLockResponse{}, nil
 }

@@ -32,38 +32,25 @@ func GetTxCmd() *cobra.Command {
 
 func CmdLock() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "lock [unlock-date:amount] [unlock-date:amount]...",
-		Short: "Lock tokens until specific dates",
-		Long:  "Lock tokens until specific unlock dates. You can specify multiple locks.",
-		Args:  cobra.MinimumNArgs(1),
+		Use:   "lock unlock-date amount",
+		Short: "Lock tokens until a specific date",
+		Args:  cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
 				return err
 			}
 
-			locks := make([]*types.Lock, 0, len(args))
-			for i, arg := range args {
-				parts := strings.Split(arg, ":")
-				if len(parts) != 2 {
-					return fmt.Errorf("invalid lock format at position %d: expected 'date:amount', got '%s'", i, arg)
-				}
-
-				unlockDate := parts[0]
-				amount, ok := math.NewIntFromString(parts[1])
-				if !ok {
-					return fmt.Errorf("invalid amount at position %d: %s", i, parts[1])
-				}
-
-				locks = append(locks, &types.Lock{
-					UnlockDate: unlockDate,
-					Amount:     amount,
-				})
+			unlockDate := args[0]
+			amount, ok := math.NewIntFromString(args[1])
+			if !ok {
+				return fmt.Errorf("invalid amount: %s", args[1])
 			}
 
 			msg := &types.MsgLock{
-				Address: clientCtx.GetFromAddress().String(),
-				Locks:   locks,
+				Address:    clientCtx.GetFromAddress().String(),
+				UnlockDate: unlockDate,
+				Amount:     amount,
 			}
 
 			if err := msg.ValidateBasic(); err != nil {
