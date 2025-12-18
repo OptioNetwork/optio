@@ -187,7 +187,7 @@ Example:
 				return err
 			}
 
-			outputs := make([]*types.Output, 0, len(args))
+			outputs := make([]*types.MultiSendDelegateAndLockOutput, 0, len(args))
 			totalAmount := math.ZeroInt()
 
 			for i, arg := range args {
@@ -206,19 +206,17 @@ Example:
 
 				totalAmount = totalAmount.Add(amount)
 
-				outputs = append(outputs, &types.Output{
+				outputs = append(outputs, &types.MultiSendDelegateAndLockOutput{
 					ToAddress:        toAddress,
 					ValidatorAddress: validatorAddress,
-					Lock: &types.Lock{
-						UnlockDate: unlockDate,
-						Amount:     amount,
-					},
+					UnlockDate:       unlockDate,
+					Amount:           amount,
 				})
 			}
 
 			msg := &types.MsgMultiSendDelegateAndLock{
 				FromAddress: clientCtx.GetFromAddress().String(),
-				TotalAmount: totalAmount.String(),
+				Input:       totalAmount,
 				Outputs:     outputs,
 			}
 

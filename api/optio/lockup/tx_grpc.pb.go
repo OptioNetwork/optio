@@ -29,9 +29,13 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type MsgClient interface {
+	// Lock locks tokens for a specific address.
 	Lock(ctx context.Context, in *MsgLock, opts ...grpc.CallOption) (*MsgLockResponse, error)
+	// Extend extends the lock duration for a specific address.
 	Extend(ctx context.Context, in *MsgExtend, opts ...grpc.CallOption) (*MsgExtendResponse, error)
+	// SendDelegateAndLock sends tokens to a specific address, delegates them to a validator, and locks them until a specified unlock date.
 	SendDelegateAndLock(ctx context.Context, in *MsgSendDelegateAndLock, opts ...grpc.CallOption) (*MsgSendDelegateAndLockResponse, error)
+	// MultiSendDelegateAndLock sends tokens to multiple addresses, delegates them to a validator, and locks them until specified unlock dates.
 	MultiSendDelegateAndLock(ctx context.Context, in *MsgMultiSendDelegateAndLock, opts ...grpc.CallOption) (*MsgMultiSendDelegateAndLockResponse, error)
 }
 
@@ -83,9 +87,13 @@ func (c *msgClient) MultiSendDelegateAndLock(ctx context.Context, in *MsgMultiSe
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
 type MsgServer interface {
+	// Lock locks tokens for a specific address.
 	Lock(context.Context, *MsgLock) (*MsgLockResponse, error)
+	// Extend extends the lock duration for a specific address.
 	Extend(context.Context, *MsgExtend) (*MsgExtendResponse, error)
+	// SendDelegateAndLock sends tokens to a specific address, delegates them to a validator, and locks them until a specified unlock date.
 	SendDelegateAndLock(context.Context, *MsgSendDelegateAndLock) (*MsgSendDelegateAndLockResponse, error)
+	// MultiSendDelegateAndLock sends tokens to multiple addresses, delegates them to a validator, and locks them until specified unlock dates.
 	MultiSendDelegateAndLock(context.Context, *MsgMultiSendDelegateAndLock) (*MsgMultiSendDelegateAndLockResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }

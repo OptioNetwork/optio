@@ -17,20 +17,15 @@ func (k msgServer) MultiSendDelegateAndLock(goCtx context.Context, msg *types.Ms
 		return nil, sdkerrors.ErrInvalidAddress.Wrapf("invalid from address: %s", err)
 	}
 
-	total, ok := math.NewIntFromString(msg.TotalAmount)
-	if !ok {
-		return nil, sdkerrors.ErrInvalidRequest.Wrapf("invalid amount: %s", msg.TotalAmount)
-	}
-
 	totalOutputs := math.ZeroInt()
 	for _, output := range msg.Outputs {
-		if !output.Lock.Amount.IsPositive() || output.Lock.Amount.IsZero() {
+		if !output.Amount.IsPositive() || output.Amount.IsZero() {
 			return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid coin in output to %s: %s", output.ToAddress, err)
 		}
-		totalOutputs = totalOutputs.Add(output.Lock.Amount)
+		totalOutputs = totalOutputs.Add(output.Amount)
 	}
-	if !total.Equal(totalOutputs) {
-		return nil, sdkerrors.ErrInvalidRequest.Wrapf("total amount %s does not match sum of outputs %s", total.String(), totalOutputs.String())
+	if !msg.Input.Equal(totalOutputs) {
+		return nil, sdkerrors.ErrInvalidRequest.Wrapf("total amount %s does not match sum of outputs %s", msg.Input.String(), totalOutputs.String())
 	}
 
 	for _, output := range msg.Outputs {
@@ -38,7 +33,10 @@ func (k msgServer) MultiSendDelegateAndLock(goCtx context.Context, msg *types.Ms
 			FromAddress:      msg.FromAddress,
 			ToAddress:        output.ToAddress,
 			ValidatorAddress: output.ValidatorAddress,
-			Lock:             output.Lock,
+			Lock: &types.Lock{
+				UnlockDate: output.UnlockDate,
+				Amount:     output.Amount,
+			},
 		}
 		_, err := k.SendDelegateAndLock(ctx, msg)
 		if err != nil {

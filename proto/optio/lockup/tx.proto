@@ -17,44 +17,53 @@ option go_package = "github.com/OptioNetwork/optio/x/lockup/types";
 // Msg defines the Msg service.
 service Msg {
   option (cosmos.msg.v1.service) = true;
-  
+
+  // Lock locks tokens for a specific address.
   rpc Lock                     (MsgLock                    ) returns (MsgLockResponse                    );
+  // Extend extends the lock duration for a specific address.
   rpc Extend                   (MsgExtend                  ) returns (MsgExtendResponse                  );
+  // SendDelegateAndLock sends tokens to a specific address, delegates them to a validator, and locks them until a specified unlock date.
   rpc SendDelegateAndLock      (MsgSendDelegateAndLock     ) returns (MsgSendDelegateAndLockResponse     );
+  // MultiSendDelegateAndLock sends tokens to multiple addresses, delegates them to a validator, and locks them until specified unlock dates.
   rpc MultiSendDelegateAndLock (MsgMultiSendDelegateAndLock) returns (MsgMultiSendDelegateAndLockResponse);
 }
 
 message MsgLock {
   option (cosmos.msg.v1.signer) = "address";
-           string address = 1;
-  repeated Lock   locks         = 2;
+  string        address = 1;
+  repeated Lock locks   = 2;
 }
 
 message MsgLockResponse {}
 
 message MsgExtend {
   option (cosmos.msg.v1.signer) = "address";
-           string    address = 1;
-  repeated Extension extensions       = 2;
+  string             address    = 1;
+  repeated Extension extensions = 2;
 }
 
 message MsgExtendResponse {}
 
 message MsgSendDelegateAndLock {
   option (cosmos.msg.v1.signer) = "from_address";
-  string from_address = 1;
-  string to_address   = 2;
+  string from_address      = 1;
+  string to_address        = 2;
   string validator_address = 3;
-  Lock   lock        = 4;
+  Lock   lock              = 4;
 }
 
 message MsgSendDelegateAndLockResponse {}
 
 message MsgMultiSendDelegateAndLock {
   option (cosmos.msg.v1.signer) = "from_address";
-  string from_address = 1;
-  string total_amount  = 2;
-  repeated Output outputs = 3;
+  string                                  from_address = 1;
+  string                                  input        = 2 [
+  (cosmos_proto.scalar)  = "cosmos.Int",
+  (gogoproto.customtype) = "cosmossdk.io/math.Int",
+  (gogoproto.nullable)   = false,
+  (amino.dont_omitempty) = true
+  ];
+  repeated MultiSendDelegateAndLockOutput outputs      = 3;
 }
 
 message MsgMultiSendDelegateAndLockResponse {}

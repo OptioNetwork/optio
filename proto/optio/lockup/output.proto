@@ -1,14 +1,21 @@
 syntax = "proto3";
 package optio.lockup;
 
-import "cosmos_proto/cosmos.proto";
 import "gogoproto/gogo.proto";
-import "optio/lockup/lock.proto";
+import "cosmos_proto/cosmos.proto";
+import "amino/amino.proto";
 
 option go_package = "github.com/OptioNetwork/optio/x/lockup/types";
 
-message Output {
-  string to_address     = 1;
-  string validator_address    = 2;
-  Lock lock            = 3;
+message MultiSendDelegateAndLockOutput {
+  string from_address     = 1;
+  string to_address     = 2;
+  string validator_address    = 3;
+  string unlock_date            = 4;
+  string amount = 5 [
+    (cosmos_proto.scalar)  = "cosmos.Int",
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable)   = false,
+    (amino.dont_omitempty) = true
+  ];
 }
