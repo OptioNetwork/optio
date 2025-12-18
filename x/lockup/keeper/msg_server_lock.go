@@ -38,7 +38,7 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 
 	lockupAcc := acc.(*types.Account)
 
-	if !msg.Amount.IsPositive() || msg.Amount.IsZero() {
+	if !msg.Amount.IsPositive() {
 		return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid lock amount: %s", msg.Amount.String())
 	}
 

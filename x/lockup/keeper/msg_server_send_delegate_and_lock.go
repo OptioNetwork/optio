@@ -13,7 +13,7 @@ import (
 func (k msgServer) SendDelegateAndLock(goCtx context.Context, msg *types.MsgSendDelegateAndLock) (*types.MsgSendDelegateAndLockResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	if !msg.Amount.IsPositive() || msg.Amount.IsZero() {
+	if !msg.Amount.IsPositive() {
 		return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid amount: %s", msg.Amount.String())
 	}
 

@@ -26,18 +26,15 @@ func (msg *MsgLock) ValidateBasic() error {
 	}
 
 	if msg.UnlockDate == "" {
-		return errorsmod.Wrapf(ErrInvalidDate, "lock has empty unlock date")
+		return errorsmod.Wrapf(ErrInvalidDate, "invalid unlock date")
 	}
 	_, err = time.Parse(time.DateOnly, msg.UnlockDate)
 	if err != nil {
-		return errorsmod.Wrapf(ErrInvalidDate, "lock has invalid unlock date format: %s", err)
+		return errorsmod.Wrapf(ErrInvalidDate, "invalid unlock date format: %s", err)
 	}
 
-	if !msg.Amount.IsPositive() || msg.Amount.IsZero() {
-		return errorsmod.Wrapf(sdkerrors.ErrInvalidCoins, "lock has invalid coin: %s", msg.Amount.String())
-	}
 	if !msg.Amount.IsPositive() {
-		return errorsmod.Wrapf(sdkerrors.ErrInvalidCoins, "lock has non-positive coin amount: %s", msg.Amount.String())
+		return errorsmod.Wrapf(sdkerrors.ErrInvalidCoins, "invalid lock amount: %s", msg.Amount.String())
 	}
 
 	return nil

@@ -41,7 +41,7 @@ func (msg *MsgExtend) ValidateBasic() error {
 			return errorsmod.Wrapf(ErrInvalidDate, "extension at index %d has invalid 'from' date format: %s", i, err)
 		}
 
-		if !extension.Amount.IsPositive() || extension.Amount.IsZero() {
+		if !extension.Amount.IsPositive() {
 			return errorsmod.Wrapf(sdkerrors.ErrInvalidCoins, "invalid lock amount: %s", extension.Amount.String())
 		}
 
