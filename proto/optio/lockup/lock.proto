@@ -1,12 +1,19 @@
 syntax = "proto3";
 package optio.lockup;
 
+import "gogoproto/gogo.proto";
+import "cosmos_proto/cosmos.proto";
+import "amino/amino.proto";
+
 option go_package = "github.com/OptioNetwork/optio/x/lockup/types";
-import "gogoproto/gogo.proto"; 
-import "cosmos/base/v1beta1/coin.proto"; 
 
 message Lock {
   
   string unlock_date = 1; 
-  cosmos.base.v1beta1.Coin amount = 2 [(gogoproto.nullable) = false]; 
+  string amount = 2 [
+    (cosmos_proto.scalar)  = "cosmos.Int",
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable)   = false,
+    (amino.dont_omitempty) = true
+  ];
 }

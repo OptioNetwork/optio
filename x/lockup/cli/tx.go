@@ -9,7 +9,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/spf13/cobra"
 )
 
@@ -51,14 +50,14 @@ func CmdLock() *cobra.Command {
 				}
 
 				unlockDate := parts[0]
-				coin, err := sdk.ParseCoinNormalized(parts[1])
-				if err != nil {
-					return fmt.Errorf("invalid coin at position %d: %w", i, err)
+				amount, ok := math.NewIntFromString(parts[1])
+				if !ok {
+					return fmt.Errorf("invalid amount at position %d: %s", i, parts[1])
 				}
 
 				locks = append(locks, &types.Lock{
 					UnlockDate: unlockDate,
-					Amount:     coin,
+					Amount:     amount,
 				})
 			}
 
@@ -84,7 +83,7 @@ func CmdExtend() *cobra.Command {
 		Use:   "extend [from-date:to-date:amount] [from-date:to-date:amount]...",
 		Short: "Extend lock unlock dates",
 		Long: `Extend the unlock date of existing locks. You can specify multiple extensions.
-		Example: '2026-12-01:2027-12-01:1000000000uOPT' extends a lock that unlocks on 2026-12-01 by locking an additional 1000000000uOPT until 2027-12-01.`,
+		Example: '2026-12-01:2027-12-01:1000000000' extends a lock that unlocks on 2026-12-01 by locking an additional 1000000000 until 2027-12-01.`,
 		Args: cobra.MinimumNArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
@@ -136,7 +135,7 @@ func CmdSendDelegateAndLock() *cobra.Command {
 		Short: "Send tokens to an address, delegate them to a validator, and lock them",
 		Long: `Send tokens from your address to another address, delegate them to a validator, and lock them until a specific unlock date.
 Example: 
-  send-delegate-and-lock optio1abc... optiovaloper1xyz... 2026-12-01 1000uOPT`,
+  send-delegate-and-lock optio1abc... optiovaloper1xyz... 2026-12-01 1000`,
 		Args: cobra.ExactArgs(4),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
@@ -147,9 +146,9 @@ Example:
 			toAddress := args[0]
 			validatorAddress := args[1]
 			unlockDate := args[2]
-			coin, err := sdk.ParseCoinNormalized(args[3])
-			if err != nil {
-				return fmt.Errorf("invalid coin amount: %w", err)
+			amount, ok := math.NewIntFromString(args[3])
+			if !ok {
+				return fmt.Errorf("invalid amount: %s", args[3])
 			}
 
 			msg := &types.MsgSendDelegateAndLock{
@@ -158,7 +157,7 @@ Example:
 				ValidatorAddress: validatorAddress,
 				Lock: &types.Lock{
 					UnlockDate: unlockDate,
-					Amount:     coin,
+					Amount:     amount,
 				},
 			}
 
@@ -180,7 +179,7 @@ func CmdMultiSendDelegateAndLock() *cobra.Command {
 		Short: "Send tokens to multiple addresses, delegate them, and lock them",
 		Long: `Send tokens to multiple addresses, delegate them to validators, and lock them until specific unlock dates.
 Example: 
-  multi-send-delegate-and-lock optio1abc...:optiovaloper1xyz...:2026-12-01:1000uOPT optio1def...:optiovaloper1uvw...:2027-01-01:2000uOPT`,
+  multi-send-delegate-and-lock optio1abc...:optiovaloper1xyz...:2026-12-01:1000 optio1def...:optiovaloper1uvw...:2027-01-01:2000`,
 		Args: cobra.MinimumNArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
@@ -200,15 +199,11 @@ Example:
 				toAddress := parts[0]
 				validatorAddress := parts[1]
 				unlockDate := parts[2]
-				coin, err := sdk.ParseCoinNormalized(parts[3])
-				if err != nil {
-					return fmt.Errorf("invalid coin at position %d: %w", i, err)
+				amount, ok := math.NewIntFromString(parts[3])
+				if !ok {
+					return fmt.Errorf("invalid amount at position %d: %s", i, parts[3])
 				}
 
-				amount, ok := math.NewIntFromString(coin.Amount.String())
-				if !ok {
-					return fmt.Errorf("invalid coin amount at position %d: %w", i, err)
-				}
 				totalAmount = totalAmount.Add(amount)
 
 				outputs = append(outputs, &types.Output{
@@ -216,7 +211,7 @@ Example:
 					ValidatorAddress: validatorAddress,
 					Lock: &types.Lock{
 						UnlockDate: unlockDate,
-						Amount:     coin,
+						Amount:     amount,
 					},
 				})
 			}

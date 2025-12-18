@@ -69,7 +69,7 @@ func (d RemoveExpiredLocksDecorator) PostHandle(ctx sdk.Context, tx sdk.Tx, simu
 		if unlockTime.Before(blockTimeDateOnly) {
 			lockupAcc.Locks = lockupAcc.RemoveLock(i)
 
-			if err := d.lockupKeeper.RemoveFromExpirationQueue(ctx, unlockTime, feePayer, lock.Amount.Amount); err != nil {
+			if err := d.lockupKeeper.RemoveFromExpirationQueue(ctx, unlockTime, feePayer, lock.Amount); err != nil {
 				return ctx, err
 			}
 

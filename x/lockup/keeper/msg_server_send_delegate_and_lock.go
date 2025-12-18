@@ -13,18 +13,8 @@ import (
 func (k msgServer) SendDelegateAndLock(goCtx context.Context, msg *types.MsgSendDelegateAndLock) (*types.MsgSendDelegateAndLockResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	bondDenom, err := k.stakingKeeper.BondDenom(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	if msg.Lock.Amount.Denom != bondDenom {
-		return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid coin denom: %s, expected %s", msg.Lock.Amount.Denom, bondDenom)
-	}
-
-	err = msg.Lock.Amount.Validate()
-	if err != nil {
-		return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid coin: %s", msg.Lock.Amount.String())
+	if !msg.Lock.Amount.IsPositive() || msg.Lock.Amount.IsZero() {
+		return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid amount: %s", msg.Lock.Amount.String())
 	}
 
 	fromAddr, err := sdk.AccAddressFromBech32(msg.FromAddress)
@@ -37,7 +27,13 @@ func (k msgServer) SendDelegateAndLock(goCtx context.Context, msg *types.MsgSend
 		return nil, sdkerrors.ErrInvalidAddress.Wrapf("invalid to address: %s", err)
 	}
 
-	err = k.bankKeeper.SendCoins(ctx, fromAddr, toAddr, sdk.NewCoins(msg.Lock.Amount))
+	bondDenom, err := k.stakingKeeper.BondDenom(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	coin := sdk.NewCoin(bondDenom, msg.Lock.Amount)
+	err = k.bankKeeper.SendCoins(ctx, fromAddr, toAddr, sdk.NewCoins(coin))
 	if err != nil {
 		return nil, err
 	}
@@ -52,7 +48,7 @@ func (k msgServer) SendDelegateAndLock(goCtx context.Context, msg *types.MsgSend
 		return nil, err
 	}
 
-	newShares, err := k.stakingKeeper.Delegate(ctx, toAddr, msg.Lock.Amount.Amount, stakingtypes.Unbonded, validator, true)
+	newShares, err := k.stakingKeeper.Delegate(ctx, toAddr, msg.Lock.Amount, stakingtypes.Unbonded, validator, true)
 	if err != nil {
 		return nil, err
 	}

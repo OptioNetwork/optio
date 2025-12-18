@@ -9,19 +9,14 @@ import (
 
 var _ sdk.Msg = &MsgSendDelegateAndLock{}
 
-func NewMsgSendDelegateAndLock(fromAddress string, toAddress string, ValidatorAddress string, amount string, unlockDate string) *MsgSendDelegateAndLock {
-	a, ok := math.NewIntFromString(amount)
-	if !ok {
-		panic("invalid amount string")
-	}
-
+func NewMsgSendDelegateAndLock(fromAddress string, toAddress string, ValidatorAddress string, amount math.Int, unlockDate string) *MsgSendDelegateAndLock {
 	return &MsgSendDelegateAndLock{
 		FromAddress:      fromAddress,
 		ToAddress:        toAddress,
 		ValidatorAddress: ValidatorAddress,
 		Lock: &Lock{
 			UnlockDate: unlockDate,
-			Amount:     sdk.Coin{Denom: "uOPT", Amount: a},
+			Amount:     amount,
 		},
 	}
 }

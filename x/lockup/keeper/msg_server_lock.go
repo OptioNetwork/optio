@@ -41,18 +41,9 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 	lockupAcc := acc.(*types.Account)
 	amountToLock := math.ZeroInt()
 
-	bondDenom, err := k.stakingKeeper.BondDenom(ctx)
-	if err != nil {
-		return nil, err
-	}
-
 	for _, lock := range msg.Locks {
-		if !lock.Amount.IsValid() || lock.Amount.IsZero() {
+		if !lock.Amount.IsPositive() || lock.Amount.IsZero() {
 			return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid lock amount: %s", lock.Amount.String())
-		}
-
-		if lock.Amount.Denom != bondDenom {
-			return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid denom: %s, expected: %s", lock.Amount.Denom, bondDenom)
 		}
 
 		unlockTime, err := time.Parse(time.DateOnly, lock.UnlockDate)
@@ -69,7 +60,7 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 		if blockTime.AddDate(2, 0, 0).Before(unlockTime) {
 			return nil, sdkerrors.ErrInvalidRequest.Wrapf("unlock date cannot be more than 2 years from now")
 		}
-		amountToLock = amountToLock.Add(lock.Amount.Amount)
+		amountToLock = amountToLock.Add(lock.Amount)
 	}
 
 	currentLockedAmount := lockupAcc.GetLockedAmount(ctx.BlockTime())
@@ -89,14 +80,14 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 
 	events := sdk.Events{}
 	for _, lock := range msg.Locks {
-		lockupAcc.Locks = lockupAcc.UpsertLock(lock.UnlockDate, lock.Amount.Amount)
+		lockupAcc.Locks = lockupAcc.UpsertLock(lock.UnlockDate, lock.Amount)
 
 		unlockTime, err := time.Parse(time.DateOnly, lock.UnlockDate)
 		if err != nil {
 			return nil, err
 		}
 
-		if err := k.AddToExpirationQueue(ctx, unlockTime, lockupAddr, lock.Amount.Amount); err != nil {
+		if err := k.AddToExpirationQueue(ctx, unlockTime, lockupAddr, lock.Amount); err != nil {
 			return nil, err
 		}
 

@@ -44,7 +44,7 @@ func (msg *MsgLock) ValidateBasic() error {
 			return errorsmod.Wrapf(ErrInvalidDate, "lock at index %d has invalid unlock date format: %s", i, err)
 		}
 
-		if !lock.Amount.IsValid() {
+		if !lock.Amount.IsPositive() || lock.Amount.IsZero() {
 			return errorsmod.Wrapf(sdkerrors.ErrInvalidCoins, "lock at index %d has invalid coin: %s", i, lock.Amount.String())
 		}
 		if !lock.Amount.IsPositive() {

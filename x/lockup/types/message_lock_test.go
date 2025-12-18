@@ -5,7 +5,6 @@ import (
 
 	"cosmossdk.io/math"
 	"github.com/OptioNetwork/optio/testutil/sample"
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/stretchr/testify/require"
 )
@@ -25,7 +24,7 @@ func TestMsgLock_ValidateBasic(t *testing.T) {
 				Locks: []*Lock{
 					{
 						UnlockDate: "2026-12-01",
-						Amount:     sdk.NewInt64Coin("uOPT", 1000),
+						Amount:     math.NewInt(1000),
 					},
 				},
 			},
@@ -64,7 +63,7 @@ func TestMsgLock_ValidateBasic(t *testing.T) {
 				Locks: []*Lock{
 					{
 						UnlockDate: "",
-						Amount:     sdk.NewInt64Coin("uOPT", 1000),
+						Amount:     math.NewInt(1000),
 					},
 				},
 			},
@@ -77,7 +76,7 @@ func TestMsgLock_ValidateBasic(t *testing.T) {
 				Locks: []*Lock{
 					{
 						UnlockDate: "12/01/2026",
-						Amount:     sdk.NewInt64Coin("uOPT", 1000),
+						Amount:     math.NewInt(1000),
 					},
 				},
 			},
@@ -90,7 +89,7 @@ func TestMsgLock_ValidateBasic(t *testing.T) {
 				Locks: []*Lock{
 					{
 						UnlockDate: "not-a-date",
-						Amount:     sdk.NewInt64Coin("uOPT", 1000),
+						Amount:     math.NewInt(1000),
 					},
 				},
 			},
@@ -103,7 +102,7 @@ func TestMsgLock_ValidateBasic(t *testing.T) {
 				Locks: []*Lock{
 					{
 						UnlockDate: "2026-12-01",
-						Amount:     sdk.NewInt64Coin("uOPT", 0),
+						Amount:     math.NewInt(0),
 					},
 				},
 			},
@@ -116,7 +115,7 @@ func TestMsgLock_ValidateBasic(t *testing.T) {
 				Locks: []*Lock{
 					{
 						UnlockDate: "2026-12-01",
-						Amount:     sdk.Coin{Denom: "uOPT", Amount: math.NewInt(-1000)},
+						Amount:     math.NewInt(-1000),
 					},
 				},
 			},
@@ -129,7 +128,7 @@ func TestMsgLock_ValidateBasic(t *testing.T) {
 				Locks: []*Lock{
 					{
 						UnlockDate: "2026-12-01",
-						Amount:     sdk.Coin{Denom: "INVALID!", Amount: math.NewInt(1000)},
+						Amount:     math.NewInt(1000),
 					},
 				},
 			},
@@ -142,7 +141,7 @@ func TestMsgLock_ValidateBasic(t *testing.T) {
 				Locks: []*Lock{
 					{
 						UnlockDate: "2026-12-01",
-						Amount:     sdk.NewInt64Coin("uOPT", 1000),
+						Amount:     math.NewInt(1000),
 					},
 				},
 			},
@@ -154,15 +153,15 @@ func TestMsgLock_ValidateBasic(t *testing.T) {
 				Locks: []*Lock{
 					{
 						UnlockDate: "2026-06-01",
-						Amount:     sdk.NewInt64Coin("uOPT", 1000),
+						Amount:     math.NewInt(1000),
 					},
 					{
 						UnlockDate: "2026-12-01",
-						Amount:     sdk.NewInt64Coin("uOPT", 2000),
+						Amount:     math.NewInt(2000),
 					},
 					{
 						UnlockDate: "2027-06-01",
-						Amount:     sdk.NewInt64Coin("uOPT", 3000),
+						Amount:     math.NewInt(3000),
 					},
 				},
 			},
@@ -174,11 +173,11 @@ func TestMsgLock_ValidateBasic(t *testing.T) {
 				Locks: []*Lock{
 					{
 						UnlockDate: "2026-06-01",
-						Amount:     sdk.NewInt64Coin("uOPT", 1000),
+						Amount:     math.NewInt(1000),
 					},
 					{
 						UnlockDate: "invalid-date",
-						Amount:     sdk.NewInt64Coin("uOPT", 2000),
+						Amount:     math.NewInt(2000),
 					},
 				},
 			},

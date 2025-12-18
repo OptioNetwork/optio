@@ -50,16 +50,16 @@ func (k msgServer) Extend(goCtx context.Context, msg *types.MsgExtend) (*types.M
 			return nil, types.ErrLockupNotFound.Wrapf("no lockup found for unlock date: %s", extension.FromDate)
 		}
 
-		if !existingLock.Amount.Amount.Equal(extension.Amount) {
-			return nil, sdkerrors.ErrInvalidRequest.Wrapf("extension amount mismatch for unlock from date: %s. you must extend the entire amount: %s", extension.FromDate, existingLock.Amount.Amount.String())
+		if !existingLock.Amount.Equal(extension.Amount) {
+			return nil, sdkerrors.ErrInvalidRequest.Wrapf("extension amount mismatch for unlock from date: %s. you must extend the entire amount: %s", extension.FromDate, existingLock.Amount.String())
 		}
 
 		amountToMove := extension.Amount
-		if existingLock.Amount.Amount.LT(amountToMove) {
+		if existingLock.Amount.LT(amountToMove) {
 			return nil, sdkerrors.ErrInvalidRequest.Wrapf("extension amount exceeds existing lock amount for unlock from date: %s", extension.FromDate)
 		}
 
-		existingLock.Amount.Amount = existingLock.Amount.Amount.Sub(amountToMove)
+		existingLock.Amount = existingLock.Amount.Sub(amountToMove)
 
 		lockupAcc.Locks = lockupAcc.UpdateLock(idx, existingLock)
 		lockupAcc.Locks = lockupAcc.UpsertLock(extension.ToDate, amountToMove)
