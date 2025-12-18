@@ -31,45 +31,52 @@ func (k msgServer) Extend(goCtx context.Context, msg *types.MsgExtend) (*types.M
 	events := sdk.Events{}
 	for _, extension := range msg.Extensions {
 
-		from, err := time.Parse(time.DateOnly, extension.FromDate)
+		fromDate, err := time.Parse(time.DateOnly, extension.FromDate)
 		if err != nil {
-			return nil, sdkerrors.ErrInvalidRequest.Wrapf("invalid from format: %s", extension.FromDate)
+			return nil, sdkerrors.ErrInvalidRequest.Wrapf("invalid from date format: %s", extension.FromDate)
 		}
 
-		unlock, err := time.Parse(time.DateOnly, extension.ToDate)
+		toDate, err := time.Parse(time.DateOnly, extension.ToDate)
 		if err != nil {
-			return nil, sdkerrors.ErrInvalidRequest.Wrapf("invalid unlock date format: %s", extension.ToDate)
+			return nil, sdkerrors.ErrInvalidRequest.Wrapf("invalid to date format (%s)", extension.ToDate)
 		}
 
-		if !unlock.After(from) {
-			return nil, sdkerrors.ErrInvalidRequest.Wrapf("unlock date must be after from date")
+		if !toDate.After(fromDate) {
+			return nil, sdkerrors.ErrInvalidRequest.Wrapf("to date must be after from date")
+		}
+
+		blockTime := ctx.BlockTime()
+
+		if blockTime.After(toDate) {
+			return nil, sdkerrors.ErrInvalidRequest.Wrapf("to date must be in the future")
+		}
+
+		if blockTime.AddDate(2, 0, 0).Before(toDate) {
+			return nil, sdkerrors.ErrInvalidRequest.Wrapf("to date cannot be more than 2 years from now")
 		}
 
 		existingLock, idx, found := lockupAcc.FindLock(extension.FromDate)
 		if !found {
-			return nil, types.ErrLockupNotFound.Wrapf("no lockup found for unlock date: %s", extension.FromDate)
-		}
-
-		if !existingLock.Amount.Equal(extension.Amount) {
-			return nil, sdkerrors.ErrInvalidRequest.Wrapf("extension amount mismatch for unlock from date: %s. you must extend the entire amount: %s", extension.FromDate, existingLock.Amount.String())
+			return nil, types.ErrLockupNotFound.Wrapf("no lockup found for from date (%s)", extension.FromDate)
 		}
 
 		amountToMove := extension.Amount
 		if existingLock.Amount.LT(amountToMove) {
-			return nil, sdkerrors.ErrInvalidRequest.Wrapf("extension amount exceeds existing lock amount for unlock from date: %s", extension.FromDate)
+			return nil, sdkerrors.ErrInvalidRequest.Wrapf("extension amount exceeds existing lock amount date (%s)", extension.FromDate)
+		} else if existingLock.Amount.Equal(amountToMove) {
+			lockupAcc.Locks = lockupAcc.RemoveLock(idx)
+		} else {
+			existingLock.Amount = existingLock.Amount.Sub(amountToMove)
+			lockupAcc.Locks = lockupAcc.UpdateLock(idx, existingLock)
 		}
 
-		existingLock.Amount = existingLock.Amount.Sub(amountToMove)
-
-		lockupAcc.Locks = lockupAcc.UpdateLock(idx, existingLock)
 		lockupAcc.Locks = lockupAcc.UpsertLock(extension.ToDate, amountToMove)
 
-		// Update expiration queue: remove from old date, add to new date
-		if err := k.RemoveFromExpirationQueue(ctx, from, addr, amountToMove); err != nil {
+		if err := k.RemoveFromExpirationQueue(ctx, fromDate, addr, amountToMove); err != nil {
 			return nil, err
 		}
 
-		if err := k.AddToExpirationQueue(ctx, unlock, addr, amountToMove); err != nil {
+		if err := k.AddToExpirationQueue(ctx, toDate, addr, amountToMove); err != nil {
 			return nil, err
 		}
 
