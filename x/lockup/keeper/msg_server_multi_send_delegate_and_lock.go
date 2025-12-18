@@ -33,10 +33,8 @@ func (k msgServer) MultiSendDelegateAndLock(goCtx context.Context, msg *types.Ms
 			FromAddress:      msg.FromAddress,
 			ToAddress:        output.ToAddress,
 			ValidatorAddress: output.ValidatorAddress,
-			Lock: &types.Lock{
-				UnlockDate: output.UnlockDate,
-				Amount:     output.Amount,
-			},
+			UnlockDate:       output.UnlockDate,
+			Amount:           output.Amount,
 		}
 		_, err := k.SendDelegateAndLock(ctx, msg)
 		if err != nil {

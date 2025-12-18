@@ -14,10 +14,8 @@ func NewMsgSendDelegateAndLock(fromAddress string, toAddress string, ValidatorAd
 		FromAddress:      fromAddress,
 		ToAddress:        toAddress,
 		ValidatorAddress: ValidatorAddress,
-		Lock: &Lock{
-			UnlockDate: unlockDate,
-			Amount:     amount,
-		},
+		UnlockDate:       unlockDate,
+		Amount:           amount,
 	}
 }
 

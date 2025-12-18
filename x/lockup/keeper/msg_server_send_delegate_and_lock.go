@@ -13,8 +13,8 @@ import (
 func (k msgServer) SendDelegateAndLock(goCtx context.Context, msg *types.MsgSendDelegateAndLock) (*types.MsgSendDelegateAndLockResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	if !msg.Lock.Amount.IsPositive() || msg.Lock.Amount.IsZero() {
-		return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid amount: %s", msg.Lock.Amount.String())
+	if !msg.Amount.IsPositive() || msg.Amount.IsZero() {
+		return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid amount: %s", msg.Amount.String())
 	}
 
 	fromAddr, err := sdk.AccAddressFromBech32(msg.FromAddress)
@@ -32,7 +32,7 @@ func (k msgServer) SendDelegateAndLock(goCtx context.Context, msg *types.MsgSend
 		return nil, err
 	}
 
-	coin := sdk.NewCoin(bondDenom, msg.Lock.Amount)
+	coin := sdk.NewCoin(bondDenom, msg.Amount)
 	err = k.bankKeeper.SendCoins(ctx, fromAddr, toAddr, sdk.NewCoins(coin))
 	if err != nil {
 		return nil, err
@@ -48,7 +48,7 @@ func (k msgServer) SendDelegateAndLock(goCtx context.Context, msg *types.MsgSend
 		return nil, err
 	}
 
-	newShares, err := k.stakingKeeper.Delegate(ctx, toAddr, msg.Lock.Amount, stakingtypes.Unbonded, validator, true)
+	newShares, err := k.stakingKeeper.Delegate(ctx, toAddr, msg.Amount, stakingtypes.Unbonded, validator, true)
 	if err != nil {
 		return nil, err
 	}
@@ -61,7 +61,7 @@ func (k msgServer) SendDelegateAndLock(goCtx context.Context, msg *types.MsgSend
 			stakingtypes.EventTypeDelegate,
 			sdk.NewAttribute(stakingtypes.AttributeKeyValidator, msg.ValidatorAddress),
 			sdk.NewAttribute(stakingtypes.AttributeKeyDelegator, msg.ToAddress),
-			sdk.NewAttribute(sdk.AttributeKeyAmount, msg.Lock.Amount.String()),
+			sdk.NewAttribute(sdk.AttributeKeyAmount, msg.Amount.String()),
 			sdk.NewAttribute(stakingtypes.AttributeKeyNewShares, newShares.String()),
 		),
 	})
@@ -70,7 +70,7 @@ func (k msgServer) SendDelegateAndLock(goCtx context.Context, msg *types.MsgSend
 		goCtx,
 		&types.MsgLock{
 			Address: msg.ToAddress,
-			Locks:   []*types.Lock{msg.Lock},
+			Locks:   []*types.Lock{{UnlockDate: msg.UnlockDate, Amount: msg.Amount}},
 		},
 	)
 

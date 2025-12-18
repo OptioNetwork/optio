@@ -155,10 +155,8 @@ Example:
 				FromAddress:      clientCtx.GetFromAddress().String(),
 				ToAddress:        toAddress,
 				ValidatorAddress: validatorAddress,
-				Lock: &types.Lock{
-					UnlockDate: unlockDate,
-					Amount:     amount,
-				},
+				UnlockDate:       unlockDate,
+				Amount:           amount,
 			}
 
 			if err := msg.ValidateBasic(); err != nil {
