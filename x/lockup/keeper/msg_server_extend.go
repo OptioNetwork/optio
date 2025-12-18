@@ -28,43 +28,41 @@ func (k msgServer) Extend(goCtx context.Context, msg *types.MsgExtend) (*types.M
 		return nil, types.ErrInvalidAccount.Wrapf("account is not a long-term stake account: %s", msg.Address)
 	}
 
-	bondDenom, err := k.stakingKeeper.BondDenom(ctx)
-	if err != nil {
-		return nil, err
-	}
-
 	events := sdk.Events{}
 	for _, extension := range msg.Extensions {
-		if extension.Lock.Amount.Denom != bondDenom {
-			return nil, sdkerrors.ErrInvalidRequest.Wrapf("invalid coin denomination: got %s, expected %s", extension.Lock.Amount.Denom, bondDenom)
-		}
 
 		from, err := time.Parse(time.DateOnly, extension.FromDate)
 		if err != nil {
 			return nil, sdkerrors.ErrInvalidRequest.Wrapf("invalid from format: %s", extension.FromDate)
 		}
 
-		unlock, err := time.Parse(time.DateOnly, extension.Lock.UnlockDate)
+		unlock, err := time.Parse(time.DateOnly, extension.ToDate)
 		if err != nil {
-			return nil, sdkerrors.ErrInvalidRequest.Wrapf("invalid unlock date format: %s", extension.Lock.UnlockDate)
+			return nil, sdkerrors.ErrInvalidRequest.Wrapf("invalid unlock date format: %s", extension.ToDate)
 		}
 
 		if !unlock.After(from) {
 			return nil, sdkerrors.ErrInvalidRequest.Wrapf("unlock date must be after from date")
 		}
 
-		fromLockup, idx, found := lockupAcc.FindLock(extension.FromDate)
+		existingLock, idx, found := lockupAcc.FindLock(extension.FromDate)
 		if !found {
 			return nil, types.ErrLockupNotFound.Wrapf("no lockup found for unlock date: %s", extension.FromDate)
 		}
 
-		if !fromLockup.Amount.Amount.Equal(extension.Lock.Amount.Amount) {
-			return nil, sdkerrors.ErrInvalidRequest.Wrapf("extension amount mismatch for unlock from date: %s. you must extend the entire amount: %s", extension.FromDate, fromLockup.Amount.Amount.String())
+		if !existingLock.Amount.Amount.Equal(extension.Amount) {
+			return nil, sdkerrors.ErrInvalidRequest.Wrapf("extension amount mismatch for unlock from date: %s. you must extend the entire amount: %s", extension.FromDate, existingLock.Amount.Amount.String())
 		}
 
-		amountToMove := fromLockup.Amount.Amount
-		lockupAcc.Locks = lockupAcc.RemoveLock(idx)
-		lockupAcc.Locks = lockupAcc.UpsertLock(extension.Lock.UnlockDate, sdk.NewCoin(bondDenom, amountToMove))
+		amountToMove := extension.Amount
+		if existingLock.Amount.Amount.LT(amountToMove) {
+			return nil, sdkerrors.ErrInvalidRequest.Wrapf("extension amount exceeds existing lock amount for unlock from date: %s", extension.FromDate)
+		}
+
+		existingLock.Amount.Amount = existingLock.Amount.Amount.Sub(amountToMove)
+
+		lockupAcc.Locks = lockupAcc.UpdateLock(idx, existingLock)
+		lockupAcc.Locks = lockupAcc.UpsertLock(extension.ToDate, amountToMove)
 
 		// Update expiration queue: remove from old date, add to new date
 		if err := k.RemoveFromExpirationQueue(ctx, from, addr, amountToMove); err != nil {
@@ -79,7 +77,7 @@ func (k msgServer) Extend(goCtx context.Context, msg *types.MsgExtend) (*types.M
 			types.EventTypeLockExtended,
 			sdk.NewAttribute(types.AttributeKeyLockAddress, msg.Address),
 			sdk.NewAttribute(types.AttributeKeyOldUnlockDate, extension.FromDate),
-			sdk.NewAttribute(types.AttributeKeyUnlockDate, extension.Lock.UnlockDate),
+			sdk.NewAttribute(types.AttributeKeyUnlockDate, extension.ToDate),
 			sdk.NewAttribute(sdk.AttributeKeyAmount, amountToMove.String()),
 		))
 	}

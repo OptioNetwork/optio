@@ -1,6 +1,10 @@
 syntax = "proto3";
 package optio.lockup;
 
+import "gogoproto/gogo.proto";
+import "cosmos_proto/cosmos.proto";
+import "amino/amino.proto";
+
 import "optio/lockup/lock.proto";
 
 option go_package = "github.com/OptioNetwork/optio/x/lockup/types";
@@ -8,5 +12,11 @@ option go_package = "github.com/OptioNetwork/optio/x/lockup/types";
 message Extension {
   
   string from_date = 1; 
-  Lock lock = 2; 
+  string to_date = 2;
+  string amount = 3 [
+    (cosmos_proto.scalar)  = "cosmos.Int",
+    (gogoproto.customtype) = "cosmossdk.io/math.Int",
+    (gogoproto.nullable)   = false,
+    (amino.dont_omitempty) = true
+  ];
 }

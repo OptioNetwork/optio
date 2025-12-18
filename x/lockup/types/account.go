@@ -54,23 +54,29 @@ func (a *Account) InsertLock(newLockup *Lock) []*Lock {
 }
 
 // Upsert (update if exists, insert if not) maintaining sorted order
-func (a *Account) UpsertLock(unlockDate string, coin sdk.Coin) []*Lock {
+func (a *Account) UpsertLock(unlockDate string, amount math.Int) []*Lock {
 	idx := sort.Search(len(a.Locks), func(i int) bool {
 		return a.Locks[i].UnlockDate >= unlockDate
 	})
 
 	if idx < len(a.Locks) && a.Locks[idx].UnlockDate == unlockDate {
-		a.Locks[idx].Amount.Amount = a.Locks[idx].Amount.Amount.Add(coin.Amount)
+		a.Locks[idx].Amount.Amount = a.Locks[idx].Amount.Amount.Add(amount)
 		return a.Locks
 	}
 
 	newLockup := &Lock{
 		UnlockDate: unlockDate,
-		Amount:     sdk.NewCoin(coin.Denom, coin.Amount),
+		Amount:     sdk.NewCoin("uOPT", amount),
 	}
 	a.Locks = append(a.Locks, nil)
 	copy(a.Locks[idx+1:], a.Locks[idx:])
 	a.Locks[idx] = newLockup
+	return a.Locks
+}
+
+// Update lock at a given index
+func (a *Account) UpdateLock(idx int, lock *Lock) []*Lock {
+	a.Locks[idx] = lock
 	return a.Locks
 }
 

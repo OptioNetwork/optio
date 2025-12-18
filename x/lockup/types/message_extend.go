@@ -41,29 +41,17 @@ func (msg *MsgExtend) ValidateBasic() error {
 			return errorsmod.Wrapf(ErrInvalidDate, "extension at index %d has invalid 'from' date format: %s", i, err)
 		}
 
-		if extension.Lock == nil {
-			return errorsmod.Wrapf(sdkerrors.ErrInvalidRequest, "extension lock cannot be nil")
+		if !extension.Amount.IsPositive() || extension.Amount.IsZero() {
+			return errorsmod.Wrapf(sdkerrors.ErrInvalidCoins, "invalid lock amount: %s", extension.Amount.String())
 		}
 
-		if !extension.Lock.Amount.IsValid() || extension.Lock.Amount.IsZero() {
-			return errorsmod.Wrapf(sdkerrors.ErrInvalidCoins, "invalid lock amount: %s", extension.Lock.Amount.String())
+		if extension.ToDate == "" {
+			return errorsmod.Wrapf(ErrInvalidDate, "extension to date cannot be empty")
 		}
 
-		if extension.Lock.Amount.Denom == "" {
-			return errorsmod.Wrapf(sdkerrors.ErrInvalidCoins, "lock coin denom cannot be empty")
-		}
-
-		if extension.Lock.Amount.Denom != "uOPT" {
-			return errorsmod.Wrapf(sdkerrors.ErrInvalidCoins, "lock coin denom must be 'uOPT'")
-		}
-
-		if extension.Lock.UnlockDate == "" {
-			return errorsmod.Wrapf(ErrInvalidDate, "extension lock unlock date cannot be empty")
-		}
-
-		toTime, err := time.Parse(time.DateOnly, extension.Lock.UnlockDate)
+		toTime, err := time.Parse(time.DateOnly, extension.ToDate)
 		if err != nil {
-			return errorsmod.Wrapf(ErrInvalidDate, "invalid unlock date format: %s", extension.Lock.UnlockDate)
+			return errorsmod.Wrapf(ErrInvalidDate, "invalid unlock date format: %s", extension.ToDate)
 		}
 
 		if !toTime.After(fromTime) {

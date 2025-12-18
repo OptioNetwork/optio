@@ -89,7 +89,7 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 
 	events := sdk.Events{}
 	for _, lock := range msg.Locks {
-		lockupAcc.Locks = lockupAcc.UpsertLock(lock.UnlockDate, lock.Amount)
+		lockupAcc.Locks = lockupAcc.UpsertLock(lock.UnlockDate, lock.Amount.Amount)
 
 		unlockTime, err := time.Parse(time.DateOnly, lock.UnlockDate)
 		if err != nil {

@@ -101,17 +101,15 @@ func CmdExtend() *cobra.Command {
 
 				fromDate := parts[0]
 				toDate := parts[1]
-				coin, err := sdk.ParseCoinNormalized(parts[2])
-				if err != nil {
-					return fmt.Errorf("invalid coin at position %d: %w", i, err)
+				amount, ok := math.NewIntFromString(parts[2])
+				if !ok {
+					return fmt.Errorf("invalid amount at position %d: %s", i, parts[2])
 				}
 
 				extensions = append(extensions, &types.Extension{
 					FromDate: fromDate,
-					Lock: &types.Lock{
-						UnlockDate: toDate,
-						Amount:     coin,
-					},
+					ToDate:   toDate,
+					Amount:   amount,
 				})
 			}
 
