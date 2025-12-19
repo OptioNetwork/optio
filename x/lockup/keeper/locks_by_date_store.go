@@ -33,7 +33,7 @@ func (k Keeper) GetTotalLocked(ctx context.Context) (math.Int, error) {
 func (k Keeper) GetLockExpirationKey(unlockTime time.Time, addr sdk.AccAddress) []byte {
 	timeBz := make([]byte, 8)
 	binary.BigEndian.PutUint64(timeBz, uint64(unlockTime.Unix()))
-	return append(append(types.LockExpirationKey, timeBz...), addr.Bytes()...)
+	return append(append(types.LocksByDateKey, timeBz...), addr.Bytes()...)
 }
 
 // AddToExpirationQueue adds a lock to the expiration queue
@@ -108,7 +108,7 @@ func (k Keeper) IterateActiveLocks(ctx context.Context, currentTime time.Time, c
 	// Start key is Prefix + CurrentTime + 1 second (to exclude locks expiring at or before current time)
 	startTimeBz := make([]byte, 8)
 	binary.BigEndian.PutUint64(startTimeBz, uint64(currentTime.Unix()+1))
-	startKey := append(types.LockExpirationKey, startTimeBz...)
+	startKey := append(types.LocksByDateKey, startTimeBz...)
 
 	// End key is nil to iterate to the end
 	iter, err := store.Iterator(startKey, nil)
@@ -121,7 +121,7 @@ func (k Keeper) IterateActiveLocks(ctx context.Context, currentTime time.Time, c
 		key := iter.Key()
 		// Parse Key
 		// Prefix (len) + Time (8) + Addr (Remainder)
-		prefixLen := len(types.LockExpirationKey)
+		prefixLen := len(types.LocksByDateKey)
 
 		if len(key) < prefixLen+8 {
 			continue
@@ -154,9 +154,9 @@ func (k Keeper) IterateAndDeleteExpiredLocks(ctx context.Context, cutoffTime tim
 	// End key is Prefix + CutoffTime + 1 second (to include CutoffTime)
 	endTimeBz := make([]byte, 8)
 	binary.BigEndian.PutUint64(endTimeBz, uint64(cutoffTime.Unix()+1))
-	endKey := append(types.LockExpirationKey, endTimeBz...)
+	endKey := append(types.LocksByDateKey, endTimeBz...)
 
-	iter, err := store.Iterator(types.LockExpirationKey, endKey)
+	iter, err := store.Iterator(types.LocksByDateKey, endKey)
 	if err != nil {
 		return err
 	}
@@ -166,7 +166,7 @@ func (k Keeper) IterateAndDeleteExpiredLocks(ctx context.Context, cutoffTime tim
 		key := iter.Key()
 		// Parse Key
 		// Prefix (len) + Time (8) + Addr (Remainder)
-		prefixLen := len(types.LockExpirationKey)
+		prefixLen := len(types.LocksByDateKey)
 		timeBz := key[prefixLen : prefixLen+8]
 		addrBz := key[prefixLen+8:]
 

@@ -3,7 +3,7 @@ validation: sovereign
 accounts: 
 - name: node
   coins:
-  - 15000000000000uOPT
+  - 1500000000000000000000uOPT
   mnemonic: slab cabbage degree mandate normal tunnel bean round betray display anxiety ginger
 - name: alice
   coins:

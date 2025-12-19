@@ -2379,25 +2379,25 @@ func (x *fastReflection_QueryTotalLockedAmountResponse) ProtoMethods() *protoifa
 }
 
 var (
-	md_QueryAccountLocksRequest           protoreflect.MessageDescriptor
-	fd_QueryAccountLocksRequest_addresses protoreflect.FieldDescriptor
+	md_QueryLocksForAddressesRequest           protoreflect.MessageDescriptor
+	fd_QueryLocksForAddressesRequest_addresses protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_optio_lockup_query_proto_init()
-	md_QueryAccountLocksRequest = File_optio_lockup_query_proto.Messages().ByName("QueryAccountLocksRequest")
-	fd_QueryAccountLocksRequest_addresses = md_QueryAccountLocksRequest.Fields().ByName("addresses")
+	md_QueryLocksForAddressesRequest = File_optio_lockup_query_proto.Messages().ByName("QueryLocksForAddressesRequest")
+	fd_QueryLocksForAddressesRequest_addresses = md_QueryLocksForAddressesRequest.Fields().ByName("addresses")
 }
 
-var _ protoreflect.Message = (*fastReflection_QueryAccountLocksRequest)(nil)
+var _ protoreflect.Message = (*fastReflection_QueryLocksForAddressesRequest)(nil)
 
-type fastReflection_QueryAccountLocksRequest QueryAccountLocksRequest
+type fastReflection_QueryLocksForAddressesRequest QueryLocksForAddressesRequest
 
-func (x *QueryAccountLocksRequest) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_QueryAccountLocksRequest)(x)
+func (x *QueryLocksForAddressesRequest) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryLocksForAddressesRequest)(x)
 }
 
-func (x *QueryAccountLocksRequest) slowProtoReflect() protoreflect.Message {
+func (x *QueryLocksForAddressesRequest) slowProtoReflect() protoreflect.Message {
 	mi := &file_optio_lockup_query_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -2409,43 +2409,43 @@ func (x *QueryAccountLocksRequest) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_QueryAccountLocksRequest_messageType fastReflection_QueryAccountLocksRequest_messageType
-var _ protoreflect.MessageType = fastReflection_QueryAccountLocksRequest_messageType{}
+var _fastReflection_QueryLocksForAddressesRequest_messageType fastReflection_QueryLocksForAddressesRequest_messageType
+var _ protoreflect.MessageType = fastReflection_QueryLocksForAddressesRequest_messageType{}
 
-type fastReflection_QueryAccountLocksRequest_messageType struct{}
+type fastReflection_QueryLocksForAddressesRequest_messageType struct{}
 
-func (x fastReflection_QueryAccountLocksRequest_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_QueryAccountLocksRequest)(nil)
+func (x fastReflection_QueryLocksForAddressesRequest_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryLocksForAddressesRequest)(nil)
 }
-func (x fastReflection_QueryAccountLocksRequest_messageType) New() protoreflect.Message {
-	return new(fastReflection_QueryAccountLocksRequest)
+func (x fastReflection_QueryLocksForAddressesRequest_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryLocksForAddressesRequest)
 }
-func (x fastReflection_QueryAccountLocksRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryAccountLocksRequest
+func (x fastReflection_QueryLocksForAddressesRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryLocksForAddressesRequest
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_QueryAccountLocksRequest) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryAccountLocksRequest
+func (x *fastReflection_QueryLocksForAddressesRequest) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryLocksForAddressesRequest
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_QueryAccountLocksRequest) Type() protoreflect.MessageType {
-	return _fastReflection_QueryAccountLocksRequest_messageType
+func (x *fastReflection_QueryLocksForAddressesRequest) Type() protoreflect.MessageType {
+	return _fastReflection_QueryLocksForAddressesRequest_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_QueryAccountLocksRequest) New() protoreflect.Message {
-	return new(fastReflection_QueryAccountLocksRequest)
+func (x *fastReflection_QueryLocksForAddressesRequest) New() protoreflect.Message {
+	return new(fastReflection_QueryLocksForAddressesRequest)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_QueryAccountLocksRequest) Interface() protoreflect.ProtoMessage {
-	return (*QueryAccountLocksRequest)(x)
+func (x *fastReflection_QueryLocksForAddressesRequest) Interface() protoreflect.ProtoMessage {
+	return (*QueryLocksForAddressesRequest)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -2453,10 +2453,10 @@ func (x *fastReflection_QueryAccountLocksRequest) Interface() protoreflect.Proto
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_QueryAccountLocksRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+func (x *fastReflection_QueryLocksForAddressesRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
 	if x.Addresses != "" {
 		value := protoreflect.ValueOfString(x.Addresses)
-		if !f(fd_QueryAccountLocksRequest_addresses, value) {
+		if !f(fd_QueryLocksForAddressesRequest_addresses, value) {
 			return
 		}
 	}
@@ -2473,15 +2473,15 @@ func (x *fastReflection_QueryAccountLocksRequest) Range(f func(protoreflect.Fiel
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_QueryAccountLocksRequest) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_QueryLocksForAddressesRequest) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "optio.lockup.QueryAccountLocksRequest.addresses":
+	case "optio.lockup.QueryLocksForAddressesRequest.addresses":
 		return x.Addresses != ""
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryAccountLocksRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksForAddressesRequest"))
 		}
-		panic(fmt.Errorf("message optio.lockup.QueryAccountLocksRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message optio.lockup.QueryLocksForAddressesRequest does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -2491,15 +2491,15 @@ func (x *fastReflection_QueryAccountLocksRequest) Has(fd protoreflect.FieldDescr
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAccountLocksRequest) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_QueryLocksForAddressesRequest) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "optio.lockup.QueryAccountLocksRequest.addresses":
+	case "optio.lockup.QueryLocksForAddressesRequest.addresses":
 		x.Addresses = ""
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryAccountLocksRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksForAddressesRequest"))
 		}
-		panic(fmt.Errorf("message optio.lockup.QueryAccountLocksRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message optio.lockup.QueryLocksForAddressesRequest does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -2509,16 +2509,16 @@ func (x *fastReflection_QueryAccountLocksRequest) Clear(fd protoreflect.FieldDes
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_QueryAccountLocksRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryLocksForAddressesRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "optio.lockup.QueryAccountLocksRequest.addresses":
+	case "optio.lockup.QueryLocksForAddressesRequest.addresses":
 		value := x.Addresses
 		return protoreflect.ValueOfString(value)
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryAccountLocksRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksForAddressesRequest"))
 		}
-		panic(fmt.Errorf("message optio.lockup.QueryAccountLocksRequest does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message optio.lockup.QueryLocksForAddressesRequest does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -2532,15 +2532,15 @@ func (x *fastReflection_QueryAccountLocksRequest) Get(descriptor protoreflect.Fi
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAccountLocksRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_QueryLocksForAddressesRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "optio.lockup.QueryAccountLocksRequest.addresses":
+	case "optio.lockup.QueryLocksForAddressesRequest.addresses":
 		x.Addresses = value.Interface().(string)
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryAccountLocksRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksForAddressesRequest"))
 		}
-		panic(fmt.Errorf("message optio.lockup.QueryAccountLocksRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message optio.lockup.QueryLocksForAddressesRequest does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -2554,40 +2554,40 @@ func (x *fastReflection_QueryAccountLocksRequest) Set(fd protoreflect.FieldDescr
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAccountLocksRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryLocksForAddressesRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "optio.lockup.QueryAccountLocksRequest.addresses":
-		panic(fmt.Errorf("field addresses of message optio.lockup.QueryAccountLocksRequest is not mutable"))
+	case "optio.lockup.QueryLocksForAddressesRequest.addresses":
+		panic(fmt.Errorf("field addresses of message optio.lockup.QueryLocksForAddressesRequest is not mutable"))
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryAccountLocksRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksForAddressesRequest"))
 		}
-		panic(fmt.Errorf("message optio.lockup.QueryAccountLocksRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message optio.lockup.QueryLocksForAddressesRequest does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_QueryAccountLocksRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryLocksForAddressesRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "optio.lockup.QueryAccountLocksRequest.addresses":
+	case "optio.lockup.QueryLocksForAddressesRequest.addresses":
 		return protoreflect.ValueOfString("")
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryAccountLocksRequest"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksForAddressesRequest"))
 		}
-		panic(fmt.Errorf("message optio.lockup.QueryAccountLocksRequest does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message optio.lockup.QueryLocksForAddressesRequest does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_QueryAccountLocksRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_QueryLocksForAddressesRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in optio.lockup.QueryAccountLocksRequest", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in optio.lockup.QueryLocksForAddressesRequest", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -2595,7 +2595,7 @@ func (x *fastReflection_QueryAccountLocksRequest) WhichOneof(d protoreflect.Oneo
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_QueryAccountLocksRequest) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_QueryLocksForAddressesRequest) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -2606,7 +2606,7 @@ func (x *fastReflection_QueryAccountLocksRequest) GetUnknown() protoreflect.RawF
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAccountLocksRequest) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_QueryLocksForAddressesRequest) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -2618,7 +2618,7 @@ func (x *fastReflection_QueryAccountLocksRequest) SetUnknown(fields protoreflect
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_QueryAccountLocksRequest) IsValid() bool {
+func (x *fastReflection_QueryLocksForAddressesRequest) IsValid() bool {
 	return x != nil
 }
 
@@ -2628,9 +2628,9 @@ func (x *fastReflection_QueryAccountLocksRequest) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_QueryAccountLocksRequest) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_QueryLocksForAddressesRequest) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*QueryAccountLocksRequest)
+		x := input.Message.Interface().(*QueryLocksForAddressesRequest)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -2656,7 +2656,7 @@ func (x *fastReflection_QueryAccountLocksRequest) ProtoMethods() *protoiface.Met
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*QueryAccountLocksRequest)
+		x := input.Message.Interface().(*QueryLocksForAddressesRequest)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -2693,7 +2693,7 @@ func (x *fastReflection_QueryAccountLocksRequest) ProtoMethods() *protoiface.Met
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*QueryAccountLocksRequest)
+		x := input.Message.Interface().(*QueryLocksForAddressesRequest)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -2725,10 +2725,10 @@ func (x *fastReflection_QueryAccountLocksRequest) ProtoMethods() *protoiface.Met
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryAccountLocksRequest: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryLocksForAddressesRequest: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryAccountLocksRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryLocksForAddressesRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			case 1:
@@ -2798,77 +2798,77 @@ func (x *fastReflection_QueryAccountLocksRequest) ProtoMethods() *protoiface.Met
 	}
 }
 
-var _ protoreflect.List = (*_QueryAccountLocksResponse_1_list)(nil)
+var _ protoreflect.List = (*_QueryLocksForAddressesResponse_1_list)(nil)
 
-type _QueryAccountLocksResponse_1_list struct {
+type _QueryLocksForAddressesResponse_1_list struct {
 	list *[]*AccountLocks
 }
 
-func (x *_QueryAccountLocksResponse_1_list) Len() int {
+func (x *_QueryLocksForAddressesResponse_1_list) Len() int {
 	if x.list == nil {
 		return 0
 	}
 	return len(*x.list)
 }
 
-func (x *_QueryAccountLocksResponse_1_list) Get(i int) protoreflect.Value {
+func (x *_QueryLocksForAddressesResponse_1_list) Get(i int) protoreflect.Value {
 	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
 }
 
-func (x *_QueryAccountLocksResponse_1_list) Set(i int, value protoreflect.Value) {
+func (x *_QueryLocksForAddressesResponse_1_list) Set(i int, value protoreflect.Value) {
 	valueUnwrapped := value.Message()
 	concreteValue := valueUnwrapped.Interface().(*AccountLocks)
 	(*x.list)[i] = concreteValue
 }
 
-func (x *_QueryAccountLocksResponse_1_list) Append(value protoreflect.Value) {
+func (x *_QueryLocksForAddressesResponse_1_list) Append(value protoreflect.Value) {
 	valueUnwrapped := value.Message()
 	concreteValue := valueUnwrapped.Interface().(*AccountLocks)
 	*x.list = append(*x.list, concreteValue)
 }
 
-func (x *_QueryAccountLocksResponse_1_list) AppendMutable() protoreflect.Value {
+func (x *_QueryLocksForAddressesResponse_1_list) AppendMutable() protoreflect.Value {
 	v := new(AccountLocks)
 	*x.list = append(*x.list, v)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
-func (x *_QueryAccountLocksResponse_1_list) Truncate(n int) {
+func (x *_QueryLocksForAddressesResponse_1_list) Truncate(n int) {
 	for i := n; i < len(*x.list); i++ {
 		(*x.list)[i] = nil
 	}
 	*x.list = (*x.list)[:n]
 }
 
-func (x *_QueryAccountLocksResponse_1_list) NewElement() protoreflect.Value {
+func (x *_QueryLocksForAddressesResponse_1_list) NewElement() protoreflect.Value {
 	v := new(AccountLocks)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
-func (x *_QueryAccountLocksResponse_1_list) IsValid() bool {
+func (x *_QueryLocksForAddressesResponse_1_list) IsValid() bool {
 	return x.list != nil
 }
 
 var (
-	md_QueryAccountLocksResponse       protoreflect.MessageDescriptor
-	fd_QueryAccountLocksResponse_locks protoreflect.FieldDescriptor
+	md_QueryLocksForAddressesResponse       protoreflect.MessageDescriptor
+	fd_QueryLocksForAddressesResponse_locks protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_optio_lockup_query_proto_init()
-	md_QueryAccountLocksResponse = File_optio_lockup_query_proto.Messages().ByName("QueryAccountLocksResponse")
-	fd_QueryAccountLocksResponse_locks = md_QueryAccountLocksResponse.Fields().ByName("locks")
+	md_QueryLocksForAddressesResponse = File_optio_lockup_query_proto.Messages().ByName("QueryLocksForAddressesResponse")
+	fd_QueryLocksForAddressesResponse_locks = md_QueryLocksForAddressesResponse.Fields().ByName("locks")
 }
 
-var _ protoreflect.Message = (*fastReflection_QueryAccountLocksResponse)(nil)
+var _ protoreflect.Message = (*fastReflection_QueryLocksForAddressesResponse)(nil)
 
-type fastReflection_QueryAccountLocksResponse QueryAccountLocksResponse
+type fastReflection_QueryLocksForAddressesResponse QueryLocksForAddressesResponse
 
-func (x *QueryAccountLocksResponse) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_QueryAccountLocksResponse)(x)
+func (x *QueryLocksForAddressesResponse) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryLocksForAddressesResponse)(x)
 }
 
-func (x *QueryAccountLocksResponse) slowProtoReflect() protoreflect.Message {
+func (x *QueryLocksForAddressesResponse) slowProtoReflect() protoreflect.Message {
 	mi := &file_optio_lockup_query_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -2880,43 +2880,43 @@ func (x *QueryAccountLocksResponse) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_QueryAccountLocksResponse_messageType fastReflection_QueryAccountLocksResponse_messageType
-var _ protoreflect.MessageType = fastReflection_QueryAccountLocksResponse_messageType{}
+var _fastReflection_QueryLocksForAddressesResponse_messageType fastReflection_QueryLocksForAddressesResponse_messageType
+var _ protoreflect.MessageType = fastReflection_QueryLocksForAddressesResponse_messageType{}
 
-type fastReflection_QueryAccountLocksResponse_messageType struct{}
+type fastReflection_QueryLocksForAddressesResponse_messageType struct{}
 
-func (x fastReflection_QueryAccountLocksResponse_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_QueryAccountLocksResponse)(nil)
+func (x fastReflection_QueryLocksForAddressesResponse_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryLocksForAddressesResponse)(nil)
 }
-func (x fastReflection_QueryAccountLocksResponse_messageType) New() protoreflect.Message {
-	return new(fastReflection_QueryAccountLocksResponse)
+func (x fastReflection_QueryLocksForAddressesResponse_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryLocksForAddressesResponse)
 }
-func (x fastReflection_QueryAccountLocksResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryAccountLocksResponse
+func (x fastReflection_QueryLocksForAddressesResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryLocksForAddressesResponse
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_QueryAccountLocksResponse) Descriptor() protoreflect.MessageDescriptor {
-	return md_QueryAccountLocksResponse
+func (x *fastReflection_QueryLocksForAddressesResponse) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryLocksForAddressesResponse
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_QueryAccountLocksResponse) Type() protoreflect.MessageType {
-	return _fastReflection_QueryAccountLocksResponse_messageType
+func (x *fastReflection_QueryLocksForAddressesResponse) Type() protoreflect.MessageType {
+	return _fastReflection_QueryLocksForAddressesResponse_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_QueryAccountLocksResponse) New() protoreflect.Message {
-	return new(fastReflection_QueryAccountLocksResponse)
+func (x *fastReflection_QueryLocksForAddressesResponse) New() protoreflect.Message {
+	return new(fastReflection_QueryLocksForAddressesResponse)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_QueryAccountLocksResponse) Interface() protoreflect.ProtoMessage {
-	return (*QueryAccountLocksResponse)(x)
+func (x *fastReflection_QueryLocksForAddressesResponse) Interface() protoreflect.ProtoMessage {
+	return (*QueryLocksForAddressesResponse)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -2924,10 +2924,10 @@ func (x *fastReflection_QueryAccountLocksResponse) Interface() protoreflect.Prot
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_QueryAccountLocksResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+func (x *fastReflection_QueryLocksForAddressesResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
 	if len(x.Locks) != 0 {
-		value := protoreflect.ValueOfList(&_QueryAccountLocksResponse_1_list{list: &x.Locks})
-		if !f(fd_QueryAccountLocksResponse_locks, value) {
+		value := protoreflect.ValueOfList(&_QueryLocksForAddressesResponse_1_list{list: &x.Locks})
+		if !f(fd_QueryLocksForAddressesResponse_locks, value) {
 			return
 		}
 	}
@@ -2944,15 +2944,15 @@ func (x *fastReflection_QueryAccountLocksResponse) Range(f func(protoreflect.Fie
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_QueryAccountLocksResponse) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_QueryLocksForAddressesResponse) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "optio.lockup.QueryAccountLocksResponse.locks":
+	case "optio.lockup.QueryLocksForAddressesResponse.locks":
 		return len(x.Locks) != 0
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryAccountLocksResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksForAddressesResponse"))
 		}
-		panic(fmt.Errorf("message optio.lockup.QueryAccountLocksResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message optio.lockup.QueryLocksForAddressesResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -2962,15 +2962,15 @@ func (x *fastReflection_QueryAccountLocksResponse) Has(fd protoreflect.FieldDesc
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAccountLocksResponse) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_QueryLocksForAddressesResponse) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "optio.lockup.QueryAccountLocksResponse.locks":
+	case "optio.lockup.QueryLocksForAddressesResponse.locks":
 		x.Locks = nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryAccountLocksResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksForAddressesResponse"))
 		}
-		panic(fmt.Errorf("message optio.lockup.QueryAccountLocksResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message optio.lockup.QueryLocksForAddressesResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -2980,19 +2980,19 @@ func (x *fastReflection_QueryAccountLocksResponse) Clear(fd protoreflect.FieldDe
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_QueryAccountLocksResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryLocksForAddressesResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "optio.lockup.QueryAccountLocksResponse.locks":
+	case "optio.lockup.QueryLocksForAddressesResponse.locks":
 		if len(x.Locks) == 0 {
-			return protoreflect.ValueOfList(&_QueryAccountLocksResponse_1_list{})
+			return protoreflect.ValueOfList(&_QueryLocksForAddressesResponse_1_list{})
 		}
-		listValue := &_QueryAccountLocksResponse_1_list{list: &x.Locks}
+		listValue := &_QueryLocksForAddressesResponse_1_list{list: &x.Locks}
 		return protoreflect.ValueOfList(listValue)
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryAccountLocksResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksForAddressesResponse"))
 		}
-		panic(fmt.Errorf("message optio.lockup.QueryAccountLocksResponse does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message optio.lockup.QueryLocksForAddressesResponse does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -3006,17 +3006,17 @@ func (x *fastReflection_QueryAccountLocksResponse) Get(descriptor protoreflect.F
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAccountLocksResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_QueryLocksForAddressesResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "optio.lockup.QueryAccountLocksResponse.locks":
+	case "optio.lockup.QueryLocksForAddressesResponse.locks":
 		lv := value.List()
-		clv := lv.(*_QueryAccountLocksResponse_1_list)
+		clv := lv.(*_QueryLocksForAddressesResponse_1_list)
 		x.Locks = *clv.list
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryAccountLocksResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksForAddressesResponse"))
 		}
-		panic(fmt.Errorf("message optio.lockup.QueryAccountLocksResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message optio.lockup.QueryLocksForAddressesResponse does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -3030,45 +3030,45 @@ func (x *fastReflection_QueryAccountLocksResponse) Set(fd protoreflect.FieldDesc
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAccountLocksResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryLocksForAddressesResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "optio.lockup.QueryAccountLocksResponse.locks":
+	case "optio.lockup.QueryLocksForAddressesResponse.locks":
 		if x.Locks == nil {
 			x.Locks = []*AccountLocks{}
 		}
-		value := &_QueryAccountLocksResponse_1_list{list: &x.Locks}
+		value := &_QueryLocksForAddressesResponse_1_list{list: &x.Locks}
 		return protoreflect.ValueOfList(value)
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryAccountLocksResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksForAddressesResponse"))
 		}
-		panic(fmt.Errorf("message optio.lockup.QueryAccountLocksResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message optio.lockup.QueryLocksForAddressesResponse does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_QueryAccountLocksResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_QueryLocksForAddressesResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "optio.lockup.QueryAccountLocksResponse.locks":
+	case "optio.lockup.QueryLocksForAddressesResponse.locks":
 		list := []*AccountLocks{}
-		return protoreflect.ValueOfList(&_QueryAccountLocksResponse_1_list{list: &list})
+		return protoreflect.ValueOfList(&_QueryLocksForAddressesResponse_1_list{list: &list})
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryAccountLocksResponse"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksForAddressesResponse"))
 		}
-		panic(fmt.Errorf("message optio.lockup.QueryAccountLocksResponse does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message optio.lockup.QueryLocksForAddressesResponse does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_QueryAccountLocksResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_QueryLocksForAddressesResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in optio.lockup.QueryAccountLocksResponse", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in optio.lockup.QueryLocksForAddressesResponse", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -3076,7 +3076,7 @@ func (x *fastReflection_QueryAccountLocksResponse) WhichOneof(d protoreflect.One
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_QueryAccountLocksResponse) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_QueryLocksForAddressesResponse) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -3087,7 +3087,7 @@ func (x *fastReflection_QueryAccountLocksResponse) GetUnknown() protoreflect.Raw
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_QueryAccountLocksResponse) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_QueryLocksForAddressesResponse) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -3099,7 +3099,7 @@ func (x *fastReflection_QueryAccountLocksResponse) SetUnknown(fields protoreflec
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_QueryAccountLocksResponse) IsValid() bool {
+func (x *fastReflection_QueryLocksForAddressesResponse) IsValid() bool {
 	return x != nil
 }
 
@@ -3109,9 +3109,9 @@ func (x *fastReflection_QueryAccountLocksResponse) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_QueryAccountLocksResponse) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_QueryLocksForAddressesResponse) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*QueryAccountLocksResponse)
+		x := input.Message.Interface().(*QueryLocksForAddressesResponse)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -3139,7 +3139,7 @@ func (x *fastReflection_QueryAccountLocksResponse) ProtoMethods() *protoiface.Me
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*QueryAccountLocksResponse)
+		x := input.Message.Interface().(*QueryLocksForAddressesResponse)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -3185,7 +3185,7 @@ func (x *fastReflection_QueryAccountLocksResponse) ProtoMethods() *protoiface.Me
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*QueryAccountLocksResponse)
+		x := input.Message.Interface().(*QueryLocksForAddressesResponse)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -3217,10 +3217,10 @@ func (x *fastReflection_QueryAccountLocksResponse) ProtoMethods() *protoiface.Me
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryAccountLocksResponse: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryLocksForAddressesResponse: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryAccountLocksResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryLocksForAddressesResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			case 1:
@@ -3850,6 +3850,920 @@ func (x *fastReflection_AccountLocks) ProtoMethods() *protoiface.Methods {
 	}
 }
 
+var (
+	md_QueryLocksRequest         protoreflect.MessageDescriptor
+	fd_QueryLocksRequest_address protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_optio_lockup_query_proto_init()
+	md_QueryLocksRequest = File_optio_lockup_query_proto.Messages().ByName("QueryLocksRequest")
+	fd_QueryLocksRequest_address = md_QueryLocksRequest.Fields().ByName("address")
+}
+
+var _ protoreflect.Message = (*fastReflection_QueryLocksRequest)(nil)
+
+type fastReflection_QueryLocksRequest QueryLocksRequest
+
+func (x *QueryLocksRequest) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryLocksRequest)(x)
+}
+
+func (x *QueryLocksRequest) slowProtoReflect() protoreflect.Message {
+	mi := &file_optio_lockup_query_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_QueryLocksRequest_messageType fastReflection_QueryLocksRequest_messageType
+var _ protoreflect.MessageType = fastReflection_QueryLocksRequest_messageType{}
+
+type fastReflection_QueryLocksRequest_messageType struct{}
+
+func (x fastReflection_QueryLocksRequest_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryLocksRequest)(nil)
+}
+func (x fastReflection_QueryLocksRequest_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryLocksRequest)
+}
+func (x fastReflection_QueryLocksRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryLocksRequest
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_QueryLocksRequest) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryLocksRequest
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_QueryLocksRequest) Type() protoreflect.MessageType {
+	return _fastReflection_QueryLocksRequest_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_QueryLocksRequest) New() protoreflect.Message {
+	return new(fastReflection_QueryLocksRequest)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_QueryLocksRequest) Interface() protoreflect.ProtoMessage {
+	return (*QueryLocksRequest)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_QueryLocksRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.Address != "" {
+		value := protoreflect.ValueOfString(x.Address)
+		if !f(fd_QueryLocksRequest_address, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_QueryLocksRequest) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "optio.lockup.QueryLocksRequest.address":
+		return x.Address != ""
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksRequest"))
+		}
+		panic(fmt.Errorf("message optio.lockup.QueryLocksRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryLocksRequest) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "optio.lockup.QueryLocksRequest.address":
+		x.Address = ""
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksRequest"))
+		}
+		panic(fmt.Errorf("message optio.lockup.QueryLocksRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_QueryLocksRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "optio.lockup.QueryLocksRequest.address":
+		value := x.Address
+		return protoreflect.ValueOfString(value)
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksRequest"))
+		}
+		panic(fmt.Errorf("message optio.lockup.QueryLocksRequest does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryLocksRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "optio.lockup.QueryLocksRequest.address":
+		x.Address = value.Interface().(string)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksRequest"))
+		}
+		panic(fmt.Errorf("message optio.lockup.QueryLocksRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryLocksRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "optio.lockup.QueryLocksRequest.address":
+		panic(fmt.Errorf("field address of message optio.lockup.QueryLocksRequest is not mutable"))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksRequest"))
+		}
+		panic(fmt.Errorf("message optio.lockup.QueryLocksRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_QueryLocksRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "optio.lockup.QueryLocksRequest.address":
+		return protoreflect.ValueOfString("")
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksRequest"))
+		}
+		panic(fmt.Errorf("message optio.lockup.QueryLocksRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_QueryLocksRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in optio.lockup.QueryLocksRequest", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_QueryLocksRequest) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryLocksRequest) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_QueryLocksRequest) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_QueryLocksRequest) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*QueryLocksRequest)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		l = len(x.Address)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*QueryLocksRequest)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if len(x.Address) > 0 {
+			i -= len(x.Address)
+			copy(dAtA[i:], x.Address)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Address)))
+			i--
+			dAtA[i] = 0xa
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*QueryLocksRequest)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryLocksRequest: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryLocksRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Address = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
+var _ protoreflect.List = (*_QueryLocksResponse_1_list)(nil)
+
+type _QueryLocksResponse_1_list struct {
+	list *[]*Lock
+}
+
+func (x *_QueryLocksResponse_1_list) Len() int {
+	if x.list == nil {
+		return 0
+	}
+	return len(*x.list)
+}
+
+func (x *_QueryLocksResponse_1_list) Get(i int) protoreflect.Value {
+	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
+}
+
+func (x *_QueryLocksResponse_1_list) Set(i int, value protoreflect.Value) {
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*Lock)
+	(*x.list)[i] = concreteValue
+}
+
+func (x *_QueryLocksResponse_1_list) Append(value protoreflect.Value) {
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*Lock)
+	*x.list = append(*x.list, concreteValue)
+}
+
+func (x *_QueryLocksResponse_1_list) AppendMutable() protoreflect.Value {
+	v := new(Lock)
+	*x.list = append(*x.list, v)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_QueryLocksResponse_1_list) Truncate(n int) {
+	for i := n; i < len(*x.list); i++ {
+		(*x.list)[i] = nil
+	}
+	*x.list = (*x.list)[:n]
+}
+
+func (x *_QueryLocksResponse_1_list) NewElement() protoreflect.Value {
+	v := new(Lock)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_QueryLocksResponse_1_list) IsValid() bool {
+	return x.list != nil
+}
+
+var (
+	md_QueryLocksResponse       protoreflect.MessageDescriptor
+	fd_QueryLocksResponse_locks protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_optio_lockup_query_proto_init()
+	md_QueryLocksResponse = File_optio_lockup_query_proto.Messages().ByName("QueryLocksResponse")
+	fd_QueryLocksResponse_locks = md_QueryLocksResponse.Fields().ByName("locks")
+}
+
+var _ protoreflect.Message = (*fastReflection_QueryLocksResponse)(nil)
+
+type fastReflection_QueryLocksResponse QueryLocksResponse
+
+func (x *QueryLocksResponse) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryLocksResponse)(x)
+}
+
+func (x *QueryLocksResponse) slowProtoReflect() protoreflect.Message {
+	mi := &file_optio_lockup_query_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_QueryLocksResponse_messageType fastReflection_QueryLocksResponse_messageType
+var _ protoreflect.MessageType = fastReflection_QueryLocksResponse_messageType{}
+
+type fastReflection_QueryLocksResponse_messageType struct{}
+
+func (x fastReflection_QueryLocksResponse_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryLocksResponse)(nil)
+}
+func (x fastReflection_QueryLocksResponse_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryLocksResponse)
+}
+func (x fastReflection_QueryLocksResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryLocksResponse
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_QueryLocksResponse) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryLocksResponse
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_QueryLocksResponse) Type() protoreflect.MessageType {
+	return _fastReflection_QueryLocksResponse_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_QueryLocksResponse) New() protoreflect.Message {
+	return new(fastReflection_QueryLocksResponse)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_QueryLocksResponse) Interface() protoreflect.ProtoMessage {
+	return (*QueryLocksResponse)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_QueryLocksResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if len(x.Locks) != 0 {
+		value := protoreflect.ValueOfList(&_QueryLocksResponse_1_list{list: &x.Locks})
+		if !f(fd_QueryLocksResponse_locks, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_QueryLocksResponse) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "optio.lockup.QueryLocksResponse.locks":
+		return len(x.Locks) != 0
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksResponse"))
+		}
+		panic(fmt.Errorf("message optio.lockup.QueryLocksResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryLocksResponse) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "optio.lockup.QueryLocksResponse.locks":
+		x.Locks = nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksResponse"))
+		}
+		panic(fmt.Errorf("message optio.lockup.QueryLocksResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_QueryLocksResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "optio.lockup.QueryLocksResponse.locks":
+		if len(x.Locks) == 0 {
+			return protoreflect.ValueOfList(&_QueryLocksResponse_1_list{})
+		}
+		listValue := &_QueryLocksResponse_1_list{list: &x.Locks}
+		return protoreflect.ValueOfList(listValue)
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksResponse"))
+		}
+		panic(fmt.Errorf("message optio.lockup.QueryLocksResponse does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryLocksResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "optio.lockup.QueryLocksResponse.locks":
+		lv := value.List()
+		clv := lv.(*_QueryLocksResponse_1_list)
+		x.Locks = *clv.list
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksResponse"))
+		}
+		panic(fmt.Errorf("message optio.lockup.QueryLocksResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryLocksResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "optio.lockup.QueryLocksResponse.locks":
+		if x.Locks == nil {
+			x.Locks = []*Lock{}
+		}
+		value := &_QueryLocksResponse_1_list{list: &x.Locks}
+		return protoreflect.ValueOfList(value)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksResponse"))
+		}
+		panic(fmt.Errorf("message optio.lockup.QueryLocksResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_QueryLocksResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "optio.lockup.QueryLocksResponse.locks":
+		list := []*Lock{}
+		return protoreflect.ValueOfList(&_QueryLocksResponse_1_list{list: &list})
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksResponse"))
+		}
+		panic(fmt.Errorf("message optio.lockup.QueryLocksResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_QueryLocksResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in optio.lockup.QueryLocksResponse", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_QueryLocksResponse) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryLocksResponse) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_QueryLocksResponse) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_QueryLocksResponse) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*QueryLocksResponse)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		if len(x.Locks) > 0 {
+			for _, e := range x.Locks {
+				l = options.Size(e)
+				n += 1 + l + runtime.Sov(uint64(l))
+			}
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*QueryLocksResponse)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if len(x.Locks) > 0 {
+			for iNdEx := len(x.Locks) - 1; iNdEx >= 0; iNdEx-- {
+				encoded, err := options.Marshal(x.Locks[iNdEx])
+				if err != nil {
+					return protoiface.MarshalOutput{
+						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+						Buf:               input.Buf,
+					}, err
+				}
+				i -= len(encoded)
+				copy(dAtA[i:], encoded)
+				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+				i--
+				dAtA[i] = 0xa
+			}
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*QueryLocksResponse)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryLocksResponse: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryLocksResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Locks", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Locks = append(x.Locks, &Lock{})
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Locks[len(x.Locks)-1]); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
 // Code generated by protoc-gen-go. DO NOT EDIT.
 // versions:
 // 	protoc-gen-go v1.27.0
@@ -4057,8 +4971,8 @@ func (x *QueryTotalLockedAmountResponse) GetTotalLocked() *v1beta11.Coin {
 	return nil
 }
 
-// QueryAccountLocksRequest is request type for the Query/AccountLocks RPC method.
-type QueryAccountLocksRequest struct {
+// QueryLocksForAddressesRequest is request type for the Query/LocksForAddresses RPC method.
+type QueryLocksForAddressesRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -4066,8 +4980,8 @@ type QueryAccountLocksRequest struct {
 	Addresses string `protobuf:"bytes,1,opt,name=addresses,proto3" json:"addresses,omitempty"`
 }
 
-func (x *QueryAccountLocksRequest) Reset() {
-	*x = QueryAccountLocksRequest{}
+func (x *QueryLocksForAddressesRequest) Reset() {
+	*x = QueryLocksForAddressesRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_optio_lockup_query_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -4075,26 +4989,26 @@ func (x *QueryAccountLocksRequest) Reset() {
 	}
 }
 
-func (x *QueryAccountLocksRequest) String() string {
+func (x *QueryLocksForAddressesRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*QueryAccountLocksRequest) ProtoMessage() {}
+func (*QueryLocksForAddressesRequest) ProtoMessage() {}
 
-// Deprecated: Use QueryAccountLocksRequest.ProtoReflect.Descriptor instead.
-func (*QueryAccountLocksRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use QueryLocksForAddressesRequest.ProtoReflect.Descriptor instead.
+func (*QueryLocksForAddressesRequest) Descriptor() ([]byte, []int) {
 	return file_optio_lockup_query_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *QueryAccountLocksRequest) GetAddresses() string {
+func (x *QueryLocksForAddressesRequest) GetAddresses() string {
 	if x != nil {
 		return x.Addresses
 	}
 	return ""
 }
 
-// QueryAccountLocksResponse is response type for the Query/AccountLocks RPC method.
-type QueryAccountLocksResponse struct {
+// QueryLocksForAddressesResponse is response type for the Query/LocksForAddresses RPC method.
+type QueryLocksForAddressesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -4102,8 +5016,8 @@ type QueryAccountLocksResponse struct {
 	Locks []*AccountLocks `protobuf:"bytes,1,rep,name=locks,proto3" json:"locks,omitempty"`
 }
 
-func (x *QueryAccountLocksResponse) Reset() {
-	*x = QueryAccountLocksResponse{}
+func (x *QueryLocksForAddressesResponse) Reset() {
+	*x = QueryLocksForAddressesResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_optio_lockup_query_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -4111,18 +5025,18 @@ func (x *QueryAccountLocksResponse) Reset() {
 	}
 }
 
-func (x *QueryAccountLocksResponse) String() string {
+func (x *QueryLocksForAddressesResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*QueryAccountLocksResponse) ProtoMessage() {}
+func (*QueryLocksForAddressesResponse) ProtoMessage() {}
 
-// Deprecated: Use QueryAccountLocksResponse.ProtoReflect.Descriptor instead.
-func (*QueryAccountLocksResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use QueryLocksForAddressesResponse.ProtoReflect.Descriptor instead.
+func (*QueryLocksForAddressesResponse) Descriptor() ([]byte, []int) {
 	return file_optio_lockup_query_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *QueryAccountLocksResponse) GetLocks() []*AccountLocks {
+func (x *QueryLocksForAddressesResponse) GetLocks() []*AccountLocks {
 	if x != nil {
 		return x.Locks
 	}
@@ -4166,6 +5080,78 @@ func (x *AccountLocks) GetAddress() string {
 }
 
 func (x *AccountLocks) GetLocks() []*Lock {
+	if x != nil {
+		return x.Locks
+	}
+	return nil
+}
+
+// QueryLocksRequest is request type for the Query/Locks RPC method.
+type QueryLocksRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Address string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
+}
+
+func (x *QueryLocksRequest) Reset() {
+	*x = QueryLocksRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_optio_lockup_query_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QueryLocksRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueryLocksRequest) ProtoMessage() {}
+
+// Deprecated: Use QueryLocksRequest.ProtoReflect.Descriptor instead.
+func (*QueryLocksRequest) Descriptor() ([]byte, []int) {
+	return file_optio_lockup_query_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *QueryLocksRequest) GetAddress() string {
+	if x != nil {
+		return x.Address
+	}
+	return ""
+}
+
+// QueryLocksResponse is response type for the Query/Locks RPC method.
+type QueryLocksResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Locks []*Lock `protobuf:"bytes,1,rep,name=locks,proto3" json:"locks,omitempty"`
+}
+
+func (x *QueryLocksResponse) Reset() {
+	*x = QueryLocksResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_optio_lockup_query_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QueryLocksResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueryLocksResponse) ProtoMessage() {}
+
+// Deprecated: Use QueryLocksResponse.ProtoReflect.Descriptor instead.
+func (*QueryLocksResponse) Descriptor() ([]byte, []int) {
+	return file_optio_lockup_query_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *QueryLocksResponse) GetLocks() []*Lock {
 	if x != nil {
 		return x.Locks
 	}
@@ -4219,59 +5205,76 @@ var file_optio_lockup_query_proto_rawDesc = []byte{
 	0x6c, 0x6f, 0x63, 0x6b, 0x65, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x63,
 	0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74,
 	0x61, 0x31, 0x2e, 0x43, 0x6f, 0x69, 0x6e, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x0b, 0x74,
-	0x6f, 0x74, 0x61, 0x6c, 0x4c, 0x6f, 0x63, 0x6b, 0x65, 0x64, 0x22, 0x38, 0x0a, 0x18, 0x51, 0x75,
-	0x65, 0x72, 0x79, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x52,
-	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73,
-	0x73, 0x65, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x61, 0x64, 0x64, 0x72, 0x65,
-	0x73, 0x73, 0x65, 0x73, 0x22, 0x53, 0x0a, 0x19, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x63, 0x63,
-	0x6f, 0x75, 0x6e, 0x74, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x12, 0x36, 0x0a, 0x05, 0x6c, 0x6f, 0x63, 0x6b, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b,
-	0x32, 0x1a, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2e,
-	0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x42, 0x04, 0xc8, 0xde,
-	0x1f, 0x00, 0x52, 0x05, 0x6c, 0x6f, 0x63, 0x6b, 0x73, 0x22, 0x58, 0x0a, 0x0c, 0x41, 0x63, 0x63,
-	0x6f, 0x75, 0x6e, 0x74, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x12, 0x18, 0x0a, 0x07, 0x61, 0x64, 0x64,
-	0x72, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x61, 0x64, 0x64, 0x72,
-	0x65, 0x73, 0x73, 0x12, 0x2e, 0x0a, 0x05, 0x6c, 0x6f, 0x63, 0x6b, 0x73, 0x18, 0x02, 0x20, 0x03,
-	0x28, 0x0b, 0x32, 0x12, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75,
-	0x70, 0x2e, 0x4c, 0x6f, 0x63, 0x6b, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x05, 0x6c, 0x6f,
-	0x63, 0x6b, 0x73, 0x32, 0xad, 0x03, 0x0a, 0x05, 0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0x80, 0x01,
-	0x0a, 0x0b, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x12, 0x25, 0x2e,
-	0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2e, 0x51, 0x75, 0x65,
-	0x72, 0x79, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x1a, 0x26, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63,
-	0x6b, 0x75, 0x70, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x4c,
-	0x6f, 0x63, 0x6b, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x22, 0x82, 0xd3,
-	0xe4, 0x93, 0x02, 0x1c, 0x12, 0x1a, 0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f, 0x6c, 0x6f, 0x63,
-	0x6b, 0x75, 0x70, 0x2f, 0x61, 0x63, 0x74, 0x69, 0x76, 0x65, 0x5f, 0x6c, 0x6f, 0x63, 0x6b, 0x73,
-	0x12, 0x99, 0x01, 0x0a, 0x11, 0x54, 0x6f, 0x74, 0x61, 0x6c, 0x4c, 0x6f, 0x63, 0x6b, 0x65, 0x64,
-	0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x2b, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c,
-	0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x54, 0x6f, 0x74, 0x61, 0x6c,
-	0x4c, 0x6f, 0x63, 0x6b, 0x65, 0x64, 0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65, 0x71, 0x75,
-	0x65, 0x73, 0x74, 0x1a, 0x2c, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b,
-	0x75, 0x70, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x54, 0x6f, 0x74, 0x61, 0x6c, 0x4c, 0x6f, 0x63,
-	0x6b, 0x65, 0x64, 0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x22, 0x29, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x23, 0x12, 0x21, 0x2f, 0x6f, 0x70, 0x74, 0x69,
-	0x6f, 0x2f, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2f, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x5f, 0x6c,
-	0x6f, 0x63, 0x6b, 0x65, 0x64, 0x5f, 0x61, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x84, 0x01, 0x0a,
-	0x0c, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x12, 0x26, 0x2e,
-	0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2e, 0x51, 0x75, 0x65,
-	0x72, 0x79, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x27, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f,
-	0x63, 0x6b, 0x75, 0x70, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e,
-	0x74, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x23,
-	0x82, 0xd3, 0xe4, 0x93, 0x02, 0x1d, 0x12, 0x1b, 0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f, 0x6c,
-	0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2f, 0x61, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x5f, 0x6c, 0x6f,
-	0x63, 0x6b, 0x73, 0x42, 0x9f, 0x01, 0x0a, 0x10, 0x63, 0x6f, 0x6d, 0x2e, 0x6f, 0x70, 0x74, 0x69,
-	0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x42, 0x0a, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50,
-	0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x2e, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63,
-	0x6f, 0x6d, 0x2f, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2f,
-	0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f,
-	0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0xa2, 0x02, 0x03, 0x4f, 0x4c, 0x58, 0xaa, 0x02, 0x0c, 0x4f,
-	0x70, 0x74, 0x69, 0x6f, 0x2e, 0x4c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0xca, 0x02, 0x0c, 0x4f, 0x70,
-	0x74, 0x69, 0x6f, 0x5c, 0x4c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0xe2, 0x02, 0x18, 0x4f, 0x70, 0x74,
-	0x69, 0x6f, 0x5c, 0x4c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74,
-	0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x0d, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x3a, 0x3a, 0x4c,
-	0x6f, 0x63, 0x6b, 0x75, 0x70, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6f, 0x74, 0x61, 0x6c, 0x4c, 0x6f, 0x63, 0x6b, 0x65, 0x64, 0x22, 0x3d, 0x0a, 0x1d, 0x51, 0x75,
+	0x65, 0x72, 0x79, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x46, 0x6f, 0x72, 0x41, 0x64, 0x64, 0x72, 0x65,
+	0x73, 0x73, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x61,
+	0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x65, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09,
+	0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x65, 0x73, 0x22, 0x58, 0x0a, 0x1e, 0x51, 0x75, 0x65,
+	0x72, 0x79, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x46, 0x6f, 0x72, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73,
+	0x73, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x36, 0x0a, 0x05, 0x6c,
+	0x6f, 0x63, 0x6b, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x6f, 0x70, 0x74,
+	0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2e, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e,
+	0x74, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x05, 0x6c, 0x6f,
+	0x63, 0x6b, 0x73, 0x22, 0x58, 0x0a, 0x0c, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x4c, 0x6f,
+	0x63, 0x6b, 0x73, 0x12, 0x18, 0x0a, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x2e, 0x0a,
+	0x05, 0x6c, 0x6f, 0x63, 0x6b, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x12, 0x2e, 0x6f,
+	0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2e, 0x4c, 0x6f, 0x63, 0x6b,
+	0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x05, 0x6c, 0x6f, 0x63, 0x6b, 0x73, 0x22, 0x2d, 0x0a,
+	0x11, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x12, 0x18, 0x0a, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x22, 0x44, 0x0a, 0x12,
+	0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x12, 0x2e, 0x0a, 0x05, 0x6c, 0x6f, 0x63, 0x6b, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28,
+	0x0b, 0x32, 0x12, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70,
+	0x2e, 0x4c, 0x6f, 0x63, 0x6b, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x05, 0x6c, 0x6f, 0x63,
+	0x6b, 0x73, 0x32, 0xb7, 0x04, 0x0a, 0x05, 0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0x80, 0x01, 0x0a,
+	0x0b, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x12, 0x25, 0x2e, 0x6f,
+	0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2e, 0x51, 0x75, 0x65, 0x72,
+	0x79, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x26, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b,
+	0x75, 0x70, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x4c, 0x6f,
+	0x63, 0x6b, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x22, 0x82, 0xd3, 0xe4,
+	0x93, 0x02, 0x1c, 0x12, 0x1a, 0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f, 0x6c, 0x6f, 0x63, 0x6b,
+	0x75, 0x70, 0x2f, 0x61, 0x63, 0x74, 0x69, 0x76, 0x65, 0x5f, 0x6c, 0x6f, 0x63, 0x6b, 0x73, 0x12,
+	0x99, 0x01, 0x0a, 0x11, 0x54, 0x6f, 0x74, 0x61, 0x6c, 0x4c, 0x6f, 0x63, 0x6b, 0x65, 0x64, 0x41,
+	0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x2b, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f,
+	0x63, 0x6b, 0x75, 0x70, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x54, 0x6f, 0x74, 0x61, 0x6c, 0x4c,
+	0x6f, 0x63, 0x6b, 0x65, 0x64, 0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x1a, 0x2c, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75,
+	0x70, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x54, 0x6f, 0x74, 0x61, 0x6c, 0x4c, 0x6f, 0x63, 0x6b,
+	0x65, 0x64, 0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x22, 0x29, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x23, 0x12, 0x21, 0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f,
+	0x2f, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2f, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x5f, 0x6c, 0x6f,
+	0x63, 0x6b, 0x65, 0x64, 0x5f, 0x61, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x93, 0x01, 0x0a, 0x11,
+	0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x46, 0x6f, 0x72, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x65,
+	0x73, 0x12, 0x2b, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70,
+	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x46, 0x6f, 0x72, 0x41, 0x64,
+	0x64, 0x72, 0x65, 0x73, 0x73, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2c,
+	0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2e, 0x51, 0x75,
+	0x65, 0x72, 0x79, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x46, 0x6f, 0x72, 0x41, 0x64, 0x64, 0x72, 0x65,
+	0x73, 0x73, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x23, 0x82, 0xd3,
+	0xe4, 0x93, 0x02, 0x1d, 0x12, 0x1b, 0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f, 0x6c, 0x6f, 0x63,
+	0x6b, 0x75, 0x70, 0x2f, 0x61, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x5f, 0x6c, 0x6f, 0x63, 0x6b,
+	0x73, 0x12, 0x79, 0x0a, 0x05, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x12, 0x1f, 0x2e, 0x6f, 0x70, 0x74,
+	0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c,
+	0x6f, 0x63, 0x6b, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x20, 0x2e, 0x6f, 0x70,
+	0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79,
+	0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2d, 0x82,
+	0xd3, 0xe4, 0x93, 0x02, 0x27, 0x12, 0x25, 0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f, 0x6c, 0x6f,
+	0x63, 0x6b, 0x75, 0x70, 0x2f, 0x61, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x5f, 0x6c, 0x6f, 0x63,
+	0x6b, 0x73, 0x2f, 0x7b, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x7d, 0x42, 0x9f, 0x01, 0x0a,
+	0x10, 0x63, 0x6f, 0x6d, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75,
+	0x70, 0x42, 0x0a, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a,
+	0x2e, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x4f, 0x70, 0x74, 0x69,
+	0x6f, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f, 0x61,
+	0x70, 0x69, 0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0xa2,
+	0x02, 0x03, 0x4f, 0x4c, 0x58, 0xaa, 0x02, 0x0c, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x4c, 0x6f,
+	0x63, 0x6b, 0x75, 0x70, 0xca, 0x02, 0x0c, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x5c, 0x4c, 0x6f, 0x63,
+	0x6b, 0x75, 0x70, 0xe2, 0x02, 0x18, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x5c, 0x4c, 0x6f, 0x63, 0x6b,
+	0x75, 0x70, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02,
+	0x0d, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x3a, 0x3a, 0x4c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x62, 0x06,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -4286,40 +5289,45 @@ func file_optio_lockup_query_proto_rawDescGZIP() []byte {
 	return file_optio_lockup_query_proto_rawDescData
 }
 
-var file_optio_lockup_query_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_optio_lockup_query_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_optio_lockup_query_proto_goTypes = []interface{}{
 	(*QueryActiveLocksRequest)(nil),        // 0: optio.lockup.QueryActiveLocksRequest
 	(*QueryActiveLocksResponse)(nil),       // 1: optio.lockup.QueryActiveLocksResponse
 	(*ActiveLock)(nil),                     // 2: optio.lockup.ActiveLock
 	(*QueryTotalLockedAmountRequest)(nil),  // 3: optio.lockup.QueryTotalLockedAmountRequest
 	(*QueryTotalLockedAmountResponse)(nil), // 4: optio.lockup.QueryTotalLockedAmountResponse
-	(*QueryAccountLocksRequest)(nil),       // 5: optio.lockup.QueryAccountLocksRequest
-	(*QueryAccountLocksResponse)(nil),      // 6: optio.lockup.QueryAccountLocksResponse
+	(*QueryLocksForAddressesRequest)(nil),  // 5: optio.lockup.QueryLocksForAddressesRequest
+	(*QueryLocksForAddressesResponse)(nil), // 6: optio.lockup.QueryLocksForAddressesResponse
 	(*AccountLocks)(nil),                   // 7: optio.lockup.AccountLocks
-	(*v1beta1.PageRequest)(nil),            // 8: cosmos.base.query.v1beta1.PageRequest
-	(*v1beta1.PageResponse)(nil),           // 9: cosmos.base.query.v1beta1.PageResponse
-	(*v1beta11.Coin)(nil),                  // 10: cosmos.base.v1beta1.Coin
-	(*Lock)(nil),                           // 11: optio.lockup.Lock
+	(*QueryLocksRequest)(nil),              // 8: optio.lockup.QueryLocksRequest
+	(*QueryLocksResponse)(nil),             // 9: optio.lockup.QueryLocksResponse
+	(*v1beta1.PageRequest)(nil),            // 10: cosmos.base.query.v1beta1.PageRequest
+	(*v1beta1.PageResponse)(nil),           // 11: cosmos.base.query.v1beta1.PageResponse
+	(*v1beta11.Coin)(nil),                  // 12: cosmos.base.v1beta1.Coin
+	(*Lock)(nil),                           // 13: optio.lockup.Lock
 }
 var file_optio_lockup_query_proto_depIdxs = []int32{
-	8,  // 0: optio.lockup.QueryActiveLocksRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	10, // 0: optio.lockup.QueryActiveLocksRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
 	2,  // 1: optio.lockup.QueryActiveLocksResponse.locks:type_name -> optio.lockup.ActiveLock
-	9,  // 2: optio.lockup.QueryActiveLocksResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	10, // 3: optio.lockup.ActiveLock.amount:type_name -> cosmos.base.v1beta1.Coin
-	10, // 4: optio.lockup.QueryTotalLockedAmountResponse.total_locked:type_name -> cosmos.base.v1beta1.Coin
-	7,  // 5: optio.lockup.QueryAccountLocksResponse.locks:type_name -> optio.lockup.AccountLocks
-	11, // 6: optio.lockup.AccountLocks.locks:type_name -> optio.lockup.Lock
-	0,  // 7: optio.lockup.Query.ActiveLocks:input_type -> optio.lockup.QueryActiveLocksRequest
-	3,  // 8: optio.lockup.Query.TotalLockedAmount:input_type -> optio.lockup.QueryTotalLockedAmountRequest
-	5,  // 9: optio.lockup.Query.AccountLocks:input_type -> optio.lockup.QueryAccountLocksRequest
-	1,  // 10: optio.lockup.Query.ActiveLocks:output_type -> optio.lockup.QueryActiveLocksResponse
-	4,  // 11: optio.lockup.Query.TotalLockedAmount:output_type -> optio.lockup.QueryTotalLockedAmountResponse
-	6,  // 12: optio.lockup.Query.AccountLocks:output_type -> optio.lockup.QueryAccountLocksResponse
-	10, // [10:13] is the sub-list for method output_type
-	7,  // [7:10] is the sub-list for method input_type
-	7,  // [7:7] is the sub-list for extension type_name
-	7,  // [7:7] is the sub-list for extension extendee
-	0,  // [0:7] is the sub-list for field type_name
+	11, // 2: optio.lockup.QueryActiveLocksResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	12, // 3: optio.lockup.ActiveLock.amount:type_name -> cosmos.base.v1beta1.Coin
+	12, // 4: optio.lockup.QueryTotalLockedAmountResponse.total_locked:type_name -> cosmos.base.v1beta1.Coin
+	7,  // 5: optio.lockup.QueryLocksForAddressesResponse.locks:type_name -> optio.lockup.AccountLocks
+	13, // 6: optio.lockup.AccountLocks.locks:type_name -> optio.lockup.Lock
+	13, // 7: optio.lockup.QueryLocksResponse.locks:type_name -> optio.lockup.Lock
+	0,  // 8: optio.lockup.Query.ActiveLocks:input_type -> optio.lockup.QueryActiveLocksRequest
+	3,  // 9: optio.lockup.Query.TotalLockedAmount:input_type -> optio.lockup.QueryTotalLockedAmountRequest
+	5,  // 10: optio.lockup.Query.LocksForAddresses:input_type -> optio.lockup.QueryLocksForAddressesRequest
+	8,  // 11: optio.lockup.Query.Locks:input_type -> optio.lockup.QueryLocksRequest
+	1,  // 12: optio.lockup.Query.ActiveLocks:output_type -> optio.lockup.QueryActiveLocksResponse
+	4,  // 13: optio.lockup.Query.TotalLockedAmount:output_type -> optio.lockup.QueryTotalLockedAmountResponse
+	6,  // 14: optio.lockup.Query.LocksForAddresses:output_type -> optio.lockup.QueryLocksForAddressesResponse
+	9,  // 15: optio.lockup.Query.Locks:output_type -> optio.lockup.QueryLocksResponse
+	12, // [12:16] is the sub-list for method output_type
+	8,  // [8:12] is the sub-list for method input_type
+	8,  // [8:8] is the sub-list for extension type_name
+	8,  // [8:8] is the sub-list for extension extendee
+	0,  // [0:8] is the sub-list for field type_name
 }
 
 func init() { file_optio_lockup_query_proto_init() }
@@ -4390,7 +5398,7 @@ func file_optio_lockup_query_proto_init() {
 			}
 		}
 		file_optio_lockup_query_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*QueryAccountLocksRequest); i {
+			switch v := v.(*QueryLocksForAddressesRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4402,7 +5410,7 @@ func file_optio_lockup_query_proto_init() {
 			}
 		}
 		file_optio_lockup_query_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*QueryAccountLocksResponse); i {
+			switch v := v.(*QueryLocksForAddressesResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4425,6 +5433,30 @@ func file_optio_lockup_query_proto_init() {
 				return nil
 			}
 		}
+		file_optio_lockup_query_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QueryLocksRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_optio_lockup_query_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QueryLocksResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -4432,7 +5464,7 @@ func file_optio_lockup_query_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_optio_lockup_query_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   8,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

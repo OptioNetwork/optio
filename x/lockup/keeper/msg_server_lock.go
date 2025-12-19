@@ -10,7 +10,6 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 )
 
 func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLockResponse, error) {
@@ -29,23 +28,6 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 	if err != nil {
 		return nil, sdkerrors.ErrInvalidAddress.Wrapf("invalid lockup address: %s", err)
 	}
-	acc := k.accountKeeper.GetAccount(ctx, address)
-
-	if acc == nil {
-		baseAcc := authtypes.NewBaseAccountWithAddress(address)
-		lAcc := types.NewLockupAccount(baseAcc)
-		k.accountKeeper.SetAccount(ctx, lAcc)
-		acc = lAcc
-	} else {
-		_, ok := acc.(*types.Account)
-		if !ok {
-			lAcc := types.NewLockupAccount(acc.(*authtypes.BaseAccount))
-			k.accountKeeper.SetAccount(ctx, lAcc)
-			acc = lAcc
-		}
-	}
-
-	lockupAcc := acc.(*types.Account)
 
 	if !msg.Amount.IsPositive() {
 		return nil, sdkerrors.ErrInvalidCoins.Wrapf("invalid lock amount: %s", msg.Amount.String())
@@ -67,7 +49,11 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 		return nil, sdkerrors.ErrInvalidRequest.Wrapf("unlock date cannot be more than 2 years from now")
 	}
 
-	currentLockedAmount := lockupAcc.GetLockedAmount(ctx.BlockTime())
+	currentLockedAmount, err := k.GetLockedAmountByAddress(ctx, address)
+	if err != nil {
+		return nil, err
+	}
+
 	totalDelegatedAmount, err := k.GetTotalDelegatedAmount(ctx, address)
 	if err != nil {
 		return nil, err
@@ -82,13 +68,13 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 		)
 	}
 
-	lockupAcc.Locks = lockupAcc.UpsertLock(msg.UnlockDate, msg.Amount)
+	if err = k.SetLockByAddress(ctx, address, &types.Lock{UnlockDate: msg.UnlockDate, Amount: msg.Amount}); err != nil {
+		return nil, err
+	}
 
 	if err := k.AddToExpirationQueue(ctx, unlockDate, address, msg.Amount.Amount); err != nil {
 		return nil, err
 	}
-
-	k.accountKeeper.SetAccount(ctx, lockupAcc)
 
 	ctx.EventManager().EmitEvents([]sdk.Event{
 		sdk.NewEvent(

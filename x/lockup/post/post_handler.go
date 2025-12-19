@@ -4,8 +4,8 @@ import (
 	"time"
 
 	"github.com/OptioNetwork/optio/x/lockup/keeper"
-	"github.com/OptioNetwork/optio/x/lockup/types"
 
+	lockuptypes "github.com/OptioNetwork/optio/x/lockup/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/auth/ante"
 )
@@ -27,8 +27,6 @@ func (d RemoveExpiredLocksDecorator) PostHandle(ctx sdk.Context, tx sdk.Tx, simu
 		return next(ctx, tx, simulate, success)
 	}
 
-	blockTime := ctx.BlockTime()
-
 	feeTx, ok := tx.(sdk.FeeTx)
 	if !ok {
 		return next(ctx, tx, simulate, success)
@@ -39,45 +37,38 @@ func (d RemoveExpiredLocksDecorator) PostHandle(ctx sdk.Context, tx sdk.Tx, simu
 		return next(ctx, tx, simulate, success)
 	}
 
-	acc := d.accountKeeper.GetAccount(ctx, feePayer)
-	if acc == nil {
-		return next(ctx, tx, simulate, success)
+	addr := sdk.AccAddress(feePayer)
+	locks, err := d.lockupKeeper.GetLocksByAddress(ctx, addr)
+	if err != nil {
+		return ctx, err
 	}
 
-	lockupAcc, ok := acc.(*types.Account)
-	if !ok {
-		return next(ctx, tx, simulate, success)
-	}
+	blockTime := ctx.BlockTime()
+	blockDate := time.Date(blockTime.Year(), blockTime.Month(), blockTime.Day(), 0, 0, 0, 0, time.UTC)
 
 	updated := false
-	i := 0
-	for i < len(lockupAcc.Locks) {
-		lock := lockupAcc.Locks[i]
-
+	// Iterate backwards to safely delete while iterating
+	for i := len(locks) - 1; i >= 0; i-- {
+		lock := locks[i]
 		unlockTime, err := time.Parse(time.DateOnly, lock.UnlockDate)
 		if err != nil {
-			i++
 			continue
 		}
 
-		// Normalize blockTime to beginning of day in UTC
-		blockDay := time.Date(blockTime.Year(), blockTime.Month(), blockTime.Day(), 0, 0, 0, 0, time.UTC)
-
-		if unlockTime.Before(blockDay) {
-			lockupAcc.Locks = lockupAcc.RemoveLock(i)
-
-			if err := d.lockupKeeper.RemoveFromExpirationQueue(ctx, unlockTime, feePayer, lock.Amount.Amount); err != nil {
+		if !lockuptypes.IsLocked(blockDate, lock.UnlockDate) {
+			if err := d.lockupKeeper.RemoveFromExpirationQueue(ctx, unlockTime, addr, lock.Amount.Amount); err != nil {
 				return ctx, err
 			}
 
+			locks = append(locks[:i], locks[i+1:]...)
 			updated = true
-		} else {
-			i++
 		}
 	}
 
 	if updated {
-		d.accountKeeper.SetAccount(ctx, lockupAcc)
+		if err := d.lockupKeeper.SetLocksByAddress(ctx, addr, locks); err != nil {
+			return ctx, err
+		}
 	}
 
 	return next(ctx, tx, simulate, success)

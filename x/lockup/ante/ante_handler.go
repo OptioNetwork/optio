@@ -64,18 +64,48 @@ func (d LockedDelegationsDecorator) handleMsgs(ctx sdk.Context, msgs []sdk.Msg, 
 				return err
 			}
 
-			acc := d.accountKeeper.GetAccount(ctx, fromAddr)
-			if ltsAcc, ok := acc.(*types.Account); ok {
-				ok, lockedAboveDelegated, err := checkDelegationsAgainstLocked(ctx, ltsAcc, d.lockupKeeper)
+			ok, lockedAboveDelegated, err := checkDelegationsAgainstLocked(ctx, fromAddr, d.lockupKeeper)
+			if err != nil {
+				return err
+			}
+
+			if ok {
+				return nil
+			}
+
+			for _, coin := range m.Amount {
+				if coin.Denom != bondDenom {
+					continue
+				}
+
+				totalBalance := d.bankKeeper.GetBalance(ctx, fromAddr, coin.Denom).Amount
+				available := totalBalance.Sub(*lockedAboveDelegated)
+				if available.LT(coin.Amount) {
+					if available.IsNegative() {
+						available = math.ZeroInt()
+					}
+					return errorsmod.Wrapf(errortypes.ErrInsufficientFunds, "insufficient unlocked balance: available %s, required %s", available, coin.Amount)
+				}
+			}
+
+		case *banktypes.MsgMultiSend:
+
+			// Check each input
+			for _, input := range m.Inputs {
+				fromAddr, err := sdk.AccAddressFromBech32(input.Address)
+				if err != nil {
+					return err
+				}
+				ok, lockedAboveDelegated, err := checkDelegationsAgainstLocked(ctx, fromAddr, d.lockupKeeper)
 				if err != nil {
 					return err
 				}
 
 				if ok {
-					return nil
+					continue
 				}
 
-				for _, coin := range m.Amount {
+				for _, coin := range input.Coins {
 					if coin.Denom != bondDenom {
 						continue
 					}
@@ -91,26 +121,30 @@ func (d LockedDelegationsDecorator) handleMsgs(ctx sdk.Context, msgs []sdk.Msg, 
 				}
 			}
 
-		case *banktypes.MsgMultiSend:
+		case *authztypes.MsgGrant: // Is this needed? This doesn't actually move funds, just grants permission.
 
-			// Check each input
-			for _, input := range m.Inputs {
-				fromAddr, err := sdk.AccAddressFromBech32(input.Address)
+			fromAddr, err := sdk.AccAddressFromBech32(m.Granter)
+			if err != nil {
+				return err
+			}
+
+			ok, lockedAboveDelegated, err := checkDelegationsAgainstLocked(ctx, fromAddr, d.lockupKeeper)
+			if err != nil {
+				return err
+			}
+
+			if ok {
+				return nil
+			}
+
+			if m.Grant.Authorization.GetTypeUrl() == sdk.MsgTypeURL(&banktypes.SendAuthorization{}) {
+				authorization, err := m.Grant.GetAuthorization()
 				if err != nil {
 					return err
 				}
-				acc := d.accountKeeper.GetAccount(ctx, fromAddr)
-				if ltsAcc, ok := acc.(*types.Account); ok {
-					ok, lockedAboveDelegated, err := checkDelegationsAgainstLocked(ctx, ltsAcc, d.lockupKeeper)
-					if err != nil {
-						return err
-					}
-
-					if ok {
-						continue
-					}
-
-					for _, coin := range input.Coins {
+				sendAuth, ok := authorization.(*banktypes.SendAuthorization)
+				if ok {
+					for _, coin := range sendAuth.SpendLimit {
 						if coin.Denom != bondDenom {
 							continue
 						}
@@ -127,49 +161,6 @@ func (d LockedDelegationsDecorator) handleMsgs(ctx sdk.Context, msgs []sdk.Msg, 
 				}
 			}
 
-		case *authztypes.MsgGrant: // Is this needed? This doesn't actually move funds, just grants permission.
-
-			fromAddr, err := sdk.AccAddressFromBech32(m.Granter)
-			if err != nil {
-				return err
-			}
-			acc := d.accountKeeper.GetAccount(ctx, fromAddr)
-			if ltsAcc, ok := acc.(*types.Account); ok {
-
-				ok, lockedAboveDelegated, err := checkDelegationsAgainstLocked(ctx, ltsAcc, d.lockupKeeper)
-				if err != nil {
-					return err
-				}
-
-				if ok {
-					return nil
-				}
-
-				if m.Grant.Authorization.GetTypeUrl() == sdk.MsgTypeURL(&banktypes.SendAuthorization{}) {
-					authorization, err := m.Grant.GetAuthorization()
-					if err != nil {
-						return err
-					}
-					sendAuth, ok := authorization.(*banktypes.SendAuthorization)
-					if ok {
-						for _, coin := range sendAuth.SpendLimit {
-							if coin.Denom != bondDenom {
-								continue
-							}
-
-							totalBalance := d.bankKeeper.GetBalance(ctx, fromAddr, coin.Denom).Amount
-							available := totalBalance.Sub(*lockedAboveDelegated)
-							if available.LT(coin.Amount) {
-								if available.IsNegative() {
-									available = math.ZeroInt()
-								}
-								return errorsmod.Wrapf(errortypes.ErrInsufficientFunds, "insufficient unlocked balance: available %s, required %s", available, coin.Amount)
-							}
-						}
-					}
-				}
-			}
-
 		case *stakingtypes.MsgUndelegate:
 
 			if m.Amount.Denom != bondDenom {
@@ -181,30 +172,24 @@ func (d LockedDelegationsDecorator) handleMsgs(ctx sdk.Context, msgs []sdk.Msg, 
 				return err
 			}
 
-			acc := d.accountKeeper.GetAccount(ctx, fromAddr)
-			if ltsAcc, ok := acc.(*types.Account); ok {
-				totalLocked := math.ZeroInt()
-				blockTime := ctx.BlockTime()
-				for _, lock := range ltsAcc.Locks {
-					if types.IsLocked(blockTime, lock.UnlockDate) {
-						totalLocked = totalLocked.Add(lock.Amount.Amount)
-					}
-				}
+			totalLocked, err := d.lockupKeeper.GetLockedAmountByAddress(ctx, fromAddr)
+			if err != nil {
+				return err
+			}
 
-				totalDelegated, err := d.lockupKeeper.GetTotalDelegatedAmount(ctx, fromAddr)
-				if err != nil {
-					return err
-				}
-				delegatedAfterUndelegate := totalDelegated.Sub(m.Amount.Amount)
+			totalDelegated, err := d.lockupKeeper.GetTotalDelegatedAmount(ctx, fromAddr)
+			if err != nil {
+				return err
+			}
+			delegatedAfterUndelegate := totalDelegated.Sub(m.Amount.Amount)
 
-				if delegatedAfterUndelegate.LT(totalLocked) {
-					return errorsmod.Wrapf(
-						types.ErrInsufficientDelegations,
-						"unbond would cause new delegated amount to be less than the locked amount: %s < %s",
-						delegatedAfterUndelegate.String(),
-						totalLocked.String(),
-					)
-				}
+			if delegatedAfterUndelegate.LT(*totalLocked) {
+				return errorsmod.Wrapf(
+					types.ErrInsufficientDelegations,
+					"unbond would cause new delegated amount to be less than the locked amount: %s < %s",
+					delegatedAfterUndelegate.String(),
+					totalLocked.String(),
+				)
 			}
 
 		case *authztypes.MsgExec:
@@ -225,32 +210,28 @@ func (d LockedDelegationsDecorator) handleMsgs(ctx sdk.Context, msgs []sdk.Msg, 
 			if err != nil {
 				return err
 			}
-			acc := d.accountKeeper.GetAccount(ctx, fromAddr)
 
-			if ltsAcc, ok := acc.(*types.Account); ok {
+			ok, lockedAboveDelegated, err := checkDelegationsAgainstLocked(ctx, fromAddr, d.lockupKeeper)
+			if err != nil {
+				return err
+			}
 
-				ok, lockedAboveDelegated, err := checkDelegationsAgainstLocked(ctx, ltsAcc, d.lockupKeeper)
-				if err != nil {
-					return err
+			if ok {
+				return nil
+			}
+
+			for _, coin := range m.Amount {
+				if coin.Denom != bondDenom {
+					continue
 				}
 
-				if ok {
-					return nil
-				}
-
-				for _, coin := range m.Amount {
-					if coin.Denom != bondDenom {
-						continue
+				totalBalance := d.bankKeeper.GetBalance(ctx, fromAddr, coin.Denom).Amount
+				available := totalBalance.Sub(*lockedAboveDelegated)
+				if available.LT(coin.Amount) {
+					if available.IsNegative() {
+						available = math.ZeroInt()
 					}
-
-					totalBalance := d.bankKeeper.GetBalance(ctx, fromAddr, coin.Denom).Amount
-					available := totalBalance.Sub(*lockedAboveDelegated)
-					if available.LT(coin.Amount) {
-						if available.IsNegative() {
-							available = math.ZeroInt()
-						}
-						return errorsmod.Wrapf(errortypes.ErrInsufficientFunds, "insufficient unlocked balance: available %s, required %s", available, coin.Amount)
-					}
+					return errorsmod.Wrapf(errortypes.ErrInsufficientFunds, "insufficient unlocked balance: available %s, required %s", available, coin.Amount)
 				}
 			}
 
@@ -260,32 +241,28 @@ func (d LockedDelegationsDecorator) handleMsgs(ctx sdk.Context, msgs []sdk.Msg, 
 			if err != nil {
 				return err
 			}
-			acc := d.accountKeeper.GetAccount(ctx, fromAddr)
 
-			if ltsAcc, ok := acc.(*types.Account); ok {
+			ok, lockedAboveDelegated, err := checkDelegationsAgainstLocked(ctx, fromAddr, d.lockupKeeper)
+			if err != nil {
+				return err
+			}
 
-				ok, lockedAboveDelegated, err := checkDelegationsAgainstLocked(ctx, ltsAcc, d.lockupKeeper)
-				if err != nil {
-					return err
+			if ok {
+				return nil
+			}
+
+			for _, coin := range m.Amount {
+				if coin.Denom != bondDenom {
+					continue
 				}
 
-				if ok {
-					return nil
-				}
-
-				for _, coin := range m.Amount {
-					if coin.Denom != bondDenom {
-						continue
+				totalBalance := d.bankKeeper.GetBalance(ctx, fromAddr, coin.Denom).Amount
+				available := totalBalance.Sub(*lockedAboveDelegated)
+				if available.LT(coin.Amount) {
+					if available.IsNegative() {
+						available = math.ZeroInt()
 					}
-
-					totalBalance := d.bankKeeper.GetBalance(ctx, fromAddr, coin.Denom).Amount
-					available := totalBalance.Sub(*lockedAboveDelegated)
-					if available.LT(coin.Amount) {
-						if available.IsNegative() {
-							available = math.ZeroInt()
-						}
-						return errorsmod.Wrapf(errortypes.ErrInsufficientFunds, "insufficient unlocked balance: available %s, required %s", available, coin.Amount)
-					}
+					return errorsmod.Wrapf(errortypes.ErrInsufficientFunds, "insufficient unlocked balance: available %s, required %s", available, coin.Amount)
 				}
 			}
 
@@ -295,32 +272,28 @@ func (d LockedDelegationsDecorator) handleMsgs(ctx sdk.Context, msgs []sdk.Msg, 
 			if err != nil {
 				return err
 			}
-			acc := d.accountKeeper.GetAccount(ctx, fromAddr)
 
-			if ltsAcc, ok := acc.(*types.Account); ok {
+			ok, lockedAboveDelegated, err := checkDelegationsAgainstLocked(ctx, fromAddr, d.lockupKeeper)
+			if err != nil {
+				return err
+			}
 
-				ok, lockedAboveDelegated, err := checkDelegationsAgainstLocked(ctx, ltsAcc, d.lockupKeeper)
-				if err != nil {
-					return err
+			if ok {
+				return nil
+			}
+
+			for _, coin := range m.Amount {
+				if coin.Denom != bondDenom {
+					continue
 				}
 
-				if ok {
-					return nil
-				}
-
-				for _, coin := range m.Amount {
-					if coin.Denom != bondDenom {
-						continue
+				totalBalance := d.bankKeeper.GetBalance(ctx, fromAddr, coin.Denom).Amount
+				available := totalBalance.Sub(*lockedAboveDelegated)
+				if available.LT(coin.Amount) {
+					if available.IsNegative() {
+						available = math.ZeroInt()
 					}
-
-					totalBalance := d.bankKeeper.GetBalance(ctx, fromAddr, coin.Denom).Amount
-					available := totalBalance.Sub(*lockedAboveDelegated)
-					if available.LT(coin.Amount) {
-						if available.IsNegative() {
-							available = math.ZeroInt()
-						}
-						return errorsmod.Wrapf(errortypes.ErrInsufficientFunds, "insufficient unlocked balance: available %s, required %s", available, coin.Amount)
-					}
+					return errorsmod.Wrapf(errortypes.ErrInsufficientFunds, "insufficient unlocked balance: available %s, required %s", available, coin.Amount)
 				}
 			}
 
@@ -330,73 +303,69 @@ func (d LockedDelegationsDecorator) handleMsgs(ctx sdk.Context, msgs []sdk.Msg, 
 			if err != nil {
 				return err
 			}
-			acc := d.accountKeeper.GetAccount(ctx, fromAddr)
 
-			if ltsAcc, ok := acc.(*types.Account); ok {
+			ok, lockedAboveDelegated, err := checkDelegationsAgainstLocked(ctx, fromAddr, d.lockupKeeper)
+			if err != nil {
+				return err
+			}
 
-				ok, lockedAboveDelegated, err := checkDelegationsAgainstLocked(ctx, ltsAcc, d.lockupKeeper)
-				if err != nil {
-					return err
-				}
+			if ok {
+				return nil
+			}
 
-				if ok {
+			var coins []sdk.Coin
+			allowance, ok := m.Allowance.GetCachedValue().(feegrant.FeeAllowanceI)
+			if !ok {
+				return nil
+			}
+
+			switch a := allowance.(type) {
+			case *feegrant.BasicAllowance:
+				if a.SpendLimit == nil {
 					return nil
 				}
-
-				var coins []sdk.Coin
-				allowance, ok := m.Allowance.GetCachedValue().(feegrant.FeeAllowanceI)
+				coins = a.SpendLimit
+			case *feegrant.PeriodicAllowance:
+				if a.Basic.SpendLimit == nil {
+					return nil
+				}
+				coins = a.Basic.SpendLimit
+			case *feegrant.AllowedMsgAllowance:
+				allowanceInner, ok := a.Allowance.GetCachedValue().(feegrant.FeeAllowanceI)
 				if !ok {
 					return nil
 				}
 
-				switch a := allowance.(type) {
+				switch ai := allowanceInner.(type) {
 				case *feegrant.BasicAllowance:
-					if a.SpendLimit == nil {
+					if ai.SpendLimit == nil {
 						return nil
 					}
-					coins = a.SpendLimit
+					coins = ai.SpendLimit
 				case *feegrant.PeriodicAllowance:
-					if a.Basic.SpendLimit == nil {
+					if ai.Basic.SpendLimit == nil {
 						return nil
 					}
-					coins = a.Basic.SpendLimit
-				case *feegrant.AllowedMsgAllowance:
-					allowanceInner, ok := a.Allowance.GetCachedValue().(feegrant.FeeAllowanceI)
-					if !ok {
-						return nil
-					}
-
-					switch ai := allowanceInner.(type) {
-					case *feegrant.BasicAllowance:
-						if ai.SpendLimit == nil {
-							return nil
-						}
-						coins = ai.SpendLimit
-					case *feegrant.PeriodicAllowance:
-						if ai.Basic.SpendLimit == nil {
-							return nil
-						}
-						coins = ai.Basic.SpendLimit
-					default:
-						return nil
-					}
+					coins = ai.Basic.SpendLimit
 				default:
 					return nil
 				}
+			default:
+				return nil
+			}
 
-				for _, coin := range coins {
-					if coin.Denom != bondDenom {
-						continue
-					}
+			for _, coin := range coins {
+				if coin.Denom != bondDenom {
+					continue
+				}
 
-					totalBalance := d.bankKeeper.GetBalance(ctx, fromAddr, coin.Denom).Amount
-					available := totalBalance.Sub(*lockedAboveDelegated)
-					if available.LT(coin.Amount) {
-						if available.IsNegative() {
-							available = math.ZeroInt()
-						}
-						return errorsmod.Wrapf(errortypes.ErrInsufficientFunds, "insufficient unlocked balance: available %s, required %s", available, coin.Amount)
+				totalBalance := d.bankKeeper.GetBalance(ctx, fromAddr, coin.Denom).Amount
+				available := totalBalance.Sub(*lockedAboveDelegated)
+				if available.LT(coin.Amount) {
+					if available.IsNegative() {
+						available = math.ZeroInt()
 					}
+					return errorsmod.Wrapf(errortypes.ErrInsufficientFunds, "insufficient unlocked balance: available %s, required %s", available, coin.Amount)
 				}
 			}
 
@@ -406,31 +375,27 @@ func (d LockedDelegationsDecorator) handleMsgs(ctx sdk.Context, msgs []sdk.Msg, 
 			if err != nil {
 				return err
 			}
-			acc := d.accountKeeper.GetAccount(ctx, fromAddr)
 
-			if ltsAcc, ok := acc.(*types.Account); ok {
+			ok, lockedAboveDelegated, err := checkDelegationsAgainstLocked(ctx, fromAddr, d.lockupKeeper)
+			if err != nil {
+				return err
+			}
 
-				ok, lockedAboveDelegated, err := checkDelegationsAgainstLocked(ctx, ltsAcc, d.lockupKeeper)
-				if err != nil {
-					return err
+			if ok {
+				return nil
+			}
+
+			if m.Token.Denom != bondDenom {
+				return nil
+			}
+
+			totalBalance := d.bankKeeper.GetBalance(ctx, fromAddr, m.Token.Denom).Amount
+			available := totalBalance.Sub(*lockedAboveDelegated)
+			if available.LT(m.Token.Amount) {
+				if available.IsNegative() {
+					available = math.ZeroInt()
 				}
-
-				if ok {
-					return nil
-				}
-
-				if m.Token.Denom != bondDenom {
-					return nil
-				}
-
-				totalBalance := d.bankKeeper.GetBalance(ctx, fromAddr, m.Token.Denom).Amount
-				available := totalBalance.Sub(*lockedAboveDelegated)
-				if available.LT(m.Token.Amount) {
-					if available.IsNegative() {
-						available = math.ZeroInt()
-					}
-					return errorsmod.Wrapf(errortypes.ErrInsufficientFunds, "insufficient unlocked balance: available %s, required %s", available, m.Token.Amount)
-				}
+				return errorsmod.Wrapf(errortypes.ErrInsufficientFunds, "insufficient unlocked balance: available %s, required %s", available, m.Token.Amount)
 			}
 
 		default:
@@ -443,20 +408,23 @@ func (d LockedDelegationsDecorator) handleMsgs(ctx sdk.Context, msgs []sdk.Msg, 
 
 // checkDelegationsAgainstLocked checks if the total delegated amount is greater than the total locked amount.
 // Returns true if total delegated amount is greater than total locked amount.
-func checkDelegationsAgainstLocked(ctx sdk.Context, ltsAcc *types.Account, lockupKeeper keeper.Keeper) (bool, *math.Int, error) {
+func checkDelegationsAgainstLocked(ctx sdk.Context, addr sdk.AccAddress, lockupKeeper keeper.Keeper) (bool, *math.Int, error) {
 
-	delegationsTotal, err := lockupKeeper.GetTotalDelegatedAmount(ctx, ltsAcc.GetAddress())
+	delegationsTotal, err := lockupKeeper.GetTotalDelegatedAmount(ctx, addr)
 	if err != nil {
 		return false, nil, err
 	}
 
-	totalLocked := ltsAcc.GetLockedAmount(ctx.BlockTime())
+	totalLocked, err := lockupKeeper.GetLockedAmountByAddress(ctx, addr)
+	if err != nil {
+		return false, nil, err
+	}
 
 	lockedAboveDelegated := totalLocked.Sub(*delegationsTotal)
 	if lockedAboveDelegated.IsNegative() {
 		lockedAboveDelegated = math.ZeroInt()
 	}
 
-	return (*delegationsTotal).GTE(totalLocked), &lockedAboveDelegated, nil
+	return delegationsTotal.GTE(*totalLocked), &lockedAboveDelegated, nil
 
 }

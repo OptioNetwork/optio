@@ -23,11 +23,6 @@ func (k msgServer) Extend(goCtx context.Context, msg *types.MsgExtend) (*types.M
 		return nil, sdkerrors.ErrNotFound.Wrapf("no account found for address: %s", msg.Address)
 	}
 
-	lockupAcc, ok := acc.(*types.Account)
-	if !ok {
-		return nil, types.ErrInvalidAccount.Wrapf("account is not a long-term stake account: %s", msg.Address)
-	}
-
 	events := sdk.Events{}
 	for _, extension := range msg.Extensions {
 
@@ -65,25 +60,43 @@ func (k msgServer) Extend(goCtx context.Context, msg *types.MsgExtend) (*types.M
 			return nil, sdkerrors.ErrInvalidRequest.Wrapf("to date cannot be more than 2 years from now")
 		}
 
-		existingLock, idx, found := lockupAcc.FindLock(extension.FromDate)
+		existingFromLock, idx, found := k.GetLockByAddressAndDate(ctx, addr, extension.FromDate)
 		if !found {
 			return nil, types.ErrLockupNotFound.Wrapf("no lockup found for from date (%s)", extension.FromDate)
 		}
 
 		amountToMove := extension.Amount.Amount
-		if existingLock.Amount.Amount.LT(amountToMove) {
+		if existingFromLock.Amount.Amount.LT(amountToMove) {
 			return nil, sdkerrors.ErrInvalidRequest.Wrapf("extension amount exceeds existing lock amount date (%s)", extension.FromDate)
-		} else if existingLock.Amount.Amount.Equal(amountToMove) {
-			lockupAcc.Locks = lockupAcc.RemoveLock(idx)
+		} else if existingFromLock.Amount.Amount.Equal(amountToMove) {
+			if err := k.DeleteLockByAddressAndIndex(ctx, addr, idx); err != nil {
+				return nil, err
+			}
 		} else {
 			updatedLock := &types.Lock{
-				UnlockDate: existingLock.UnlockDate,
-				Amount:     sdk.Coin{Denom: bondDenom, Amount: existingLock.Amount.Amount.Sub(amountToMove)},
+				UnlockDate: existingFromLock.UnlockDate,
+				Amount:     sdk.Coin{Denom: bondDenom, Amount: existingFromLock.Amount.Amount.Sub(amountToMove)},
 			}
-			lockupAcc.Locks = lockupAcc.UpdateLock(idx, updatedLock)
+			err = k.UpdateLockByAddressAndIndex(ctx, addr, idx, updatedLock)
 		}
 
-		lockupAcc.Locks = lockupAcc.UpsertLock(extension.ToDate, sdk.Coin{Denom: bondDenom, Amount: amountToMove})
+		existingToLock, idx, found := k.GetLockByAddressAndDate(ctx, addr, extension.ToDate)
+		if found {
+			updatedLock := &types.Lock{
+				UnlockDate: existingToLock.UnlockDate,
+				Amount:     sdk.Coin{Denom: bondDenom, Amount: existingToLock.Amount.Amount.Add(amountToMove)},
+			}
+			err = k.UpdateLockByAddressAndIndex(ctx, addr, idx, updatedLock)
+		} else {
+			newLock := &types.Lock{
+				UnlockDate: extension.ToDate,
+				Amount:     sdk.Coin{Denom: bondDenom, Amount: amountToMove},
+			}
+			err = k.SetLockByAddress(ctx, addr, newLock)
+		}
+		if err != nil {
+			return nil, err
+		}
 
 		if err := k.RemoveFromExpirationQueue(ctx, fromDate, addr, amountToMove); err != nil {
 			return nil, err
@@ -101,8 +114,6 @@ func (k msgServer) Extend(goCtx context.Context, msg *types.MsgExtend) (*types.M
 			sdk.NewAttribute(sdk.AttributeKeyAmount, amountToMove.String()),
 		))
 	}
-
-	k.accountKeeper.SetAccount(ctx, lockupAcc)
 
 	ctx.EventManager().EmitEvents(events)
 

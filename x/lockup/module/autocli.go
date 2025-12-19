@@ -10,8 +10,16 @@ import (
 func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 	return &autocliv1.ModuleOptions{
 		Query: &autocliv1.ServiceCommandDescriptor{
-			Service:           modulev1.Query_ServiceDesc.ServiceName,
+			Service: modulev1.Query_ServiceDesc.ServiceName,
 			RpcCommandOptions: []*autocliv1.RpcCommandOptions{
+				{
+					RpcMethod: "Locks",
+					Use:       "locks [address]",
+					Short:     "Query locks for an address",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{
+						{ProtoField: "address"},
+					},
+				},
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},

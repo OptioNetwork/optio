@@ -31,10 +31,10 @@ func (k Keeper) ActiveLocks(goCtx context.Context, req *types.QueryActiveLocksRe
 	if req.Pagination != nil && len(req.Pagination.Key) != 0 {
 		startKey = req.Pagination.Key
 	} else {
-		startKey = types.LockExpirationKey
+		startKey = types.LocksByDateKey
 	}
 
-	iterator, err := store.Iterator(startKey, prefixEndBytes(types.LockExpirationKey))
+	iterator, err := store.Iterator(startKey, prefixEndBytes(types.LocksByDateKey))
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
@@ -59,7 +59,7 @@ func (k Keeper) ActiveLocks(goCtx context.Context, req *types.QueryActiveLocksRe
 
 		// Decode
 		// Key: Prefix + Timestamp (8) + Address
-		prefixLen := len(types.LockExpirationKey)
+		prefixLen := len(types.LocksByDateKey)
 		if len(key) < prefixLen+8 {
 			continue
 		}
@@ -138,7 +138,7 @@ func (k Keeper) TotalLockedAmount(goCtx context.Context, req *types.QueryTotalLo
 	}, nil
 }
 
-func (k Keeper) AccountLocks(goCtx context.Context, req *types.QueryAccountLocksRequest) (*types.QueryAccountLocksResponse, error) {
+func (k Keeper) LocksForAddresses(goCtx context.Context, req *types.QueryLocksForAddressesRequest) (*types.QueryLocksForAddressesResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
@@ -166,35 +166,21 @@ func (k Keeper) AccountLocks(goCtx context.Context, req *types.QueryAccountLocks
 			return nil, status.Error(codes.InvalidArgument, "invalid address: "+addrStr)
 		}
 
-		acc := k.accountKeeper.GetAccount(ctx, addr)
-		if acc == nil {
-			accountLocks = append(accountLocks, types.AccountLocks{
-				Address: addrStr,
-				Locks:   []types.Lock{},
-			})
-			continue
-		}
-
-		lockupAcc, ok := acc.(*types.Account)
-		if !ok {
-			accountLocks = append(accountLocks, types.AccountLocks{
-				Address: addrStr,
-				Locks:   []types.Lock{},
-			})
-			continue
+		locks, err := k.GetLocksByAddress(ctx, addr)
+		if err != nil {
+			return nil, status.Error(codes.Internal, err.Error())
 		}
 
 		blockTime := ctx.BlockTime()
 		blockDay := time.Date(blockTime.Year(), blockTime.Month(), blockTime.Day(), 0, 0, 0, 0, time.UTC)
+
 		activeLocks := make([]types.Lock, 0)
-		for _, lock := range lockupAcc.Locks {
-			unlockTime, err := time.Parse(time.DateOnly, lock.UnlockDate)
-			if err != nil {
-				continue
-			}
-			if unlockTime.After(blockDay) {
+		for _, lock := range locks {
+
+			if types.IsLocked(blockDay, lock.UnlockDate) {
 				activeLocks = append(activeLocks, *lock)
 			}
+
 		}
 
 		accountLocks = append(accountLocks, types.AccountLocks{
@@ -203,8 +189,47 @@ func (k Keeper) AccountLocks(goCtx context.Context, req *types.QueryAccountLocks
 		})
 	}
 
-	return &types.QueryAccountLocksResponse{
+	return &types.QueryLocksForAddressesResponse{
 		Locks: accountLocks,
+	}, nil
+}
+
+// Locks implements types.QueryServer.
+func (k Keeper) Locks(goCtx context.Context, req *types.QueryLocksRequest) (*types.QueryLocksResponse, error) {
+	if req == nil {
+		return nil, status.Error(codes.InvalidArgument, "invalid request")
+	}
+
+	if req.Address == "" {
+		return nil, status.Error(codes.InvalidArgument, "address is required")
+	}
+
+	ctx := sdk.UnwrapSDKContext(goCtx)
+
+	addr, err := sdk.AccAddressFromBech32(req.Address)
+	if err != nil {
+		return nil, status.Error(codes.InvalidArgument, "invalid address: "+req.Address)
+	}
+
+	locks, err := k.GetLocksByAddress(ctx, addr)
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	blockTime := ctx.BlockTime()
+	blockDay := time.Date(blockTime.Year(), blockTime.Month(), blockTime.Day(), 0, 0, 0, 0, time.UTC)
+
+	activeLocks := make([]types.Lock, 0)
+	for _, lock := range locks {
+
+		if types.IsLocked(blockDay, lock.UnlockDate) {
+			activeLocks = append(activeLocks, *lock)
+		}
+
+	}
+
+	return &types.QueryLocksResponse{
+		Locks: activeLocks,
 	}, nil
 }
 

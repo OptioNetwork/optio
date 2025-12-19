@@ -12,7 +12,8 @@ const (
 )
 
 var (
-	LockExpirationKey = []byte("lock_expiration")
+	LocksByDateKey    = []byte("locks_by_date")
+	LocksByAddressKey = []byte("locks_by_address")
 	TotalLockedKey    = []byte("total_locked")
 )
 

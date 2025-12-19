@@ -271,23 +271,23 @@ func (m *QueryTotalLockedAmountResponse) GetTotalLocked() types.Coin {
 	return types.Coin{}
 }
 
-// QueryAccountLocksRequest is request type for the Query/AccountLocks RPC method.
-type QueryAccountLocksRequest struct {
+// QueryLocksForAddressesRequest is request type for the Query/LocksForAddresses RPC method.
+type QueryLocksForAddressesRequest struct {
 	Addresses string `protobuf:"bytes,1,opt,name=addresses,proto3" json:"addresses,omitempty"`
 }
 
-func (m *QueryAccountLocksRequest) Reset()         { *m = QueryAccountLocksRequest{} }
-func (m *QueryAccountLocksRequest) String() string { return proto.CompactTextString(m) }
-func (*QueryAccountLocksRequest) ProtoMessage()    {}
-func (*QueryAccountLocksRequest) Descriptor() ([]byte, []int) {
+func (m *QueryLocksForAddressesRequest) Reset()         { *m = QueryLocksForAddressesRequest{} }
+func (m *QueryLocksForAddressesRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryLocksForAddressesRequest) ProtoMessage()    {}
+func (*QueryLocksForAddressesRequest) Descriptor() ([]byte, []int) {
 	return fileDescriptor_4513e58b3df6d044, []int{5}
 }
-func (m *QueryAccountLocksRequest) XXX_Unmarshal(b []byte) error {
+func (m *QueryLocksForAddressesRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *QueryAccountLocksRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *QueryLocksForAddressesRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_QueryAccountLocksRequest.Marshal(b, m, deterministic)
+		return xxx_messageInfo_QueryLocksForAddressesRequest.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -297,42 +297,42 @@ func (m *QueryAccountLocksRequest) XXX_Marshal(b []byte, deterministic bool) ([]
 		return b[:n], nil
 	}
 }
-func (m *QueryAccountLocksRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_QueryAccountLocksRequest.Merge(m, src)
+func (m *QueryLocksForAddressesRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryLocksForAddressesRequest.Merge(m, src)
 }
-func (m *QueryAccountLocksRequest) XXX_Size() int {
+func (m *QueryLocksForAddressesRequest) XXX_Size() int {
 	return m.Size()
 }
-func (m *QueryAccountLocksRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_QueryAccountLocksRequest.DiscardUnknown(m)
+func (m *QueryLocksForAddressesRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryLocksForAddressesRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_QueryAccountLocksRequest proto.InternalMessageInfo
+var xxx_messageInfo_QueryLocksForAddressesRequest proto.InternalMessageInfo
 
-func (m *QueryAccountLocksRequest) GetAddresses() string {
+func (m *QueryLocksForAddressesRequest) GetAddresses() string {
 	if m != nil {
 		return m.Addresses
 	}
 	return ""
 }
 
-// QueryAccountLocksResponse is response type for the Query/AccountLocks RPC method.
-type QueryAccountLocksResponse struct {
+// QueryLocksForAddressesResponse is response type for the Query/LocksForAddresses RPC method.
+type QueryLocksForAddressesResponse struct {
 	Locks []AccountLocks `protobuf:"bytes,1,rep,name=locks,proto3" json:"locks"`
 }
 
-func (m *QueryAccountLocksResponse) Reset()         { *m = QueryAccountLocksResponse{} }
-func (m *QueryAccountLocksResponse) String() string { return proto.CompactTextString(m) }
-func (*QueryAccountLocksResponse) ProtoMessage()    {}
-func (*QueryAccountLocksResponse) Descriptor() ([]byte, []int) {
+func (m *QueryLocksForAddressesResponse) Reset()         { *m = QueryLocksForAddressesResponse{} }
+func (m *QueryLocksForAddressesResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryLocksForAddressesResponse) ProtoMessage()    {}
+func (*QueryLocksForAddressesResponse) Descriptor() ([]byte, []int) {
 	return fileDescriptor_4513e58b3df6d044, []int{6}
 }
-func (m *QueryAccountLocksResponse) XXX_Unmarshal(b []byte) error {
+func (m *QueryLocksForAddressesResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *QueryAccountLocksResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *QueryLocksForAddressesResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_QueryAccountLocksResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_QueryLocksForAddressesResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -342,19 +342,19 @@ func (m *QueryAccountLocksResponse) XXX_Marshal(b []byte, deterministic bool) ([
 		return b[:n], nil
 	}
 }
-func (m *QueryAccountLocksResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_QueryAccountLocksResponse.Merge(m, src)
+func (m *QueryLocksForAddressesResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryLocksForAddressesResponse.Merge(m, src)
 }
-func (m *QueryAccountLocksResponse) XXX_Size() int {
+func (m *QueryLocksForAddressesResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *QueryAccountLocksResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_QueryAccountLocksResponse.DiscardUnknown(m)
+func (m *QueryLocksForAddressesResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryLocksForAddressesResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_QueryAccountLocksResponse proto.InternalMessageInfo
+var xxx_messageInfo_QueryLocksForAddressesResponse proto.InternalMessageInfo
 
-func (m *QueryAccountLocksResponse) GetLocks() []AccountLocks {
+func (m *QueryLocksForAddressesResponse) GetLocks() []AccountLocks {
 	if m != nil {
 		return m.Locks
 	}
@@ -413,59 +413,155 @@ func (m *AccountLocks) GetLocks() []Lock {
 	return nil
 }
 
+// QueryLocksRequest is request type for the Query/Locks RPC method.
+type QueryLocksRequest struct {
+	Address string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
+}
+
+func (m *QueryLocksRequest) Reset()         { *m = QueryLocksRequest{} }
+func (m *QueryLocksRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryLocksRequest) ProtoMessage()    {}
+func (*QueryLocksRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4513e58b3df6d044, []int{8}
+}
+func (m *QueryLocksRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryLocksRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryLocksRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryLocksRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryLocksRequest.Merge(m, src)
+}
+func (m *QueryLocksRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryLocksRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryLocksRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryLocksRequest proto.InternalMessageInfo
+
+func (m *QueryLocksRequest) GetAddress() string {
+	if m != nil {
+		return m.Address
+	}
+	return ""
+}
+
+// QueryLocksResponse is response type for the Query/Locks RPC method.
+type QueryLocksResponse struct {
+	Locks []Lock `protobuf:"bytes,1,rep,name=locks,proto3" json:"locks"`
+}
+
+func (m *QueryLocksResponse) Reset()         { *m = QueryLocksResponse{} }
+func (m *QueryLocksResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryLocksResponse) ProtoMessage()    {}
+func (*QueryLocksResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_4513e58b3df6d044, []int{9}
+}
+func (m *QueryLocksResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryLocksResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryLocksResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryLocksResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryLocksResponse.Merge(m, src)
+}
+func (m *QueryLocksResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryLocksResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryLocksResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryLocksResponse proto.InternalMessageInfo
+
+func (m *QueryLocksResponse) GetLocks() []Lock {
+	if m != nil {
+		return m.Locks
+	}
+	return nil
+}
+
 func init() {
 	proto.RegisterType((*QueryActiveLocksRequest)(nil), "optio.lockup.QueryActiveLocksRequest")
 	proto.RegisterType((*QueryActiveLocksResponse)(nil), "optio.lockup.QueryActiveLocksResponse")
 	proto.RegisterType((*ActiveLock)(nil), "optio.lockup.ActiveLock")
 	proto.RegisterType((*QueryTotalLockedAmountRequest)(nil), "optio.lockup.QueryTotalLockedAmountRequest")
 	proto.RegisterType((*QueryTotalLockedAmountResponse)(nil), "optio.lockup.QueryTotalLockedAmountResponse")
-	proto.RegisterType((*QueryAccountLocksRequest)(nil), "optio.lockup.QueryAccountLocksRequest")
-	proto.RegisterType((*QueryAccountLocksResponse)(nil), "optio.lockup.QueryAccountLocksResponse")
+	proto.RegisterType((*QueryLocksForAddressesRequest)(nil), "optio.lockup.QueryLocksForAddressesRequest")
+	proto.RegisterType((*QueryLocksForAddressesResponse)(nil), "optio.lockup.QueryLocksForAddressesResponse")
 	proto.RegisterType((*AccountLocks)(nil), "optio.lockup.AccountLocks")
+	proto.RegisterType((*QueryLocksRequest)(nil), "optio.lockup.QueryLocksRequest")
+	proto.RegisterType((*QueryLocksResponse)(nil), "optio.lockup.QueryLocksResponse")
 }
 
 func init() { proto.RegisterFile("optio/lockup/query.proto", fileDescriptor_4513e58b3df6d044) }
 
 var fileDescriptor_4513e58b3df6d044 = []byte{
-	// 599 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x94, 0xcb, 0x6e, 0xd3, 0x40,
-	0x14, 0x86, 0x33, 0x09, 0x2d, 0xca, 0x24, 0x1b, 0x46, 0x48, 0x75, 0x4d, 0xea, 0x14, 0x57, 0xb4,
-	0x05, 0x2a, 0x5b, 0x0d, 0x08, 0xd8, 0x36, 0xa0, 0xb2, 0x41, 0x5c, 0x02, 0x0b, 0xc4, 0x26, 0x9a,
-	0xd8, 0x23, 0x63, 0x25, 0xf1, 0xb8, 0x99, 0x71, 0xa1, 0xbb, 0x0a, 0xf1, 0x00, 0x48, 0xac, 0xfa,
-	0x10, 0xbc, 0x47, 0x97, 0x95, 0xd8, 0xb0, 0x42, 0x28, 0xe1, 0x41, 0x90, 0x67, 0xc6, 0xb5, 0x27,
-	0x17, 0xd2, 0x55, 0x12, 0x9f, 0xff, 0x9c, 0xff, 0x3b, 0x17, 0x07, 0x1a, 0x34, 0xe6, 0x21, 0x75,
-	0x07, 0xd4, 0xeb, 0x27, 0xb1, 0x7b, 0x94, 0x90, 0xd1, 0x89, 0x13, 0x8f, 0x28, 0xa7, 0xa8, 0x2e,
-	0x22, 0x8e, 0x8c, 0x98, 0x37, 0x03, 0x1a, 0x50, 0x11, 0x70, 0xd3, 0x6f, 0x52, 0x63, 0x36, 0x02,
-	0x4a, 0x83, 0x01, 0x71, 0x71, 0x1c, 0xba, 0x38, 0x8a, 0x28, 0xc7, 0x3c, 0xa4, 0x11, 0x53, 0xd1,
-	0x7b, 0x1e, 0x65, 0x43, 0xca, 0xdc, 0x1e, 0x66, 0x44, 0x96, 0x76, 0x8f, 0xf7, 0x7b, 0x84, 0xe3,
-	0x7d, 0x37, 0xc6, 0x41, 0x18, 0x09, 0xb1, 0xd2, 0x5a, 0x45, 0x6d, 0xa6, 0xf2, 0x68, 0x98, 0xc5,
-	0xd7, 0x34, 0xce, 0xf4, 0x43, 0x06, 0x6c, 0x0c, 0xd7, 0xde, 0xa4, 0xa5, 0x0f, 0x3c, 0x1e, 0x1e,
-	0x93, 0x17, 0xd4, 0xeb, 0xb3, 0x0e, 0x39, 0x4a, 0x08, 0xe3, 0xe8, 0x10, 0xc2, 0xdc, 0xc7, 0x00,
-	0x9b, 0x60, 0xb7, 0xd6, 0xda, 0x76, 0xa4, 0x91, 0x93, 0x1a, 0x39, 0xb2, 0x5f, 0x65, 0xe7, 0xbc,
-	0xc6, 0x01, 0x51, 0xb9, 0x9d, 0x42, 0xa6, 0x7d, 0x06, 0xa0, 0x31, 0xeb, 0xc1, 0x62, 0x1a, 0x31,
-	0x82, 0x1e, 0xc2, 0x95, 0x94, 0x86, 0x19, 0x60, 0xb3, 0xb2, 0x5b, 0x6b, 0x19, 0x4e, 0x71, 0x6c,
-	0x4e, 0x9e, 0xd1, 0xbe, 0x76, 0xfe, 0xbb, 0x59, 0xea, 0x48, 0x31, 0x7a, 0xae, 0xa1, 0x95, 0x05,
-	0xda, 0xce, 0x52, 0x34, 0x69, 0xa9, 0xb1, 0x9d, 0x02, 0x08, 0x73, 0x13, 0x64, 0xc0, 0xeb, 0xd8,
-	0xf7, 0x47, 0x84, 0x31, 0xd1, 0x6f, 0xb5, 0x93, 0xfd, 0x44, 0x4d, 0x58, 0x4b, 0xa2, 0xd4, 0xbc,
-	0xeb, 0x63, 0x4e, 0x84, 0x65, 0xb5, 0x03, 0xe5, 0xa3, 0x67, 0x98, 0x13, 0xf4, 0x18, 0xae, 0xe2,
-	0x21, 0x4d, 0x22, 0x6e, 0x54, 0x04, 0xce, 0xba, 0x86, 0x93, 0x81, 0x3c, 0xa5, 0x61, 0xa4, 0x5a,
-	0x51, 0x72, 0xbb, 0x09, 0x37, 0xc4, 0x74, 0xde, 0x51, 0x8e, 0x07, 0x29, 0x05, 0xf1, 0x0f, 0x44,
-	0x44, 0xcd, 0xd2, 0xf6, 0xa1, 0xb5, 0x48, 0xa0, 0x86, 0xd8, 0x86, 0x75, 0x9e, 0x06, 0xbb, 0x03,
-	0x11, 0x55, 0xbb, 0x5a, 0x4a, 0x50, 0xe3, 0x79, 0x45, 0xfb, 0xc9, 0xe5, 0x92, 0xbc, 0xb4, 0xb6,
-	0x76, 0x09, 0x0d, 0x58, 0x55, 0x73, 0x20, 0xd9, 0x60, 0xf2, 0x07, 0xf6, 0x5b, 0xb8, 0x3e, 0x27,
-	0x53, 0xa1, 0x3d, 0xd2, 0xf7, 0x6b, 0x4e, 0xef, 0x37, 0x4f, 0xd1, 0x36, 0x6c, 0xbf, 0x87, 0xf5,
-	0x62, 0xf0, 0x3f, 0x9b, 0x71, 0x32, 0x87, 0xb2, 0x70, 0x40, 0xba, 0xc3, 0xcc, 0xed, 0xb4, 0x7e,
-	0x54, 0xe0, 0x8a, 0xe0, 0x45, 0xa7, 0x00, 0xd6, 0x0a, 0x37, 0x89, 0xee, 0xe8, 0xa9, 0x0b, 0xde,
-	0x0b, 0x73, 0x7b, 0x99, 0x4c, 0xb6, 0x6e, 0xdb, 0x5f, 0x7e, 0xfe, 0xfd, 0x5e, 0x6e, 0x20, 0xd3,
-	0xd5, 0x5e, 0x3e, 0x2c, 0xa4, 0x5d, 0x79, 0xc8, 0x67, 0x00, 0xde, 0x98, 0xd9, 0x2b, 0xba, 0x3f,
-	0xc7, 0x61, 0xd1, 0x79, 0x98, 0x7b, 0x57, 0x13, 0x2b, 0xa8, 0xbb, 0x02, 0x6a, 0x0b, 0xdd, 0xd6,
-	0xa1, 0x8a, 0xe7, 0xd3, 0x95, 0x87, 0x89, 0xbe, 0x82, 0xa9, 0x1d, 0xcc, 0x6f, 0x7c, 0xe6, 0x5c,
-	0xcc, 0x9d, 0xa5, 0x3a, 0x05, 0xb3, 0x25, 0x60, 0x36, 0xd0, 0xad, 0xe9, 0x09, 0x09, 0xad, 0x1c,
-	0x51, 0xfb, 0xf0, 0x7c, 0x6c, 0x81, 0x8b, 0xb1, 0x05, 0xfe, 0x8c, 0x2d, 0xf0, 0x6d, 0x62, 0x95,
-	0x2e, 0x26, 0x56, 0xe9, 0xd7, 0xc4, 0x2a, 0x7d, 0xd8, 0x0b, 0x42, 0xfe, 0x31, 0xe9, 0x39, 0x1e,
-	0x1d, 0xba, 0xaf, 0xd2, 0x02, 0x2f, 0x09, 0xff, 0x44, 0x47, 0x7d, 0x55, 0xed, 0xf3, 0x65, 0x73,
-	0x27, 0x31, 0x61, 0xbd, 0x55, 0xf1, 0x87, 0xf7, 0xe0, 0x5f, 0x00, 0x00, 0x00, 0xff, 0xff, 0xe4,
-	0x06, 0x0c, 0xf4, 0xb3, 0x05, 0x00, 0x00,
+	// 659 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x94, 0xcb, 0x6e, 0xd3, 0x4c,
+	0x14, 0xc7, 0xe3, 0xde, 0x3e, 0xf5, 0xa4, 0x9b, 0x8e, 0x3e, 0xa9, 0xc6, 0xb4, 0x4e, 0x99, 0xaa,
+	0x17, 0xa0, 0xb5, 0xd5, 0x82, 0x60, 0xc5, 0xa2, 0xa5, 0x2a, 0x1b, 0xc4, 0x25, 0x62, 0x51, 0xb1,
+	0x89, 0x26, 0xce, 0xc8, 0x58, 0x49, 0x3c, 0x6e, 0x66, 0x5c, 0x88, 0x10, 0x52, 0xc5, 0x13, 0x20,
+	0x75, 0xd5, 0x27, 0xe1, 0x15, 0xba, 0xac, 0xc4, 0x86, 0x15, 0x42, 0x09, 0x0f, 0x82, 0x3c, 0x33,
+	0xae, 0xed, 0x26, 0x6e, 0x58, 0x25, 0x99, 0xf3, 0x9f, 0xf3, 0xff, 0x9d, 0xcb, 0x04, 0x4c, 0x16,
+	0x89, 0x80, 0xb9, 0x1d, 0xe6, 0xb5, 0xe3, 0xc8, 0x3d, 0x89, 0x69, 0xaf, 0xef, 0x44, 0x3d, 0x26,
+	0x18, 0x5a, 0x90, 0x11, 0x47, 0x45, 0xac, 0xff, 0x7d, 0xe6, 0x33, 0x19, 0x70, 0x93, 0x6f, 0x4a,
+	0x63, 0x2d, 0xfb, 0x8c, 0xf9, 0x1d, 0xea, 0x92, 0x28, 0x70, 0x49, 0x18, 0x32, 0x41, 0x44, 0xc0,
+	0x42, 0xae, 0xa3, 0x0f, 0x3c, 0xc6, 0xbb, 0x8c, 0xbb, 0x4d, 0xc2, 0xa9, 0x4a, 0xed, 0x9e, 0xee,
+	0x36, 0xa9, 0x20, 0xbb, 0x6e, 0x44, 0xfc, 0x20, 0x94, 0x62, 0xad, 0xb5, 0xf3, 0xda, 0x54, 0xe5,
+	0xb1, 0x20, 0x8d, 0x2f, 0x15, 0x38, 0x93, 0x0f, 0x15, 0xc0, 0x04, 0x96, 0xde, 0x26, 0xa9, 0xf7,
+	0x3d, 0x11, 0x9c, 0xd2, 0x97, 0xcc, 0x6b, 0xf3, 0x3a, 0x3d, 0x89, 0x29, 0x17, 0xe8, 0x08, 0x20,
+	0xf3, 0x31, 0x8d, 0x55, 0x63, 0xab, 0xba, 0xb7, 0xe1, 0x28, 0x23, 0x27, 0x31, 0x72, 0x54, 0xbd,
+	0xda, 0xce, 0x79, 0x43, 0x7c, 0xaa, 0xef, 0xd6, 0x73, 0x37, 0xf1, 0x85, 0x01, 0xe6, 0xa8, 0x07,
+	0x8f, 0x58, 0xc8, 0x29, 0x7a, 0x0c, 0xb3, 0x09, 0x0d, 0x37, 0x8d, 0xd5, 0xe9, 0xad, 0xea, 0x9e,
+	0xe9, 0xe4, 0xdb, 0xe6, 0x64, 0x37, 0x0e, 0x66, 0x2e, 0x7f, 0xd5, 0x2a, 0x75, 0x25, 0x46, 0x2f,
+	0x0a, 0x68, 0x53, 0x12, 0x6d, 0x73, 0x22, 0x9a, 0xb2, 0x2c, 0xb0, 0x9d, 0x19, 0x00, 0x99, 0x09,
+	0x32, 0xe1, 0x3f, 0xd2, 0x6a, 0xf5, 0x28, 0xe7, 0xb2, 0xde, 0xf9, 0x7a, 0xfa, 0x13, 0xd5, 0xa0,
+	0x1a, 0x87, 0x89, 0x79, 0xa3, 0x45, 0x04, 0x95, 0x96, 0xf3, 0x75, 0x50, 0x47, 0x87, 0x44, 0x50,
+	0xf4, 0x14, 0xe6, 0x48, 0x97, 0xc5, 0xa1, 0x30, 0xa7, 0x25, 0xce, 0x9d, 0x02, 0x4e, 0x0a, 0xf2,
+	0x9c, 0x05, 0xa1, 0x2e, 0x45, 0xcb, 0x71, 0x0d, 0x56, 0x64, 0x77, 0xde, 0x31, 0x41, 0x3a, 0x09,
+	0x05, 0x6d, 0xed, 0xcb, 0x88, 0xee, 0x25, 0x6e, 0x81, 0x5d, 0x26, 0xd0, 0x4d, 0x3c, 0x80, 0x05,
+	0x91, 0x04, 0x1b, 0x1d, 0x19, 0xd5, 0xb3, 0x9a, 0x48, 0x50, 0x15, 0x59, 0x46, 0xfc, 0x4c, 0x63,
+	0xc8, 0xf1, 0x1c, 0xb1, 0xde, 0xbe, 0x2a, 0x9c, 0x5e, 0xaf, 0xc3, 0x32, 0xcc, 0x93, 0xf4, 0x4c,
+	0x77, 0x27, 0x3b, 0xc0, 0xc7, 0x1a, 0x72, 0xcc, 0x75, 0x0d, 0xf9, 0xa4, 0x38, 0x69, 0xeb, 0xe6,
+	0xa4, 0xbd, 0xa4, 0x24, 0x79, 0xbd, 0x30, 0x6b, 0x7c, 0x0c, 0x0b, 0xf9, 0xe0, 0x2d, 0x33, 0x72,
+	0x52, 0x87, 0x29, 0xe9, 0x80, 0x8a, 0x0e, 0x23, 0x5b, 0x84, 0x77, 0x60, 0x31, 0x63, 0x4e, 0xcb,
+	0x2c, 0x4d, 0x8f, 0x0f, 0x01, 0xe5, 0xe5, 0xba, 0x2c, 0xa7, 0x58, 0xd6, 0x24, 0xd3, 0xbd, 0xef,
+	0x33, 0x30, 0x2b, 0xd3, 0xa0, 0x33, 0x03, 0xaa, 0xb9, 0x27, 0x81, 0xd6, 0x8b, 0x57, 0x4b, 0x9e,
+	0xa5, 0xb5, 0x31, 0x49, 0xa6, 0xc0, 0x30, 0xfe, 0xfa, 0xe3, 0xcf, 0xf9, 0xd4, 0x32, 0xb2, 0xdc,
+	0xc2, 0xdb, 0x27, 0x52, 0xda, 0x50, 0xef, 0xe8, 0xc2, 0x80, 0xc5, 0x91, 0xb5, 0x42, 0x0f, 0xc7,
+	0x38, 0x94, 0x6d, 0xa7, 0xb5, 0xfd, 0x6f, 0x62, 0x0d, 0x75, 0x5f, 0x42, 0xad, 0xa1, 0x7b, 0x45,
+	0xa8, 0xfc, 0xf6, 0x36, 0xd4, 0xbb, 0x40, 0xe7, 0x06, 0x2c, 0x8e, 0x6c, 0xd3, 0x58, 0xb6, 0xb2,
+	0x95, 0x1d, 0xcb, 0x56, 0xba, 0xa0, 0x78, 0x4d, 0xb2, 0xad, 0xa0, 0xbb, 0x37, 0x1b, 0x26, 0x97,
+	0x4f, 0x77, 0xac, 0x0f, 0xb3, 0x6a, 0x5a, 0xb5, 0xb2, 0xdc, 0xa9, 0xf9, 0x6a, 0xb9, 0x40, 0x1b,
+	0xee, 0x48, 0xc3, 0x4d, 0xb4, 0x7e, 0x8b, 0xa1, 0xfb, 0x59, 0xaf, 0xdf, 0x97, 0x83, 0xa3, 0xcb,
+	0x81, 0x6d, 0x5c, 0x0d, 0x6c, 0xe3, 0xf7, 0xc0, 0x36, 0xbe, 0x0d, 0xed, 0xca, 0xd5, 0xd0, 0xae,
+	0xfc, 0x1c, 0xda, 0x95, 0xf7, 0xdb, 0x7e, 0x20, 0x3e, 0xc4, 0x4d, 0xc7, 0x63, 0x5d, 0xf7, 0x75,
+	0x92, 0xea, 0x15, 0x15, 0x1f, 0x59, 0xaf, 0xad, 0xf3, 0x7e, 0xba, 0x6e, 0x73, 0x3f, 0xa2, 0xbc,
+	0x39, 0x27, 0xff, 0xf9, 0x1f, 0xfd, 0x0d, 0x00, 0x00, 0xff, 0xff, 0x06, 0x1a, 0x23, 0x7e, 0xbc,
+	0x06, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -484,8 +580,10 @@ type QueryClient interface {
 	ActiveLocks(ctx context.Context, in *QueryActiveLocksRequest, opts ...grpc.CallOption) (*QueryActiveLocksResponse, error)
 	// TotalLockedAmount queries the total amount of tokens locked across all accounts.
 	TotalLockedAmount(ctx context.Context, in *QueryTotalLockedAmountRequest, opts ...grpc.CallOption) (*QueryTotalLockedAmountResponse, error)
-	// AccountLocks queries active locks for multiple accounts.
-	AccountLocks(ctx context.Context, in *QueryAccountLocksRequest, opts ...grpc.CallOption) (*QueryAccountLocksResponse, error)
+	// LocksForAddresses queries active locks for multiple addresses.
+	LocksForAddresses(ctx context.Context, in *QueryLocksForAddressesRequest, opts ...grpc.CallOption) (*QueryLocksForAddressesResponse, error)
+	// Locks queries active locks for an address.
+	Locks(ctx context.Context, in *QueryLocksRequest, opts ...grpc.CallOption) (*QueryLocksResponse, error)
 }
 
 type queryClient struct {
@@ -514,9 +612,18 @@ func (c *queryClient) TotalLockedAmount(ctx context.Context, in *QueryTotalLocke
 	return out, nil
 }
 
-func (c *queryClient) AccountLocks(ctx context.Context, in *QueryAccountLocksRequest, opts ...grpc.CallOption) (*QueryAccountLocksResponse, error) {
-	out := new(QueryAccountLocksResponse)
-	err := c.cc.Invoke(ctx, "/optio.lockup.Query/AccountLocks", in, out, opts...)
+func (c *queryClient) LocksForAddresses(ctx context.Context, in *QueryLocksForAddressesRequest, opts ...grpc.CallOption) (*QueryLocksForAddressesResponse, error) {
+	out := new(QueryLocksForAddressesResponse)
+	err := c.cc.Invoke(ctx, "/optio.lockup.Query/LocksForAddresses", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) Locks(ctx context.Context, in *QueryLocksRequest, opts ...grpc.CallOption) (*QueryLocksResponse, error) {
+	out := new(QueryLocksResponse)
+	err := c.cc.Invoke(ctx, "/optio.lockup.Query/Locks", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -529,8 +636,10 @@ type QueryServer interface {
 	ActiveLocks(context.Context, *QueryActiveLocksRequest) (*QueryActiveLocksResponse, error)
 	// TotalLockedAmount queries the total amount of tokens locked across all accounts.
 	TotalLockedAmount(context.Context, *QueryTotalLockedAmountRequest) (*QueryTotalLockedAmountResponse, error)
-	// AccountLocks queries active locks for multiple accounts.
-	AccountLocks(context.Context, *QueryAccountLocksRequest) (*QueryAccountLocksResponse, error)
+	// LocksForAddresses queries active locks for multiple addresses.
+	LocksForAddresses(context.Context, *QueryLocksForAddressesRequest) (*QueryLocksForAddressesResponse, error)
+	// Locks queries active locks for an address.
+	Locks(context.Context, *QueryLocksRequest) (*QueryLocksResponse, error)
 }
 
 // UnimplementedQueryServer can be embedded to have forward compatible implementations.
@@ -543,8 +652,11 @@ func (*UnimplementedQueryServer) ActiveLocks(ctx context.Context, req *QueryActi
 func (*UnimplementedQueryServer) TotalLockedAmount(ctx context.Context, req *QueryTotalLockedAmountRequest) (*QueryTotalLockedAmountResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TotalLockedAmount not implemented")
 }
-func (*UnimplementedQueryServer) AccountLocks(ctx context.Context, req *QueryAccountLocksRequest) (*QueryAccountLocksResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AccountLocks not implemented")
+func (*UnimplementedQueryServer) LocksForAddresses(ctx context.Context, req *QueryLocksForAddressesRequest) (*QueryLocksForAddressesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LocksForAddresses not implemented")
+}
+func (*UnimplementedQueryServer) Locks(ctx context.Context, req *QueryLocksRequest) (*QueryLocksResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Locks not implemented")
 }
 
 func RegisterQueryServer(s grpc1.Server, srv QueryServer) {
@@ -587,20 +699,38 @@ func _Query_TotalLockedAmount_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Query_AccountLocks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(QueryAccountLocksRequest)
+func _Query_LocksForAddresses_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryLocksForAddressesRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(QueryServer).AccountLocks(ctx, in)
+		return srv.(QueryServer).LocksForAddresses(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/optio.lockup.Query/AccountLocks",
+		FullMethod: "/optio.lockup.Query/LocksForAddresses",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).AccountLocks(ctx, req.(*QueryAccountLocksRequest))
+		return srv.(QueryServer).LocksForAddresses(ctx, req.(*QueryLocksForAddressesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_Locks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryLocksRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).Locks(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/optio.lockup.Query/Locks",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).Locks(ctx, req.(*QueryLocksRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -619,8 +749,12 @@ var _Query_serviceDesc = grpc.ServiceDesc{
 			Handler:    _Query_TotalLockedAmount_Handler,
 		},
 		{
-			MethodName: "AccountLocks",
-			Handler:    _Query_AccountLocks_Handler,
+			MethodName: "LocksForAddresses",
+			Handler:    _Query_LocksForAddresses_Handler,
+		},
+		{
+			MethodName: "Locks",
+			Handler:    _Query_Locks_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -814,7 +948,7 @@ func (m *QueryTotalLockedAmountResponse) MarshalToSizedBuffer(dAtA []byte) (int,
 	return len(dAtA) - i, nil
 }
 
-func (m *QueryAccountLocksRequest) Marshal() (dAtA []byte, err error) {
+func (m *QueryLocksForAddressesRequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -824,12 +958,12 @@ func (m *QueryAccountLocksRequest) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *QueryAccountLocksRequest) MarshalTo(dAtA []byte) (int, error) {
+func (m *QueryLocksForAddressesRequest) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *QueryAccountLocksRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *QueryLocksForAddressesRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -844,7 +978,7 @@ func (m *QueryAccountLocksRequest) MarshalToSizedBuffer(dAtA []byte) (int, error
 	return len(dAtA) - i, nil
 }
 
-func (m *QueryAccountLocksResponse) Marshal() (dAtA []byte, err error) {
+func (m *QueryLocksForAddressesResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -854,12 +988,12 @@ func (m *QueryAccountLocksResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *QueryAccountLocksResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *QueryLocksForAddressesResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *QueryAccountLocksResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *QueryLocksForAddressesResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -921,6 +1055,73 @@ func (m *AccountLocks) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i = encodeVarintQuery(dAtA, i, uint64(len(m.Address)))
 		i--
 		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryLocksRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryLocksRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryLocksRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Address) > 0 {
+		i -= len(m.Address)
+		copy(dAtA[i:], m.Address)
+		i = encodeVarintQuery(dAtA, i, uint64(len(m.Address)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryLocksResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryLocksResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryLocksResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Locks) > 0 {
+		for iNdEx := len(m.Locks) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Locks[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintQuery(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0xa
+		}
 	}
 	return len(dAtA) - i, nil
 }
@@ -1007,7 +1208,7 @@ func (m *QueryTotalLockedAmountResponse) Size() (n int) {
 	return n
 }
 
-func (m *QueryAccountLocksRequest) Size() (n int) {
+func (m *QueryLocksForAddressesRequest) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1020,7 +1221,7 @@ func (m *QueryAccountLocksRequest) Size() (n int) {
 	return n
 }
 
-func (m *QueryAccountLocksResponse) Size() (n int) {
+func (m *QueryLocksForAddressesResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1045,6 +1246,34 @@ func (m *AccountLocks) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovQuery(uint64(l))
 	}
+	if len(m.Locks) > 0 {
+		for _, e := range m.Locks {
+			l = e.Size()
+			n += 1 + l + sovQuery(uint64(l))
+		}
+	}
+	return n
+}
+
+func (m *QueryLocksRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Address)
+	if l > 0 {
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryLocksResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
 	if len(m.Locks) > 0 {
 		for _, e := range m.Locks {
 			l = e.Size()
@@ -1546,7 +1775,7 @@ func (m *QueryTotalLockedAmountResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *QueryAccountLocksRequest) Unmarshal(dAtA []byte) error {
+func (m *QueryLocksForAddressesRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1569,10 +1798,10 @@ func (m *QueryAccountLocksRequest) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: QueryAccountLocksRequest: wiretype end group for non-group")
+			return fmt.Errorf("proto: QueryLocksForAddressesRequest: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: QueryAccountLocksRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: QueryLocksForAddressesRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -1628,7 +1857,7 @@ func (m *QueryAccountLocksRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *QueryAccountLocksResponse) Unmarshal(dAtA []byte) error {
+func (m *QueryLocksForAddressesResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1651,10 +1880,10 @@ func (m *QueryAccountLocksResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: QueryAccountLocksResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: QueryLocksForAddressesResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: QueryAccountLocksResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: QueryLocksForAddressesResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -1774,6 +2003,172 @@ func (m *AccountLocks) Unmarshal(dAtA []byte) error {
 			m.Address = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Locks", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Locks = append(m.Locks, Lock{})
+			if err := m.Locks[len(m.Locks)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryLocksRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryLocksRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryLocksRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Address = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryLocksResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryLocksResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryLocksResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Locks", wireType)
 			}
