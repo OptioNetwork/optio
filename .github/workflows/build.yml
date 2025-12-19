@@ -1,4 +1,4 @@
-name: Build Linux Binary
+name: Build Multi-Platform Binaries
 
 on:
   workflow_dispatch:
@@ -21,6 +21,21 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    strategy:
+      matrix:
+        include:
+          - goos: linux
+            goarch: amd64
+            name: optio-linux
+          - goos: darwin
+            goarch: arm64
+            name: optio-darwin-arm64
+          - goos: darwin
+            goarch: amd64
+            name: optio-darwin-amd64
+          - goos: windows
+            goarch: amd64
+            name: optio-windows.exe
     
     steps:
     - name: Checkout code
@@ -39,30 +54,33 @@ jobs:
         go mod download
         go mod verify
 
-    - name: Build Linux binary
+    - name: Build ${{ matrix.goos }}-${{ matrix.goarch }} binary
       env:
         VERSION: ${{ github.event.inputs.version || '1.0.0' }}
+        GOOS: ${{ matrix.goos }}
+        GOARCH: ${{ matrix.goarch }}
       run: |
         COMMIT=$(git rev-parse --short HEAD)
-        GOOS=linux GOARCH=amd64 go build \
-          -ldflags "-X github.com/cosmos/cosmos-sdk/version.Version=v$VERSION -X github.com/cosmos/cosmos-sdk/version.Commit=$COMMIT" \
-          -o build/optio-linux \
+        go build \
+          -ldflags "-s -w -X github.com/cosmos/cosmos-sdk/version.Version=v$VERSION -X github.com/cosmos/cosmos-sdk/version.Commit=$COMMIT -X github.com/cosmos/cosmos-sdk/version.AppName=optiod -X github.com/cosmos/cosmos-sdk/version.Name=Optio -X github.com/cosmos/cosmos-sdk/version.BuildTags=${{ matrix.goos }},${{ matrix.goarch }}" \
+          -o build/${{ matrix.name }} \
           ./cmd/optiod
         ls -la build/
 
     - name: Upload binary artifact
       uses: actions/upload-artifact@v4
       with:
-        name: optio-linux-${{ github.event.inputs.version || '1.0.0' }}
-        path: build/optio-linux
+        name: ${{ matrix.name }}-${{ github.event.inputs.version || '1.0.0' }}
+        path: build/${{ matrix.name }}
         retention-days: 30
 
     - name: Show binary info
+      if: matrix.goos == 'linux'
       run: |
         echo "Binary size:"
-        ls -lh build/optio-linux
+        ls -lh build/${{ matrix.name }}
         echo "Binary version info:"
-        ./build/optio-linux version
+        ./build/${{ matrix.name }} version
 
   release:
     needs: build
@@ -77,11 +95,19 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Download binary artifact
+    - name: Download all artifacts
       uses: actions/download-artifact@v4
       with:
-        name: optio-linux-${{ github.event.inputs.version || '1.0.0' }}
-        path: build/
+        path: artifacts/
+
+    - name: Prepare release files
+      run: |
+        mkdir -p release
+        cp artifacts/optio-linux-${{ github.event.inputs.version || '1.0.0' }}/optio-linux release/
+        cp artifacts/optio-darwin-arm64-${{ github.event.inputs.version || '1.0.0' }}/optio-darwin-arm64 release/
+        cp artifacts/optio-darwin-amd64-${{ github.event.inputs.version || '1.0.0' }}/optio-darwin-amd64 release/
+        cp artifacts/optio-windows.exe-${{ github.event.inputs.version || '1.0.0' }}/optio-windows.exe release/
+        ls -la release/
 
     - name: Create Release
       uses: softprops/action-gh-release@v2
@@ -93,19 +119,35 @@ jobs:
           
           ### Downloads
           - **Linux (x86_64)**: `optio-linux`
+          - **macOS (Apple Silicon)**: `optio-darwin-arm64`
+          - **macOS (Intel)**: `optio-darwin-amd64`
+          - **Windows (x86_64)**: `optio-windows.exe`
           
           ### Installation
+          
+          #### Linux/macOS
           ```bash
-          # Download and make executable
-          chmod +x optio-linux
+          # Download the appropriate binary for your platform
+          # Make it executable
+          chmod +x optio-*
           
           # Move to your PATH
-          sudo mv optio-linux /usr/local/bin/optiod
+          sudo mv optio-* /usr/local/bin/optiod
+          ```
+          
+          #### Windows
+          ```powershell
+          # Download optio-windows.exe
+          # Rename and move to a directory in your PATH
           ```
           
           ### Version Info
           Built with Go 1.23.6
         draft: false
         prerelease: ${{ github.event.inputs.prerelease == 'true' }}
-        files: build/optio-linux
-        token: ${{ secrets.GITHUB_TOKEN }} 
+        files: |
+          release/optio-linux
+          release/optio-darwin-arm64
+          release/optio-darwin-amd64
+          release/optio-windows.exe
+        token: ${{ secrets.GITHUB_TOKEN }}
