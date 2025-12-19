@@ -43,8 +43,9 @@ jobs:
       env:
         VERSION: ${{ github.event.inputs.version || '1.0.0' }}
       run: |
+        COMMIT=$(git rev-parse --short HEAD)
         GOOS=linux GOARCH=amd64 go build \
-          -ldflags "-X github.com/OptioNetwork/optio/app.Version=v$VERSION" \
+          -ldflags "-X github.com/cosmos/cosmos-sdk/version.Version=v$VERSION -X github.com/cosmos/cosmos-sdk/version.Commit=$COMMIT" \
           -o build/optio-linux \
           ./cmd/optiod
         ls -la build/
