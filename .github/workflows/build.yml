@@ -43,7 +43,10 @@ jobs:
       env:
         VERSION: ${{ github.event.inputs.version || '1.0.0' }}
       run: |
-        make build-linux VERSION=$VERSION
+        GOOS=linux GOARCH=amd64 go build \
+          -ldflags "-X github.com/OptioNetwork/optio/app.Version=v$VERSION" \
+          -o build/optio-linux \
+          ./cmd/optiod
         ls -la build/
 
     - name: Upload binary artifact
