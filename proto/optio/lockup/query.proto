@@ -21,8 +21,8 @@ service Query {
     option (google.api.http).get = "/optio/lockup/total_locked_amount";
   }
 
-  // LocksForAddresses queries active locks for multiple addresses.
-  rpc LocksForAddresses(QueryLocksForAddressesRequest) returns (QueryLocksForAddressesResponse) {
+  // AccountLocks queries active locks for multiple addresses.
+  rpc AccountLocks(QueryAccountLocksRequest) returns (QueryAccountLocksResponse) {
     option (google.api.http).get = "/optio/lockup/account_locks";
   }
   
@@ -57,15 +57,15 @@ message QueryTotalLockedAmountResponse {
   cosmos.base.v1beta1.Coin total_locked = 1 [(gogoproto.nullable) = false];
 }
 
-// QueryLocksForAddressesRequest is request type for the Query/LocksForAddresses RPC method.
-message QueryLocksForAddressesRequest {
+// QueryAccountLocksRequest is request type for the Query/AccountLocks RPC method.
+message QueryAccountLocksRequest {
   string addresses = 1;
   cosmos.base.query.v1beta1.PageRequest pagination = 2;
 }
 
-// QueryLocksForAddressesResponse is response type for the Query/LocksForAddresses RPC method.
-message QueryLocksForAddressesResponse {
-  repeated AccountLocksResource locks = 1 [(gogoproto.nullable) = false];
+// QueryAccountLocksResponse is response type for the Query/AccountLocks RPC method.
+message QueryAccountLocksResponse {
+  repeated AccountLocksResource accounts = 1 [(gogoproto.nullable) = false];
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 

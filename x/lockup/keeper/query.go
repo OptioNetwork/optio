@@ -138,7 +138,7 @@ func (k Keeper) TotalLockedAmount(goCtx context.Context, req *types.QueryTotalLo
 	}, nil
 }
 
-func (k Keeper) LocksForAddresses(goCtx context.Context, req *types.QueryLocksForAddressesRequest) (*types.QueryLocksForAddressesResponse, error) {
+func (k Keeper) AccountLocks(goCtx context.Context, req *types.QueryAccountLocksRequest) (*types.QueryAccountLocksResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
@@ -220,8 +220,8 @@ func (k Keeper) LocksForAddresses(goCtx context.Context, req *types.QueryLocksFo
 		nextKey = []byte{1} // Indicate more results available
 	}
 
-	return &types.QueryLocksForAddressesResponse{
-		Locks: accountLocks,
+	return &types.QueryAccountLocksResponse{
+		Accounts: accountLocks,
 		Pagination: &query.PageResponse{
 			NextKey: nextKey,
 			Total:   uint64(len(addressList)),
