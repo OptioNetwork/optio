@@ -66,31 +66,34 @@ func (k msgServer) Extend(goCtx context.Context, msg *types.MsgExtend) (*types.M
 		}
 
 		amountToMove := extension.Amount.Amount
-		if existingFromLock.Amount.Amount.LT(amountToMove) {
+		if existingFromLock.Amount.LT(amountToMove) {
 			return nil, sdkerrors.ErrInvalidRequest.Wrapf("extension amount exceeds existing lock amount date (%s)", extension.FromDate)
-		} else if existingFromLock.Amount.Amount.Equal(amountToMove) {
+		} else if existingFromLock.Amount.Equal(amountToMove) {
 			if err := k.DeleteLockByAddressAndIndex(ctx, addr, idx); err != nil {
 				return nil, err
 			}
 		} else {
 			updatedLock := &types.Lock{
 				UnlockDate: existingFromLock.UnlockDate,
-				Amount:     sdk.Coin{Denom: bondDenom, Amount: existingFromLock.Amount.Amount.Sub(amountToMove)},
+				Amount:     existingFromLock.Amount.Sub(amountToMove),
 			}
 			err = k.UpdateLockByAddressAndIndex(ctx, addr, idx, updatedLock)
+			if err != nil {
+				return nil, err
+			}
 		}
 
 		existingToLock, idx, found := k.GetLockByAddressAndDate(ctx, addr, extension.ToDate)
 		if found {
 			updatedLock := &types.Lock{
 				UnlockDate: existingToLock.UnlockDate,
-				Amount:     sdk.Coin{Denom: bondDenom, Amount: existingToLock.Amount.Amount.Add(amountToMove)},
+				Amount:     existingToLock.Amount.Add(amountToMove),
 			}
 			err = k.UpdateLockByAddressAndIndex(ctx, addr, idx, updatedLock)
 		} else {
 			newLock := &types.Lock{
 				UnlockDate: extension.ToDate,
-				Amount:     sdk.Coin{Denom: bondDenom, Amount: amountToMove},
+				Amount:     amountToMove,
 			}
 			err = k.SetLockByAddress(ctx, addr, newLock)
 		}

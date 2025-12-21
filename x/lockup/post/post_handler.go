@@ -56,7 +56,7 @@ func (d RemoveExpiredLocksDecorator) PostHandle(ctx sdk.Context, tx sdk.Tx, simu
 		}
 
 		if !lockuptypes.IsLocked(blockDate, lock.UnlockDate) {
-			if err := d.lockupKeeper.RemoveFromExpirationQueue(ctx, unlockTime, addr, lock.Amount.Amount); err != nil {
+			if err := d.lockupKeeper.RemoveFromExpirationQueue(ctx, unlockTime, addr, lock.Amount); err != nil {
 				return ctx, err
 			}
 

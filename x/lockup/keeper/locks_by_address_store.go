@@ -27,7 +27,7 @@ func (k Keeper) GetLockedAmountByAddress(ctx sdk.Context, addr sdk.AccAddress) (
 	totalLocked := math.ZeroInt()
 	for _, lock := range locks {
 		if types.IsLocked(blockDay, lock.UnlockDate) {
-			totalLocked = totalLocked.Add(lock.Amount.Amount)
+			totalLocked = totalLocked.Add(lock.Amount)
 		}
 	}
 

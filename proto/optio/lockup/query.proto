@@ -39,11 +39,11 @@ message QueryActiveLocksRequest {
 
 // QueryActiveLocksResponse is response type for the Query/ActiveLocks RPC method.
 message QueryActiveLocksResponse {
-  repeated ActiveLock                    locks      = 1 [(gogoproto.nullable) = false];
+  repeated ActiveLockResource                    locks      = 1 [(gogoproto.nullable) = false];
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
-message ActiveLock {
+message ActiveLockResource {
   string                   address     = 1;
   string                   unlock_date = 2;
   cosmos.base.v1beta1.Coin amount      = 3 [(gogoproto.nullable) = false];
@@ -60,24 +60,33 @@ message QueryTotalLockedAmountResponse {
 // QueryLocksForAddressesRequest is request type for the Query/LocksForAddresses RPC method.
 message QueryLocksForAddressesRequest {
   string addresses = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
 }
 
 // QueryLocksForAddressesResponse is response type for the Query/LocksForAddresses RPC method.
 message QueryLocksForAddressesResponse {
-  repeated AccountLocks locks = 1 [(gogoproto.nullable) = false];
+  repeated AccountLocksResource locks = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
-message AccountLocks {
+message AccountLocksResource {
   string        address = 1;
-  repeated Lock locks   = 2 [(gogoproto.nullable) = false];
+  repeated LockResource locks   = 2 [(gogoproto.nullable) = false];
+}
+
+message LockResource {
+  string                   unlock_date = 1;
+  cosmos.base.v1beta1.Coin amount      = 3 [(gogoproto.nullable) = false];
 }
 
 // QueryLocksRequest is request type for the Query/Locks RPC method.
 message QueryLocksRequest {
   string address = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
 }
 
 // QueryLocksResponse is response type for the Query/Locks RPC method.
 message QueryLocksResponse {
-  repeated Lock locks = 1 [(gogoproto.nullable) = false];
+  repeated LockResource locks = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }

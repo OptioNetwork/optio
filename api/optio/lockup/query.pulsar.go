@@ -454,7 +454,7 @@ func (x *fastReflection_QueryActiveLocksRequest) ProtoMethods() *protoiface.Meth
 var _ protoreflect.List = (*_QueryActiveLocksResponse_1_list)(nil)
 
 type _QueryActiveLocksResponse_1_list struct {
-	list *[]*ActiveLock
+	list *[]*ActiveLockResource
 }
 
 func (x *_QueryActiveLocksResponse_1_list) Len() int {
@@ -470,18 +470,18 @@ func (x *_QueryActiveLocksResponse_1_list) Get(i int) protoreflect.Value {
 
 func (x *_QueryActiveLocksResponse_1_list) Set(i int, value protoreflect.Value) {
 	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*ActiveLock)
+	concreteValue := valueUnwrapped.Interface().(*ActiveLockResource)
 	(*x.list)[i] = concreteValue
 }
 
 func (x *_QueryActiveLocksResponse_1_list) Append(value protoreflect.Value) {
 	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*ActiveLock)
+	concreteValue := valueUnwrapped.Interface().(*ActiveLockResource)
 	*x.list = append(*x.list, concreteValue)
 }
 
 func (x *_QueryActiveLocksResponse_1_list) AppendMutable() protoreflect.Value {
-	v := new(ActiveLock)
+	v := new(ActiveLockResource)
 	*x.list = append(*x.list, v)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
@@ -494,7 +494,7 @@ func (x *_QueryActiveLocksResponse_1_list) Truncate(n int) {
 }
 
 func (x *_QueryActiveLocksResponse_1_list) NewElement() protoreflect.Value {
-	v := new(ActiveLock)
+	v := new(ActiveLockResource)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
@@ -704,7 +704,7 @@ func (x *fastReflection_QueryActiveLocksResponse) Mutable(fd protoreflect.FieldD
 	switch fd.FullName() {
 	case "optio.lockup.QueryActiveLocksResponse.locks":
 		if x.Locks == nil {
-			x.Locks = []*ActiveLock{}
+			x.Locks = []*ActiveLockResource{}
 		}
 		value := &_QueryActiveLocksResponse_1_list{list: &x.Locks}
 		return protoreflect.ValueOfList(value)
@@ -727,7 +727,7 @@ func (x *fastReflection_QueryActiveLocksResponse) Mutable(fd protoreflect.FieldD
 func (x *fastReflection_QueryActiveLocksResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
 	case "optio.lockup.QueryActiveLocksResponse.locks":
-		list := []*ActiveLock{}
+		list := []*ActiveLockResource{}
 		return protoreflect.ValueOfList(&_QueryActiveLocksResponse_1_list{list: &list})
 	case "optio.lockup.QueryActiveLocksResponse.pagination":
 		m := new(v1beta1.PageResponse)
@@ -948,7 +948,7 @@ func (x *fastReflection_QueryActiveLocksResponse) ProtoMethods() *protoiface.Met
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.Locks = append(x.Locks, &ActiveLock{})
+				x.Locks = append(x.Locks, &ActiveLockResource{})
 				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Locks[len(x.Locks)-1]); err != nil {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
@@ -1025,29 +1025,29 @@ func (x *fastReflection_QueryActiveLocksResponse) ProtoMethods() *protoiface.Met
 }
 
 var (
-	md_ActiveLock             protoreflect.MessageDescriptor
-	fd_ActiveLock_address     protoreflect.FieldDescriptor
-	fd_ActiveLock_unlock_date protoreflect.FieldDescriptor
-	fd_ActiveLock_amount      protoreflect.FieldDescriptor
+	md_ActiveLockResource             protoreflect.MessageDescriptor
+	fd_ActiveLockResource_address     protoreflect.FieldDescriptor
+	fd_ActiveLockResource_unlock_date protoreflect.FieldDescriptor
+	fd_ActiveLockResource_amount      protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_optio_lockup_query_proto_init()
-	md_ActiveLock = File_optio_lockup_query_proto.Messages().ByName("ActiveLock")
-	fd_ActiveLock_address = md_ActiveLock.Fields().ByName("address")
-	fd_ActiveLock_unlock_date = md_ActiveLock.Fields().ByName("unlock_date")
-	fd_ActiveLock_amount = md_ActiveLock.Fields().ByName("amount")
+	md_ActiveLockResource = File_optio_lockup_query_proto.Messages().ByName("ActiveLockResource")
+	fd_ActiveLockResource_address = md_ActiveLockResource.Fields().ByName("address")
+	fd_ActiveLockResource_unlock_date = md_ActiveLockResource.Fields().ByName("unlock_date")
+	fd_ActiveLockResource_amount = md_ActiveLockResource.Fields().ByName("amount")
 }
 
-var _ protoreflect.Message = (*fastReflection_ActiveLock)(nil)
+var _ protoreflect.Message = (*fastReflection_ActiveLockResource)(nil)
 
-type fastReflection_ActiveLock ActiveLock
+type fastReflection_ActiveLockResource ActiveLockResource
 
-func (x *ActiveLock) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_ActiveLock)(x)
+func (x *ActiveLockResource) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_ActiveLockResource)(x)
 }
 
-func (x *ActiveLock) slowProtoReflect() protoreflect.Message {
+func (x *ActiveLockResource) slowProtoReflect() protoreflect.Message {
 	mi := &file_optio_lockup_query_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1059,43 +1059,43 @@ func (x *ActiveLock) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_ActiveLock_messageType fastReflection_ActiveLock_messageType
-var _ protoreflect.MessageType = fastReflection_ActiveLock_messageType{}
+var _fastReflection_ActiveLockResource_messageType fastReflection_ActiveLockResource_messageType
+var _ protoreflect.MessageType = fastReflection_ActiveLockResource_messageType{}
 
-type fastReflection_ActiveLock_messageType struct{}
+type fastReflection_ActiveLockResource_messageType struct{}
 
-func (x fastReflection_ActiveLock_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_ActiveLock)(nil)
+func (x fastReflection_ActiveLockResource_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_ActiveLockResource)(nil)
 }
-func (x fastReflection_ActiveLock_messageType) New() protoreflect.Message {
-	return new(fastReflection_ActiveLock)
+func (x fastReflection_ActiveLockResource_messageType) New() protoreflect.Message {
+	return new(fastReflection_ActiveLockResource)
 }
-func (x fastReflection_ActiveLock_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_ActiveLock
+func (x fastReflection_ActiveLockResource_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_ActiveLockResource
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_ActiveLock) Descriptor() protoreflect.MessageDescriptor {
-	return md_ActiveLock
+func (x *fastReflection_ActiveLockResource) Descriptor() protoreflect.MessageDescriptor {
+	return md_ActiveLockResource
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_ActiveLock) Type() protoreflect.MessageType {
-	return _fastReflection_ActiveLock_messageType
+func (x *fastReflection_ActiveLockResource) Type() protoreflect.MessageType {
+	return _fastReflection_ActiveLockResource_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_ActiveLock) New() protoreflect.Message {
-	return new(fastReflection_ActiveLock)
+func (x *fastReflection_ActiveLockResource) New() protoreflect.Message {
+	return new(fastReflection_ActiveLockResource)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_ActiveLock) Interface() protoreflect.ProtoMessage {
-	return (*ActiveLock)(x)
+func (x *fastReflection_ActiveLockResource) Interface() protoreflect.ProtoMessage {
+	return (*ActiveLockResource)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -1103,22 +1103,22 @@ func (x *fastReflection_ActiveLock) Interface() protoreflect.ProtoMessage {
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_ActiveLock) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+func (x *fastReflection_ActiveLockResource) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
 	if x.Address != "" {
 		value := protoreflect.ValueOfString(x.Address)
-		if !f(fd_ActiveLock_address, value) {
+		if !f(fd_ActiveLockResource_address, value) {
 			return
 		}
 	}
 	if x.UnlockDate != "" {
 		value := protoreflect.ValueOfString(x.UnlockDate)
-		if !f(fd_ActiveLock_unlock_date, value) {
+		if !f(fd_ActiveLockResource_unlock_date, value) {
 			return
 		}
 	}
 	if x.Amount != nil {
 		value := protoreflect.ValueOfMessage(x.Amount.ProtoReflect())
-		if !f(fd_ActiveLock_amount, value) {
+		if !f(fd_ActiveLockResource_amount, value) {
 			return
 		}
 	}
@@ -1135,19 +1135,19 @@ func (x *fastReflection_ActiveLock) Range(f func(protoreflect.FieldDescriptor, p
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_ActiveLock) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_ActiveLockResource) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "optio.lockup.ActiveLock.address":
+	case "optio.lockup.ActiveLockResource.address":
 		return x.Address != ""
-	case "optio.lockup.ActiveLock.unlock_date":
+	case "optio.lockup.ActiveLockResource.unlock_date":
 		return x.UnlockDate != ""
-	case "optio.lockup.ActiveLock.amount":
+	case "optio.lockup.ActiveLockResource.amount":
 		return x.Amount != nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.ActiveLock"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.ActiveLockResource"))
 		}
-		panic(fmt.Errorf("message optio.lockup.ActiveLock does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message optio.lockup.ActiveLockResource does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -1157,19 +1157,19 @@ func (x *fastReflection_ActiveLock) Has(fd protoreflect.FieldDescriptor) bool {
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_ActiveLock) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_ActiveLockResource) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "optio.lockup.ActiveLock.address":
+	case "optio.lockup.ActiveLockResource.address":
 		x.Address = ""
-	case "optio.lockup.ActiveLock.unlock_date":
+	case "optio.lockup.ActiveLockResource.unlock_date":
 		x.UnlockDate = ""
-	case "optio.lockup.ActiveLock.amount":
+	case "optio.lockup.ActiveLockResource.amount":
 		x.Amount = nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.ActiveLock"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.ActiveLockResource"))
 		}
-		panic(fmt.Errorf("message optio.lockup.ActiveLock does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message optio.lockup.ActiveLockResource does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -1179,22 +1179,22 @@ func (x *fastReflection_ActiveLock) Clear(fd protoreflect.FieldDescriptor) {
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_ActiveLock) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_ActiveLockResource) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "optio.lockup.ActiveLock.address":
+	case "optio.lockup.ActiveLockResource.address":
 		value := x.Address
 		return protoreflect.ValueOfString(value)
-	case "optio.lockup.ActiveLock.unlock_date":
+	case "optio.lockup.ActiveLockResource.unlock_date":
 		value := x.UnlockDate
 		return protoreflect.ValueOfString(value)
-	case "optio.lockup.ActiveLock.amount":
+	case "optio.lockup.ActiveLockResource.amount":
 		value := x.Amount
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.ActiveLock"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.ActiveLockResource"))
 		}
-		panic(fmt.Errorf("message optio.lockup.ActiveLock does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message optio.lockup.ActiveLockResource does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -1208,19 +1208,19 @@ func (x *fastReflection_ActiveLock) Get(descriptor protoreflect.FieldDescriptor)
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_ActiveLock) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_ActiveLockResource) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "optio.lockup.ActiveLock.address":
+	case "optio.lockup.ActiveLockResource.address":
 		x.Address = value.Interface().(string)
-	case "optio.lockup.ActiveLock.unlock_date":
+	case "optio.lockup.ActiveLockResource.unlock_date":
 		x.UnlockDate = value.Interface().(string)
-	case "optio.lockup.ActiveLock.amount":
+	case "optio.lockup.ActiveLockResource.amount":
 		x.Amount = value.Message().Interface().(*v1beta11.Coin)
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.ActiveLock"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.ActiveLockResource"))
 		}
-		panic(fmt.Errorf("message optio.lockup.ActiveLock does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message optio.lockup.ActiveLockResource does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -1234,52 +1234,52 @@ func (x *fastReflection_ActiveLock) Set(fd protoreflect.FieldDescriptor, value p
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_ActiveLock) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_ActiveLockResource) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "optio.lockup.ActiveLock.amount":
+	case "optio.lockup.ActiveLockResource.amount":
 		if x.Amount == nil {
 			x.Amount = new(v1beta11.Coin)
 		}
 		return protoreflect.ValueOfMessage(x.Amount.ProtoReflect())
-	case "optio.lockup.ActiveLock.address":
-		panic(fmt.Errorf("field address of message optio.lockup.ActiveLock is not mutable"))
-	case "optio.lockup.ActiveLock.unlock_date":
-		panic(fmt.Errorf("field unlock_date of message optio.lockup.ActiveLock is not mutable"))
+	case "optio.lockup.ActiveLockResource.address":
+		panic(fmt.Errorf("field address of message optio.lockup.ActiveLockResource is not mutable"))
+	case "optio.lockup.ActiveLockResource.unlock_date":
+		panic(fmt.Errorf("field unlock_date of message optio.lockup.ActiveLockResource is not mutable"))
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.ActiveLock"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.ActiveLockResource"))
 		}
-		panic(fmt.Errorf("message optio.lockup.ActiveLock does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message optio.lockup.ActiveLockResource does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_ActiveLock) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_ActiveLockResource) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "optio.lockup.ActiveLock.address":
+	case "optio.lockup.ActiveLockResource.address":
 		return protoreflect.ValueOfString("")
-	case "optio.lockup.ActiveLock.unlock_date":
+	case "optio.lockup.ActiveLockResource.unlock_date":
 		return protoreflect.ValueOfString("")
-	case "optio.lockup.ActiveLock.amount":
+	case "optio.lockup.ActiveLockResource.amount":
 		m := new(v1beta11.Coin)
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.ActiveLock"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.ActiveLockResource"))
 		}
-		panic(fmt.Errorf("message optio.lockup.ActiveLock does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message optio.lockup.ActiveLockResource does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_ActiveLock) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_ActiveLockResource) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in optio.lockup.ActiveLock", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in optio.lockup.ActiveLockResource", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -1287,7 +1287,7 @@ func (x *fastReflection_ActiveLock) WhichOneof(d protoreflect.OneofDescriptor) p
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_ActiveLock) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_ActiveLockResource) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -1298,7 +1298,7 @@ func (x *fastReflection_ActiveLock) GetUnknown() protoreflect.RawFields {
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_ActiveLock) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_ActiveLockResource) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -1310,7 +1310,7 @@ func (x *fastReflection_ActiveLock) SetUnknown(fields protoreflect.RawFields) {
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_ActiveLock) IsValid() bool {
+func (x *fastReflection_ActiveLockResource) IsValid() bool {
 	return x != nil
 }
 
@@ -1320,9 +1320,9 @@ func (x *fastReflection_ActiveLock) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_ActiveLock) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_ActiveLockResource) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*ActiveLock)
+		x := input.Message.Interface().(*ActiveLockResource)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -1356,7 +1356,7 @@ func (x *fastReflection_ActiveLock) ProtoMethods() *protoiface.Methods {
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*ActiveLock)
+		x := input.Message.Interface().(*ActiveLockResource)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -1414,7 +1414,7 @@ func (x *fastReflection_ActiveLock) ProtoMethods() *protoiface.Methods {
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*ActiveLock)
+		x := input.Message.Interface().(*ActiveLockResource)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -1446,10 +1446,10 @@ func (x *fastReflection_ActiveLock) ProtoMethods() *protoiface.Methods {
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: ActiveLock: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: ActiveLockResource: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: ActiveLock: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: ActiveLockResource: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			case 1:
@@ -2379,14 +2379,16 @@ func (x *fastReflection_QueryTotalLockedAmountResponse) ProtoMethods() *protoifa
 }
 
 var (
-	md_QueryLocksForAddressesRequest           protoreflect.MessageDescriptor
-	fd_QueryLocksForAddressesRequest_addresses protoreflect.FieldDescriptor
+	md_QueryLocksForAddressesRequest            protoreflect.MessageDescriptor
+	fd_QueryLocksForAddressesRequest_addresses  protoreflect.FieldDescriptor
+	fd_QueryLocksForAddressesRequest_pagination protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_optio_lockup_query_proto_init()
 	md_QueryLocksForAddressesRequest = File_optio_lockup_query_proto.Messages().ByName("QueryLocksForAddressesRequest")
 	fd_QueryLocksForAddressesRequest_addresses = md_QueryLocksForAddressesRequest.Fields().ByName("addresses")
+	fd_QueryLocksForAddressesRequest_pagination = md_QueryLocksForAddressesRequest.Fields().ByName("pagination")
 }
 
 var _ protoreflect.Message = (*fastReflection_QueryLocksForAddressesRequest)(nil)
@@ -2460,6 +2462,12 @@ func (x *fastReflection_QueryLocksForAddressesRequest) Range(f func(protoreflect
 			return
 		}
 	}
+	if x.Pagination != nil {
+		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+		if !f(fd_QueryLocksForAddressesRequest_pagination, value) {
+			return
+		}
+	}
 }
 
 // Has reports whether a field is populated.
@@ -2477,6 +2485,8 @@ func (x *fastReflection_QueryLocksForAddressesRequest) Has(fd protoreflect.Field
 	switch fd.FullName() {
 	case "optio.lockup.QueryLocksForAddressesRequest.addresses":
 		return x.Addresses != ""
+	case "optio.lockup.QueryLocksForAddressesRequest.pagination":
+		return x.Pagination != nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksForAddressesRequest"))
@@ -2495,6 +2505,8 @@ func (x *fastReflection_QueryLocksForAddressesRequest) Clear(fd protoreflect.Fie
 	switch fd.FullName() {
 	case "optio.lockup.QueryLocksForAddressesRequest.addresses":
 		x.Addresses = ""
+	case "optio.lockup.QueryLocksForAddressesRequest.pagination":
+		x.Pagination = nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksForAddressesRequest"))
@@ -2514,6 +2526,9 @@ func (x *fastReflection_QueryLocksForAddressesRequest) Get(descriptor protorefle
 	case "optio.lockup.QueryLocksForAddressesRequest.addresses":
 		value := x.Addresses
 		return protoreflect.ValueOfString(value)
+	case "optio.lockup.QueryLocksForAddressesRequest.pagination":
+		value := x.Pagination
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksForAddressesRequest"))
@@ -2536,6 +2551,8 @@ func (x *fastReflection_QueryLocksForAddressesRequest) Set(fd protoreflect.Field
 	switch fd.FullName() {
 	case "optio.lockup.QueryLocksForAddressesRequest.addresses":
 		x.Addresses = value.Interface().(string)
+	case "optio.lockup.QueryLocksForAddressesRequest.pagination":
+		x.Pagination = value.Message().Interface().(*v1beta1.PageRequest)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksForAddressesRequest"))
@@ -2556,6 +2573,11 @@ func (x *fastReflection_QueryLocksForAddressesRequest) Set(fd protoreflect.Field
 // Mutable is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_QueryLocksForAddressesRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
+	case "optio.lockup.QueryLocksForAddressesRequest.pagination":
+		if x.Pagination == nil {
+			x.Pagination = new(v1beta1.PageRequest)
+		}
+		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
 	case "optio.lockup.QueryLocksForAddressesRequest.addresses":
 		panic(fmt.Errorf("field addresses of message optio.lockup.QueryLocksForAddressesRequest is not mutable"))
 	default:
@@ -2573,6 +2595,9 @@ func (x *fastReflection_QueryLocksForAddressesRequest) NewField(fd protoreflect.
 	switch fd.FullName() {
 	case "optio.lockup.QueryLocksForAddressesRequest.addresses":
 		return protoreflect.ValueOfString("")
+	case "optio.lockup.QueryLocksForAddressesRequest.pagination":
+		m := new(v1beta1.PageRequest)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksForAddressesRequest"))
@@ -2646,6 +2671,10 @@ func (x *fastReflection_QueryLocksForAddressesRequest) ProtoMethods() *protoifac
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
+		if x.Pagination != nil {
+			l = options.Size(x.Pagination)
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
 		}
@@ -2674,6 +2703,20 @@ func (x *fastReflection_QueryLocksForAddressesRequest) ProtoMethods() *protoifac
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.Pagination != nil {
+			encoded, err := options.Marshal(x.Pagination)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0x12
 		}
 		if len(x.Addresses) > 0 {
 			i -= len(x.Addresses)
@@ -2763,6 +2806,42 @@ func (x *fastReflection_QueryLocksForAddressesRequest) ProtoMethods() *protoifac
 				}
 				x.Addresses = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
+			case 2:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.Pagination == nil {
+					x.Pagination = &v1beta1.PageRequest{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Pagination); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -2801,7 +2880,7 @@ func (x *fastReflection_QueryLocksForAddressesRequest) ProtoMethods() *protoifac
 var _ protoreflect.List = (*_QueryLocksForAddressesResponse_1_list)(nil)
 
 type _QueryLocksForAddressesResponse_1_list struct {
-	list *[]*AccountLocks
+	list *[]*AccountLocksResource
 }
 
 func (x *_QueryLocksForAddressesResponse_1_list) Len() int {
@@ -2817,18 +2896,18 @@ func (x *_QueryLocksForAddressesResponse_1_list) Get(i int) protoreflect.Value {
 
 func (x *_QueryLocksForAddressesResponse_1_list) Set(i int, value protoreflect.Value) {
 	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*AccountLocks)
+	concreteValue := valueUnwrapped.Interface().(*AccountLocksResource)
 	(*x.list)[i] = concreteValue
 }
 
 func (x *_QueryLocksForAddressesResponse_1_list) Append(value protoreflect.Value) {
 	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*AccountLocks)
+	concreteValue := valueUnwrapped.Interface().(*AccountLocksResource)
 	*x.list = append(*x.list, concreteValue)
 }
 
 func (x *_QueryLocksForAddressesResponse_1_list) AppendMutable() protoreflect.Value {
-	v := new(AccountLocks)
+	v := new(AccountLocksResource)
 	*x.list = append(*x.list, v)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
@@ -2841,7 +2920,7 @@ func (x *_QueryLocksForAddressesResponse_1_list) Truncate(n int) {
 }
 
 func (x *_QueryLocksForAddressesResponse_1_list) NewElement() protoreflect.Value {
-	v := new(AccountLocks)
+	v := new(AccountLocksResource)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
@@ -2850,14 +2929,16 @@ func (x *_QueryLocksForAddressesResponse_1_list) IsValid() bool {
 }
 
 var (
-	md_QueryLocksForAddressesResponse       protoreflect.MessageDescriptor
-	fd_QueryLocksForAddressesResponse_locks protoreflect.FieldDescriptor
+	md_QueryLocksForAddressesResponse            protoreflect.MessageDescriptor
+	fd_QueryLocksForAddressesResponse_locks      protoreflect.FieldDescriptor
+	fd_QueryLocksForAddressesResponse_pagination protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_optio_lockup_query_proto_init()
 	md_QueryLocksForAddressesResponse = File_optio_lockup_query_proto.Messages().ByName("QueryLocksForAddressesResponse")
 	fd_QueryLocksForAddressesResponse_locks = md_QueryLocksForAddressesResponse.Fields().ByName("locks")
+	fd_QueryLocksForAddressesResponse_pagination = md_QueryLocksForAddressesResponse.Fields().ByName("pagination")
 }
 
 var _ protoreflect.Message = (*fastReflection_QueryLocksForAddressesResponse)(nil)
@@ -2931,6 +3012,12 @@ func (x *fastReflection_QueryLocksForAddressesResponse) Range(f func(protoreflec
 			return
 		}
 	}
+	if x.Pagination != nil {
+		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+		if !f(fd_QueryLocksForAddressesResponse_pagination, value) {
+			return
+		}
+	}
 }
 
 // Has reports whether a field is populated.
@@ -2948,6 +3035,8 @@ func (x *fastReflection_QueryLocksForAddressesResponse) Has(fd protoreflect.Fiel
 	switch fd.FullName() {
 	case "optio.lockup.QueryLocksForAddressesResponse.locks":
 		return len(x.Locks) != 0
+	case "optio.lockup.QueryLocksForAddressesResponse.pagination":
+		return x.Pagination != nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksForAddressesResponse"))
@@ -2966,6 +3055,8 @@ func (x *fastReflection_QueryLocksForAddressesResponse) Clear(fd protoreflect.Fi
 	switch fd.FullName() {
 	case "optio.lockup.QueryLocksForAddressesResponse.locks":
 		x.Locks = nil
+	case "optio.lockup.QueryLocksForAddressesResponse.pagination":
+		x.Pagination = nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksForAddressesResponse"))
@@ -2988,6 +3079,9 @@ func (x *fastReflection_QueryLocksForAddressesResponse) Get(descriptor protorefl
 		}
 		listValue := &_QueryLocksForAddressesResponse_1_list{list: &x.Locks}
 		return protoreflect.ValueOfList(listValue)
+	case "optio.lockup.QueryLocksForAddressesResponse.pagination":
+		value := x.Pagination
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksForAddressesResponse"))
@@ -3012,6 +3106,8 @@ func (x *fastReflection_QueryLocksForAddressesResponse) Set(fd protoreflect.Fiel
 		lv := value.List()
 		clv := lv.(*_QueryLocksForAddressesResponse_1_list)
 		x.Locks = *clv.list
+	case "optio.lockup.QueryLocksForAddressesResponse.pagination":
+		x.Pagination = value.Message().Interface().(*v1beta1.PageResponse)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksForAddressesResponse"))
@@ -3034,10 +3130,15 @@ func (x *fastReflection_QueryLocksForAddressesResponse) Mutable(fd protoreflect.
 	switch fd.FullName() {
 	case "optio.lockup.QueryLocksForAddressesResponse.locks":
 		if x.Locks == nil {
-			x.Locks = []*AccountLocks{}
+			x.Locks = []*AccountLocksResource{}
 		}
 		value := &_QueryLocksForAddressesResponse_1_list{list: &x.Locks}
 		return protoreflect.ValueOfList(value)
+	case "optio.lockup.QueryLocksForAddressesResponse.pagination":
+		if x.Pagination == nil {
+			x.Pagination = new(v1beta1.PageResponse)
+		}
+		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksForAddressesResponse"))
@@ -3052,8 +3153,11 @@ func (x *fastReflection_QueryLocksForAddressesResponse) Mutable(fd protoreflect.
 func (x *fastReflection_QueryLocksForAddressesResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
 	case "optio.lockup.QueryLocksForAddressesResponse.locks":
-		list := []*AccountLocks{}
+		list := []*AccountLocksResource{}
 		return protoreflect.ValueOfList(&_QueryLocksForAddressesResponse_1_list{list: &list})
+	case "optio.lockup.QueryLocksForAddressesResponse.pagination":
+		m := new(v1beta1.PageResponse)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksForAddressesResponse"))
@@ -3129,6 +3233,10 @@ func (x *fastReflection_QueryLocksForAddressesResponse) ProtoMethods() *protoifa
 				n += 1 + l + runtime.Sov(uint64(l))
 			}
 		}
+		if x.Pagination != nil {
+			l = options.Size(x.Pagination)
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
 		}
@@ -3157,6 +3265,20 @@ func (x *fastReflection_QueryLocksForAddressesResponse) ProtoMethods() *protoifa
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.Pagination != nil {
+			encoded, err := options.Marshal(x.Pagination)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0x12
 		}
 		if len(x.Locks) > 0 {
 			for iNdEx := len(x.Locks) - 1; iNdEx >= 0; iNdEx-- {
@@ -3252,8 +3374,44 @@ func (x *fastReflection_QueryLocksForAddressesResponse) ProtoMethods() *protoifa
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.Locks = append(x.Locks, &AccountLocks{})
+				x.Locks = append(x.Locks, &AccountLocksResource{})
 				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Locks[len(x.Locks)-1]); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			case 2:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.Pagination == nil {
+					x.Pagination = &v1beta1.PageResponse{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Pagination); err != nil {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
@@ -3292,79 +3450,79 @@ func (x *fastReflection_QueryLocksForAddressesResponse) ProtoMethods() *protoifa
 	}
 }
 
-var _ protoreflect.List = (*_AccountLocks_2_list)(nil)
+var _ protoreflect.List = (*_AccountLocksResource_2_list)(nil)
 
-type _AccountLocks_2_list struct {
-	list *[]*Lock
+type _AccountLocksResource_2_list struct {
+	list *[]*LockResource
 }
 
-func (x *_AccountLocks_2_list) Len() int {
+func (x *_AccountLocksResource_2_list) Len() int {
 	if x.list == nil {
 		return 0
 	}
 	return len(*x.list)
 }
 
-func (x *_AccountLocks_2_list) Get(i int) protoreflect.Value {
+func (x *_AccountLocksResource_2_list) Get(i int) protoreflect.Value {
 	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
 }
 
-func (x *_AccountLocks_2_list) Set(i int, value protoreflect.Value) {
+func (x *_AccountLocksResource_2_list) Set(i int, value protoreflect.Value) {
 	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*Lock)
+	concreteValue := valueUnwrapped.Interface().(*LockResource)
 	(*x.list)[i] = concreteValue
 }
 
-func (x *_AccountLocks_2_list) Append(value protoreflect.Value) {
+func (x *_AccountLocksResource_2_list) Append(value protoreflect.Value) {
 	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*Lock)
+	concreteValue := valueUnwrapped.Interface().(*LockResource)
 	*x.list = append(*x.list, concreteValue)
 }
 
-func (x *_AccountLocks_2_list) AppendMutable() protoreflect.Value {
-	v := new(Lock)
+func (x *_AccountLocksResource_2_list) AppendMutable() protoreflect.Value {
+	v := new(LockResource)
 	*x.list = append(*x.list, v)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
-func (x *_AccountLocks_2_list) Truncate(n int) {
+func (x *_AccountLocksResource_2_list) Truncate(n int) {
 	for i := n; i < len(*x.list); i++ {
 		(*x.list)[i] = nil
 	}
 	*x.list = (*x.list)[:n]
 }
 
-func (x *_AccountLocks_2_list) NewElement() protoreflect.Value {
-	v := new(Lock)
+func (x *_AccountLocksResource_2_list) NewElement() protoreflect.Value {
+	v := new(LockResource)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
-func (x *_AccountLocks_2_list) IsValid() bool {
+func (x *_AccountLocksResource_2_list) IsValid() bool {
 	return x.list != nil
 }
 
 var (
-	md_AccountLocks         protoreflect.MessageDescriptor
-	fd_AccountLocks_address protoreflect.FieldDescriptor
-	fd_AccountLocks_locks   protoreflect.FieldDescriptor
+	md_AccountLocksResource         protoreflect.MessageDescriptor
+	fd_AccountLocksResource_address protoreflect.FieldDescriptor
+	fd_AccountLocksResource_locks   protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_optio_lockup_query_proto_init()
-	md_AccountLocks = File_optio_lockup_query_proto.Messages().ByName("AccountLocks")
-	fd_AccountLocks_address = md_AccountLocks.Fields().ByName("address")
-	fd_AccountLocks_locks = md_AccountLocks.Fields().ByName("locks")
+	md_AccountLocksResource = File_optio_lockup_query_proto.Messages().ByName("AccountLocksResource")
+	fd_AccountLocksResource_address = md_AccountLocksResource.Fields().ByName("address")
+	fd_AccountLocksResource_locks = md_AccountLocksResource.Fields().ByName("locks")
 }
 
-var _ protoreflect.Message = (*fastReflection_AccountLocks)(nil)
+var _ protoreflect.Message = (*fastReflection_AccountLocksResource)(nil)
 
-type fastReflection_AccountLocks AccountLocks
+type fastReflection_AccountLocksResource AccountLocksResource
 
-func (x *AccountLocks) ProtoReflect() protoreflect.Message {
-	return (*fastReflection_AccountLocks)(x)
+func (x *AccountLocksResource) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_AccountLocksResource)(x)
 }
 
-func (x *AccountLocks) slowProtoReflect() protoreflect.Message {
+func (x *AccountLocksResource) slowProtoReflect() protoreflect.Message {
 	mi := &file_optio_lockup_query_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -3376,43 +3534,43 @@ func (x *AccountLocks) slowProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-var _fastReflection_AccountLocks_messageType fastReflection_AccountLocks_messageType
-var _ protoreflect.MessageType = fastReflection_AccountLocks_messageType{}
+var _fastReflection_AccountLocksResource_messageType fastReflection_AccountLocksResource_messageType
+var _ protoreflect.MessageType = fastReflection_AccountLocksResource_messageType{}
 
-type fastReflection_AccountLocks_messageType struct{}
+type fastReflection_AccountLocksResource_messageType struct{}
 
-func (x fastReflection_AccountLocks_messageType) Zero() protoreflect.Message {
-	return (*fastReflection_AccountLocks)(nil)
+func (x fastReflection_AccountLocksResource_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_AccountLocksResource)(nil)
 }
-func (x fastReflection_AccountLocks_messageType) New() protoreflect.Message {
-	return new(fastReflection_AccountLocks)
+func (x fastReflection_AccountLocksResource_messageType) New() protoreflect.Message {
+	return new(fastReflection_AccountLocksResource)
 }
-func (x fastReflection_AccountLocks_messageType) Descriptor() protoreflect.MessageDescriptor {
-	return md_AccountLocks
+func (x fastReflection_AccountLocksResource_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_AccountLocksResource
 }
 
 // Descriptor returns message descriptor, which contains only the protobuf
 // type information for the message.
-func (x *fastReflection_AccountLocks) Descriptor() protoreflect.MessageDescriptor {
-	return md_AccountLocks
+func (x *fastReflection_AccountLocksResource) Descriptor() protoreflect.MessageDescriptor {
+	return md_AccountLocksResource
 }
 
 // Type returns the message type, which encapsulates both Go and protobuf
 // type information. If the Go type information is not needed,
 // it is recommended that the message descriptor be used instead.
-func (x *fastReflection_AccountLocks) Type() protoreflect.MessageType {
-	return _fastReflection_AccountLocks_messageType
+func (x *fastReflection_AccountLocksResource) Type() protoreflect.MessageType {
+	return _fastReflection_AccountLocksResource_messageType
 }
 
 // New returns a newly allocated and mutable empty message.
-func (x *fastReflection_AccountLocks) New() protoreflect.Message {
-	return new(fastReflection_AccountLocks)
+func (x *fastReflection_AccountLocksResource) New() protoreflect.Message {
+	return new(fastReflection_AccountLocksResource)
 }
 
 // Interface unwraps the message reflection interface and
 // returns the underlying ProtoMessage interface.
-func (x *fastReflection_AccountLocks) Interface() protoreflect.ProtoMessage {
-	return (*AccountLocks)(x)
+func (x *fastReflection_AccountLocksResource) Interface() protoreflect.ProtoMessage {
+	return (*AccountLocksResource)(x)
 }
 
 // Range iterates over every populated field in an undefined order,
@@ -3420,16 +3578,16 @@ func (x *fastReflection_AccountLocks) Interface() protoreflect.ProtoMessage {
 // Range returns immediately if f returns false.
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
-func (x *fastReflection_AccountLocks) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+func (x *fastReflection_AccountLocksResource) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
 	if x.Address != "" {
 		value := protoreflect.ValueOfString(x.Address)
-		if !f(fd_AccountLocks_address, value) {
+		if !f(fd_AccountLocksResource_address, value) {
 			return
 		}
 	}
 	if len(x.Locks) != 0 {
-		value := protoreflect.ValueOfList(&_AccountLocks_2_list{list: &x.Locks})
-		if !f(fd_AccountLocks_locks, value) {
+		value := protoreflect.ValueOfList(&_AccountLocksResource_2_list{list: &x.Locks})
+		if !f(fd_AccountLocksResource_locks, value) {
 			return
 		}
 	}
@@ -3446,17 +3604,17 @@ func (x *fastReflection_AccountLocks) Range(f func(protoreflect.FieldDescriptor,
 // In other cases (aside from the nullable cases above),
 // a proto3 scalar field is populated if it contains a non-zero value, and
 // a repeated field is populated if it is non-empty.
-func (x *fastReflection_AccountLocks) Has(fd protoreflect.FieldDescriptor) bool {
+func (x *fastReflection_AccountLocksResource) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "optio.lockup.AccountLocks.address":
+	case "optio.lockup.AccountLocksResource.address":
 		return x.Address != ""
-	case "optio.lockup.AccountLocks.locks":
+	case "optio.lockup.AccountLocksResource.locks":
 		return len(x.Locks) != 0
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.AccountLocks"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.AccountLocksResource"))
 		}
-		panic(fmt.Errorf("message optio.lockup.AccountLocks does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message optio.lockup.AccountLocksResource does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -3466,17 +3624,17 @@ func (x *fastReflection_AccountLocks) Has(fd protoreflect.FieldDescriptor) bool 
 // associated with the given field number.
 //
 // Clear is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_AccountLocks) Clear(fd protoreflect.FieldDescriptor) {
+func (x *fastReflection_AccountLocksResource) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "optio.lockup.AccountLocks.address":
+	case "optio.lockup.AccountLocksResource.address":
 		x.Address = ""
-	case "optio.lockup.AccountLocks.locks":
+	case "optio.lockup.AccountLocksResource.locks":
 		x.Locks = nil
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.AccountLocks"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.AccountLocksResource"))
 		}
-		panic(fmt.Errorf("message optio.lockup.AccountLocks does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message optio.lockup.AccountLocksResource does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -3486,22 +3644,22 @@ func (x *fastReflection_AccountLocks) Clear(fd protoreflect.FieldDescriptor) {
 // the default value of a bytes scalar is guaranteed to be a copy.
 // For unpopulated composite types, it returns an empty, read-only view
 // of the value; to obtain a mutable reference, use Mutable.
-func (x *fastReflection_AccountLocks) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_AccountLocksResource) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "optio.lockup.AccountLocks.address":
+	case "optio.lockup.AccountLocksResource.address":
 		value := x.Address
 		return protoreflect.ValueOfString(value)
-	case "optio.lockup.AccountLocks.locks":
+	case "optio.lockup.AccountLocksResource.locks":
 		if len(x.Locks) == 0 {
-			return protoreflect.ValueOfList(&_AccountLocks_2_list{})
+			return protoreflect.ValueOfList(&_AccountLocksResource_2_list{})
 		}
-		listValue := &_AccountLocks_2_list{list: &x.Locks}
+		listValue := &_AccountLocksResource_2_list{list: &x.Locks}
 		return protoreflect.ValueOfList(listValue)
 	default:
 		if descriptor.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.AccountLocks"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.AccountLocksResource"))
 		}
-		panic(fmt.Errorf("message optio.lockup.AccountLocks does not contain field %s", descriptor.FullName()))
+		panic(fmt.Errorf("message optio.lockup.AccountLocksResource does not contain field %s", descriptor.FullName()))
 	}
 }
 
@@ -3515,19 +3673,19 @@ func (x *fastReflection_AccountLocks) Get(descriptor protoreflect.FieldDescripto
 // empty, read-only value, then it panics.
 //
 // Set is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_AccountLocks) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+func (x *fastReflection_AccountLocksResource) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "optio.lockup.AccountLocks.address":
+	case "optio.lockup.AccountLocksResource.address":
 		x.Address = value.Interface().(string)
-	case "optio.lockup.AccountLocks.locks":
+	case "optio.lockup.AccountLocksResource.locks":
 		lv := value.List()
-		clv := lv.(*_AccountLocks_2_list)
+		clv := lv.(*_AccountLocksResource_2_list)
 		x.Locks = *clv.list
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.AccountLocks"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.AccountLocksResource"))
 		}
-		panic(fmt.Errorf("message optio.lockup.AccountLocks does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message optio.lockup.AccountLocksResource does not contain field %s", fd.FullName()))
 	}
 }
 
@@ -3541,49 +3699,49 @@ func (x *fastReflection_AccountLocks) Set(fd protoreflect.FieldDescriptor, value
 // It panics if the field does not contain a composite type.
 //
 // Mutable is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_AccountLocks) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_AccountLocksResource) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "optio.lockup.AccountLocks.locks":
+	case "optio.lockup.AccountLocksResource.locks":
 		if x.Locks == nil {
-			x.Locks = []*Lock{}
+			x.Locks = []*LockResource{}
 		}
-		value := &_AccountLocks_2_list{list: &x.Locks}
+		value := &_AccountLocksResource_2_list{list: &x.Locks}
 		return protoreflect.ValueOfList(value)
-	case "optio.lockup.AccountLocks.address":
-		panic(fmt.Errorf("field address of message optio.lockup.AccountLocks is not mutable"))
+	case "optio.lockup.AccountLocksResource.address":
+		panic(fmt.Errorf("field address of message optio.lockup.AccountLocksResource is not mutable"))
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.AccountLocks"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.AccountLocksResource"))
 		}
-		panic(fmt.Errorf("message optio.lockup.AccountLocks does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message optio.lockup.AccountLocksResource does not contain field %s", fd.FullName()))
 	}
 }
 
 // NewField returns a new value that is assignable to the field
 // for the given descriptor. For scalars, this returns the default value.
 // For lists, maps, and messages, this returns a new, empty, mutable value.
-func (x *fastReflection_AccountLocks) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+func (x *fastReflection_AccountLocksResource) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "optio.lockup.AccountLocks.address":
+	case "optio.lockup.AccountLocksResource.address":
 		return protoreflect.ValueOfString("")
-	case "optio.lockup.AccountLocks.locks":
-		list := []*Lock{}
-		return protoreflect.ValueOfList(&_AccountLocks_2_list{list: &list})
+	case "optio.lockup.AccountLocksResource.locks":
+		list := []*LockResource{}
+		return protoreflect.ValueOfList(&_AccountLocksResource_2_list{list: &list})
 	default:
 		if fd.IsExtension() {
-			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.AccountLocks"))
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.AccountLocksResource"))
 		}
-		panic(fmt.Errorf("message optio.lockup.AccountLocks does not contain field %s", fd.FullName()))
+		panic(fmt.Errorf("message optio.lockup.AccountLocksResource does not contain field %s", fd.FullName()))
 	}
 }
 
 // WhichOneof reports which field within the oneof is populated,
 // returning nil if none are populated.
 // It panics if the oneof descriptor does not belong to this message.
-func (x *fastReflection_AccountLocks) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+func (x *fastReflection_AccountLocksResource) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
 	switch d.FullName() {
 	default:
-		panic(fmt.Errorf("%s is not a oneof field in optio.lockup.AccountLocks", d.FullName()))
+		panic(fmt.Errorf("%s is not a oneof field in optio.lockup.AccountLocksResource", d.FullName()))
 	}
 	panic("unreachable")
 }
@@ -3591,7 +3749,7 @@ func (x *fastReflection_AccountLocks) WhichOneof(d protoreflect.OneofDescriptor)
 // GetUnknown retrieves the entire list of unknown fields.
 // The caller may only mutate the contents of the RawFields
 // if the mutated bytes are stored back into the message with SetUnknown.
-func (x *fastReflection_AccountLocks) GetUnknown() protoreflect.RawFields {
+func (x *fastReflection_AccountLocksResource) GetUnknown() protoreflect.RawFields {
 	return x.unknownFields
 }
 
@@ -3602,7 +3760,7 @@ func (x *fastReflection_AccountLocks) GetUnknown() protoreflect.RawFields {
 // An empty RawFields may be passed to clear the fields.
 //
 // SetUnknown is a mutating operation and unsafe for concurrent use.
-func (x *fastReflection_AccountLocks) SetUnknown(fields protoreflect.RawFields) {
+func (x *fastReflection_AccountLocksResource) SetUnknown(fields protoreflect.RawFields) {
 	x.unknownFields = fields
 }
 
@@ -3614,7 +3772,7 @@ func (x *fastReflection_AccountLocks) SetUnknown(fields protoreflect.RawFields) 
 // message type, but the details are implementation dependent.
 // Validity is not part of the protobuf data model, and may not
 // be preserved in marshaling or other operations.
-func (x *fastReflection_AccountLocks) IsValid() bool {
+func (x *fastReflection_AccountLocksResource) IsValid() bool {
 	return x != nil
 }
 
@@ -3624,9 +3782,9 @@ func (x *fastReflection_AccountLocks) IsValid() bool {
 // The returned methods type is identical to
 // "google.golang.org/protobuf/runtime/protoiface".Methods.
 // Consult the protoiface package documentation for details.
-func (x *fastReflection_AccountLocks) ProtoMethods() *protoiface.Methods {
+func (x *fastReflection_AccountLocksResource) ProtoMethods() *protoiface.Methods {
 	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
-		x := input.Message.Interface().(*AccountLocks)
+		x := input.Message.Interface().(*AccountLocksResource)
 		if x == nil {
 			return protoiface.SizeOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -3658,7 +3816,7 @@ func (x *fastReflection_AccountLocks) ProtoMethods() *protoiface.Methods {
 	}
 
 	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
-		x := input.Message.Interface().(*AccountLocks)
+		x := input.Message.Interface().(*AccountLocksResource)
 		if x == nil {
 			return protoiface.MarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -3711,7 +3869,7 @@ func (x *fastReflection_AccountLocks) ProtoMethods() *protoiface.Methods {
 		}, nil
 	}
 	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
-		x := input.Message.Interface().(*AccountLocks)
+		x := input.Message.Interface().(*AccountLocksResource)
 		if x == nil {
 			return protoiface.UnmarshalOutput{
 				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
@@ -3743,10 +3901,10 @@ func (x *fastReflection_AccountLocks) ProtoMethods() *protoiface.Methods {
 			fieldNum := int32(wire >> 3)
 			wireType := int(wire & 0x7)
 			if wireType == 4 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: AccountLocks: wiretype end group for non-group")
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: AccountLocksResource: wiretype end group for non-group")
 			}
 			if fieldNum <= 0 {
-				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: AccountLocks: illegal tag %d (wire type %d)", fieldNum, wire)
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: AccountLocksResource: illegal tag %d (wire type %d)", fieldNum, wire)
 			}
 			switch fieldNum {
 			case 1:
@@ -3810,7 +3968,7 @@ func (x *fastReflection_AccountLocks) ProtoMethods() *protoiface.Methods {
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.Locks = append(x.Locks, &Lock{})
+				x.Locks = append(x.Locks, &LockResource{})
 				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Locks[len(x.Locks)-1]); err != nil {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
@@ -3851,14 +4009,515 @@ func (x *fastReflection_AccountLocks) ProtoMethods() *protoiface.Methods {
 }
 
 var (
-	md_QueryLocksRequest         protoreflect.MessageDescriptor
-	fd_QueryLocksRequest_address protoreflect.FieldDescriptor
+	md_LockResource             protoreflect.MessageDescriptor
+	fd_LockResource_unlock_date protoreflect.FieldDescriptor
+	fd_LockResource_amount      protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_optio_lockup_query_proto_init()
+	md_LockResource = File_optio_lockup_query_proto.Messages().ByName("LockResource")
+	fd_LockResource_unlock_date = md_LockResource.Fields().ByName("unlock_date")
+	fd_LockResource_amount = md_LockResource.Fields().ByName("amount")
+}
+
+var _ protoreflect.Message = (*fastReflection_LockResource)(nil)
+
+type fastReflection_LockResource LockResource
+
+func (x *LockResource) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_LockResource)(x)
+}
+
+func (x *LockResource) slowProtoReflect() protoreflect.Message {
+	mi := &file_optio_lockup_query_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_LockResource_messageType fastReflection_LockResource_messageType
+var _ protoreflect.MessageType = fastReflection_LockResource_messageType{}
+
+type fastReflection_LockResource_messageType struct{}
+
+func (x fastReflection_LockResource_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_LockResource)(nil)
+}
+func (x fastReflection_LockResource_messageType) New() protoreflect.Message {
+	return new(fastReflection_LockResource)
+}
+func (x fastReflection_LockResource_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_LockResource
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_LockResource) Descriptor() protoreflect.MessageDescriptor {
+	return md_LockResource
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_LockResource) Type() protoreflect.MessageType {
+	return _fastReflection_LockResource_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_LockResource) New() protoreflect.Message {
+	return new(fastReflection_LockResource)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_LockResource) Interface() protoreflect.ProtoMessage {
+	return (*LockResource)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_LockResource) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.UnlockDate != "" {
+		value := protoreflect.ValueOfString(x.UnlockDate)
+		if !f(fd_LockResource_unlock_date, value) {
+			return
+		}
+	}
+	if x.Amount != nil {
+		value := protoreflect.ValueOfMessage(x.Amount.ProtoReflect())
+		if !f(fd_LockResource_amount, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_LockResource) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "optio.lockup.LockResource.unlock_date":
+		return x.UnlockDate != ""
+	case "optio.lockup.LockResource.amount":
+		return x.Amount != nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.LockResource"))
+		}
+		panic(fmt.Errorf("message optio.lockup.LockResource does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_LockResource) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "optio.lockup.LockResource.unlock_date":
+		x.UnlockDate = ""
+	case "optio.lockup.LockResource.amount":
+		x.Amount = nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.LockResource"))
+		}
+		panic(fmt.Errorf("message optio.lockup.LockResource does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_LockResource) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "optio.lockup.LockResource.unlock_date":
+		value := x.UnlockDate
+		return protoreflect.ValueOfString(value)
+	case "optio.lockup.LockResource.amount":
+		value := x.Amount
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.LockResource"))
+		}
+		panic(fmt.Errorf("message optio.lockup.LockResource does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_LockResource) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "optio.lockup.LockResource.unlock_date":
+		x.UnlockDate = value.Interface().(string)
+	case "optio.lockup.LockResource.amount":
+		x.Amount = value.Message().Interface().(*v1beta11.Coin)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.LockResource"))
+		}
+		panic(fmt.Errorf("message optio.lockup.LockResource does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_LockResource) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "optio.lockup.LockResource.amount":
+		if x.Amount == nil {
+			x.Amount = new(v1beta11.Coin)
+		}
+		return protoreflect.ValueOfMessage(x.Amount.ProtoReflect())
+	case "optio.lockup.LockResource.unlock_date":
+		panic(fmt.Errorf("field unlock_date of message optio.lockup.LockResource is not mutable"))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.LockResource"))
+		}
+		panic(fmt.Errorf("message optio.lockup.LockResource does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_LockResource) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "optio.lockup.LockResource.unlock_date":
+		return protoreflect.ValueOfString("")
+	case "optio.lockup.LockResource.amount":
+		m := new(v1beta11.Coin)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.LockResource"))
+		}
+		panic(fmt.Errorf("message optio.lockup.LockResource does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_LockResource) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in optio.lockup.LockResource", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_LockResource) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_LockResource) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_LockResource) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_LockResource) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*LockResource)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		l = len(x.UnlockDate)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.Amount != nil {
+			l = options.Size(x.Amount)
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*LockResource)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.Amount != nil {
+			encoded, err := options.Marshal(x.Amount)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0x1a
+		}
+		if len(x.UnlockDate) > 0 {
+			i -= len(x.UnlockDate)
+			copy(dAtA[i:], x.UnlockDate)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.UnlockDate)))
+			i--
+			dAtA[i] = 0xa
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*LockResource)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: LockResource: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: LockResource: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field UnlockDate", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.UnlockDate = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 3:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Amount", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.Amount == nil {
+					x.Amount = &v1beta11.Coin{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Amount); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
+var (
+	md_QueryLocksRequest            protoreflect.MessageDescriptor
+	fd_QueryLocksRequest_address    protoreflect.FieldDescriptor
+	fd_QueryLocksRequest_pagination protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_optio_lockup_query_proto_init()
 	md_QueryLocksRequest = File_optio_lockup_query_proto.Messages().ByName("QueryLocksRequest")
 	fd_QueryLocksRequest_address = md_QueryLocksRequest.Fields().ByName("address")
+	fd_QueryLocksRequest_pagination = md_QueryLocksRequest.Fields().ByName("pagination")
 }
 
 var _ protoreflect.Message = (*fastReflection_QueryLocksRequest)(nil)
@@ -3870,7 +4529,7 @@ func (x *QueryLocksRequest) ProtoReflect() protoreflect.Message {
 }
 
 func (x *QueryLocksRequest) slowProtoReflect() protoreflect.Message {
-	mi := &file_optio_lockup_query_proto_msgTypes[8]
+	mi := &file_optio_lockup_query_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3932,6 +4591,12 @@ func (x *fastReflection_QueryLocksRequest) Range(f func(protoreflect.FieldDescri
 			return
 		}
 	}
+	if x.Pagination != nil {
+		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+		if !f(fd_QueryLocksRequest_pagination, value) {
+			return
+		}
+	}
 }
 
 // Has reports whether a field is populated.
@@ -3949,6 +4614,8 @@ func (x *fastReflection_QueryLocksRequest) Has(fd protoreflect.FieldDescriptor) 
 	switch fd.FullName() {
 	case "optio.lockup.QueryLocksRequest.address":
 		return x.Address != ""
+	case "optio.lockup.QueryLocksRequest.pagination":
+		return x.Pagination != nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksRequest"))
@@ -3967,6 +4634,8 @@ func (x *fastReflection_QueryLocksRequest) Clear(fd protoreflect.FieldDescriptor
 	switch fd.FullName() {
 	case "optio.lockup.QueryLocksRequest.address":
 		x.Address = ""
+	case "optio.lockup.QueryLocksRequest.pagination":
+		x.Pagination = nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksRequest"))
@@ -3986,6 +4655,9 @@ func (x *fastReflection_QueryLocksRequest) Get(descriptor protoreflect.FieldDesc
 	case "optio.lockup.QueryLocksRequest.address":
 		value := x.Address
 		return protoreflect.ValueOfString(value)
+	case "optio.lockup.QueryLocksRequest.pagination":
+		value := x.Pagination
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksRequest"))
@@ -4008,6 +4680,8 @@ func (x *fastReflection_QueryLocksRequest) Set(fd protoreflect.FieldDescriptor, 
 	switch fd.FullName() {
 	case "optio.lockup.QueryLocksRequest.address":
 		x.Address = value.Interface().(string)
+	case "optio.lockup.QueryLocksRequest.pagination":
+		x.Pagination = value.Message().Interface().(*v1beta1.PageRequest)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksRequest"))
@@ -4028,6 +4702,11 @@ func (x *fastReflection_QueryLocksRequest) Set(fd protoreflect.FieldDescriptor, 
 // Mutable is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_QueryLocksRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
+	case "optio.lockup.QueryLocksRequest.pagination":
+		if x.Pagination == nil {
+			x.Pagination = new(v1beta1.PageRequest)
+		}
+		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
 	case "optio.lockup.QueryLocksRequest.address":
 		panic(fmt.Errorf("field address of message optio.lockup.QueryLocksRequest is not mutable"))
 	default:
@@ -4045,6 +4724,9 @@ func (x *fastReflection_QueryLocksRequest) NewField(fd protoreflect.FieldDescrip
 	switch fd.FullName() {
 	case "optio.lockup.QueryLocksRequest.address":
 		return protoreflect.ValueOfString("")
+	case "optio.lockup.QueryLocksRequest.pagination":
+		m := new(v1beta1.PageRequest)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksRequest"))
@@ -4118,6 +4800,10 @@ func (x *fastReflection_QueryLocksRequest) ProtoMethods() *protoiface.Methods {
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
+		if x.Pagination != nil {
+			l = options.Size(x.Pagination)
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
 		}
@@ -4146,6 +4832,20 @@ func (x *fastReflection_QueryLocksRequest) ProtoMethods() *protoiface.Methods {
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.Pagination != nil {
+			encoded, err := options.Marshal(x.Pagination)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0x12
 		}
 		if len(x.Address) > 0 {
 			i -= len(x.Address)
@@ -4235,6 +4935,42 @@ func (x *fastReflection_QueryLocksRequest) ProtoMethods() *protoiface.Methods {
 				}
 				x.Address = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
+			case 2:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.Pagination == nil {
+					x.Pagination = &v1beta1.PageRequest{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Pagination); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -4273,7 +5009,7 @@ func (x *fastReflection_QueryLocksRequest) ProtoMethods() *protoiface.Methods {
 var _ protoreflect.List = (*_QueryLocksResponse_1_list)(nil)
 
 type _QueryLocksResponse_1_list struct {
-	list *[]*Lock
+	list *[]*LockResource
 }
 
 func (x *_QueryLocksResponse_1_list) Len() int {
@@ -4289,18 +5025,18 @@ func (x *_QueryLocksResponse_1_list) Get(i int) protoreflect.Value {
 
 func (x *_QueryLocksResponse_1_list) Set(i int, value protoreflect.Value) {
 	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*Lock)
+	concreteValue := valueUnwrapped.Interface().(*LockResource)
 	(*x.list)[i] = concreteValue
 }
 
 func (x *_QueryLocksResponse_1_list) Append(value protoreflect.Value) {
 	valueUnwrapped := value.Message()
-	concreteValue := valueUnwrapped.Interface().(*Lock)
+	concreteValue := valueUnwrapped.Interface().(*LockResource)
 	*x.list = append(*x.list, concreteValue)
 }
 
 func (x *_QueryLocksResponse_1_list) AppendMutable() protoreflect.Value {
-	v := new(Lock)
+	v := new(LockResource)
 	*x.list = append(*x.list, v)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
@@ -4313,7 +5049,7 @@ func (x *_QueryLocksResponse_1_list) Truncate(n int) {
 }
 
 func (x *_QueryLocksResponse_1_list) NewElement() protoreflect.Value {
-	v := new(Lock)
+	v := new(LockResource)
 	return protoreflect.ValueOfMessage(v.ProtoReflect())
 }
 
@@ -4322,14 +5058,16 @@ func (x *_QueryLocksResponse_1_list) IsValid() bool {
 }
 
 var (
-	md_QueryLocksResponse       protoreflect.MessageDescriptor
-	fd_QueryLocksResponse_locks protoreflect.FieldDescriptor
+	md_QueryLocksResponse            protoreflect.MessageDescriptor
+	fd_QueryLocksResponse_locks      protoreflect.FieldDescriptor
+	fd_QueryLocksResponse_pagination protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_optio_lockup_query_proto_init()
 	md_QueryLocksResponse = File_optio_lockup_query_proto.Messages().ByName("QueryLocksResponse")
 	fd_QueryLocksResponse_locks = md_QueryLocksResponse.Fields().ByName("locks")
+	fd_QueryLocksResponse_pagination = md_QueryLocksResponse.Fields().ByName("pagination")
 }
 
 var _ protoreflect.Message = (*fastReflection_QueryLocksResponse)(nil)
@@ -4341,7 +5079,7 @@ func (x *QueryLocksResponse) ProtoReflect() protoreflect.Message {
 }
 
 func (x *QueryLocksResponse) slowProtoReflect() protoreflect.Message {
-	mi := &file_optio_lockup_query_proto_msgTypes[9]
+	mi := &file_optio_lockup_query_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4403,6 +5141,12 @@ func (x *fastReflection_QueryLocksResponse) Range(f func(protoreflect.FieldDescr
 			return
 		}
 	}
+	if x.Pagination != nil {
+		value := protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
+		if !f(fd_QueryLocksResponse_pagination, value) {
+			return
+		}
+	}
 }
 
 // Has reports whether a field is populated.
@@ -4420,6 +5164,8 @@ func (x *fastReflection_QueryLocksResponse) Has(fd protoreflect.FieldDescriptor)
 	switch fd.FullName() {
 	case "optio.lockup.QueryLocksResponse.locks":
 		return len(x.Locks) != 0
+	case "optio.lockup.QueryLocksResponse.pagination":
+		return x.Pagination != nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksResponse"))
@@ -4438,6 +5184,8 @@ func (x *fastReflection_QueryLocksResponse) Clear(fd protoreflect.FieldDescripto
 	switch fd.FullName() {
 	case "optio.lockup.QueryLocksResponse.locks":
 		x.Locks = nil
+	case "optio.lockup.QueryLocksResponse.pagination":
+		x.Pagination = nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksResponse"))
@@ -4460,6 +5208,9 @@ func (x *fastReflection_QueryLocksResponse) Get(descriptor protoreflect.FieldDes
 		}
 		listValue := &_QueryLocksResponse_1_list{list: &x.Locks}
 		return protoreflect.ValueOfList(listValue)
+	case "optio.lockup.QueryLocksResponse.pagination":
+		value := x.Pagination
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksResponse"))
@@ -4484,6 +5235,8 @@ func (x *fastReflection_QueryLocksResponse) Set(fd protoreflect.FieldDescriptor,
 		lv := value.List()
 		clv := lv.(*_QueryLocksResponse_1_list)
 		x.Locks = *clv.list
+	case "optio.lockup.QueryLocksResponse.pagination":
+		x.Pagination = value.Message().Interface().(*v1beta1.PageResponse)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksResponse"))
@@ -4506,10 +5259,15 @@ func (x *fastReflection_QueryLocksResponse) Mutable(fd protoreflect.FieldDescrip
 	switch fd.FullName() {
 	case "optio.lockup.QueryLocksResponse.locks":
 		if x.Locks == nil {
-			x.Locks = []*Lock{}
+			x.Locks = []*LockResource{}
 		}
 		value := &_QueryLocksResponse_1_list{list: &x.Locks}
 		return protoreflect.ValueOfList(value)
+	case "optio.lockup.QueryLocksResponse.pagination":
+		if x.Pagination == nil {
+			x.Pagination = new(v1beta1.PageResponse)
+		}
+		return protoreflect.ValueOfMessage(x.Pagination.ProtoReflect())
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksResponse"))
@@ -4524,8 +5282,11 @@ func (x *fastReflection_QueryLocksResponse) Mutable(fd protoreflect.FieldDescrip
 func (x *fastReflection_QueryLocksResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
 	case "optio.lockup.QueryLocksResponse.locks":
-		list := []*Lock{}
+		list := []*LockResource{}
 		return protoreflect.ValueOfList(&_QueryLocksResponse_1_list{list: &list})
+	case "optio.lockup.QueryLocksResponse.pagination":
+		m := new(v1beta1.PageResponse)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: optio.lockup.QueryLocksResponse"))
@@ -4601,6 +5362,10 @@ func (x *fastReflection_QueryLocksResponse) ProtoMethods() *protoiface.Methods {
 				n += 1 + l + runtime.Sov(uint64(l))
 			}
 		}
+		if x.Pagination != nil {
+			l = options.Size(x.Pagination)
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
 		}
@@ -4629,6 +5394,20 @@ func (x *fastReflection_QueryLocksResponse) ProtoMethods() *protoiface.Methods {
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.Pagination != nil {
+			encoded, err := options.Marshal(x.Pagination)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0x12
 		}
 		if len(x.Locks) > 0 {
 			for iNdEx := len(x.Locks) - 1; iNdEx >= 0; iNdEx-- {
@@ -4724,8 +5503,44 @@ func (x *fastReflection_QueryLocksResponse) ProtoMethods() *protoiface.Methods {
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.Locks = append(x.Locks, &Lock{})
+				x.Locks = append(x.Locks, &LockResource{})
 				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Locks[len(x.Locks)-1]); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			case 2:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Pagination", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.Pagination == nil {
+					x.Pagination = &v1beta1.PageResponse{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.Pagination); err != nil {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				iNdEx = postIndex
@@ -4819,7 +5634,7 @@ type QueryActiveLocksResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Locks      []*ActiveLock         `protobuf:"bytes,1,rep,name=locks,proto3" json:"locks,omitempty"`
+	Locks      []*ActiveLockResource `protobuf:"bytes,1,rep,name=locks,proto3" json:"locks,omitempty"`
 	Pagination *v1beta1.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
@@ -4843,7 +5658,7 @@ func (*QueryActiveLocksResponse) Descriptor() ([]byte, []int) {
 	return file_optio_lockup_query_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *QueryActiveLocksResponse) GetLocks() []*ActiveLock {
+func (x *QueryActiveLocksResponse) GetLocks() []*ActiveLockResource {
 	if x != nil {
 		return x.Locks
 	}
@@ -4857,7 +5672,7 @@ func (x *QueryActiveLocksResponse) GetPagination() *v1beta1.PageResponse {
 	return nil
 }
 
-type ActiveLock struct {
+type ActiveLockResource struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -4867,8 +5682,8 @@ type ActiveLock struct {
 	Amount     *v1beta11.Coin `protobuf:"bytes,3,opt,name=amount,proto3" json:"amount,omitempty"`
 }
 
-func (x *ActiveLock) Reset() {
-	*x = ActiveLock{}
+func (x *ActiveLockResource) Reset() {
+	*x = ActiveLockResource{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_optio_lockup_query_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -4876,32 +5691,32 @@ func (x *ActiveLock) Reset() {
 	}
 }
 
-func (x *ActiveLock) String() string {
+func (x *ActiveLockResource) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*ActiveLock) ProtoMessage() {}
+func (*ActiveLockResource) ProtoMessage() {}
 
-// Deprecated: Use ActiveLock.ProtoReflect.Descriptor instead.
-func (*ActiveLock) Descriptor() ([]byte, []int) {
+// Deprecated: Use ActiveLockResource.ProtoReflect.Descriptor instead.
+func (*ActiveLockResource) Descriptor() ([]byte, []int) {
 	return file_optio_lockup_query_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *ActiveLock) GetAddress() string {
+func (x *ActiveLockResource) GetAddress() string {
 	if x != nil {
 		return x.Address
 	}
 	return ""
 }
 
-func (x *ActiveLock) GetUnlockDate() string {
+func (x *ActiveLockResource) GetUnlockDate() string {
 	if x != nil {
 		return x.UnlockDate
 	}
 	return ""
 }
 
-func (x *ActiveLock) GetAmount() *v1beta11.Coin {
+func (x *ActiveLockResource) GetAmount() *v1beta11.Coin {
 	if x != nil {
 		return x.Amount
 	}
@@ -4977,7 +5792,8 @@ type QueryLocksForAddressesRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Addresses string `protobuf:"bytes,1,opt,name=addresses,proto3" json:"addresses,omitempty"`
+	Addresses  string               `protobuf:"bytes,1,opt,name=addresses,proto3" json:"addresses,omitempty"`
+	Pagination *v1beta1.PageRequest `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
 func (x *QueryLocksForAddressesRequest) Reset() {
@@ -5007,13 +5823,21 @@ func (x *QueryLocksForAddressesRequest) GetAddresses() string {
 	return ""
 }
 
+func (x *QueryLocksForAddressesRequest) GetPagination() *v1beta1.PageRequest {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
 // QueryLocksForAddressesResponse is response type for the Query/LocksForAddresses RPC method.
 type QueryLocksForAddressesResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Locks []*AccountLocks `protobuf:"bytes,1,rep,name=locks,proto3" json:"locks,omitempty"`
+	Locks      []*AccountLocksResource `protobuf:"bytes,1,rep,name=locks,proto3" json:"locks,omitempty"`
+	Pagination *v1beta1.PageResponse   `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
 func (x *QueryLocksForAddressesResponse) Reset() {
@@ -5036,24 +5860,31 @@ func (*QueryLocksForAddressesResponse) Descriptor() ([]byte, []int) {
 	return file_optio_lockup_query_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *QueryLocksForAddressesResponse) GetLocks() []*AccountLocks {
+func (x *QueryLocksForAddressesResponse) GetLocks() []*AccountLocksResource {
 	if x != nil {
 		return x.Locks
 	}
 	return nil
 }
 
-type AccountLocks struct {
+func (x *QueryLocksForAddressesResponse) GetPagination() *v1beta1.PageResponse {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
+type AccountLocksResource struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Address string  `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
-	Locks   []*Lock `protobuf:"bytes,2,rep,name=locks,proto3" json:"locks,omitempty"`
+	Address string          `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
+	Locks   []*LockResource `protobuf:"bytes,2,rep,name=locks,proto3" json:"locks,omitempty"`
 }
 
-func (x *AccountLocks) Reset() {
-	*x = AccountLocks{}
+func (x *AccountLocksResource) Reset() {
+	*x = AccountLocksResource{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_optio_lockup_query_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -5061,27 +5892,70 @@ func (x *AccountLocks) Reset() {
 	}
 }
 
-func (x *AccountLocks) String() string {
+func (x *AccountLocksResource) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*AccountLocks) ProtoMessage() {}
+func (*AccountLocksResource) ProtoMessage() {}
 
-// Deprecated: Use AccountLocks.ProtoReflect.Descriptor instead.
-func (*AccountLocks) Descriptor() ([]byte, []int) {
+// Deprecated: Use AccountLocksResource.ProtoReflect.Descriptor instead.
+func (*AccountLocksResource) Descriptor() ([]byte, []int) {
 	return file_optio_lockup_query_proto_rawDescGZIP(), []int{7}
 }
 
-func (x *AccountLocks) GetAddress() string {
+func (x *AccountLocksResource) GetAddress() string {
 	if x != nil {
 		return x.Address
 	}
 	return ""
 }
 
-func (x *AccountLocks) GetLocks() []*Lock {
+func (x *AccountLocksResource) GetLocks() []*LockResource {
 	if x != nil {
 		return x.Locks
+	}
+	return nil
+}
+
+type LockResource struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	UnlockDate string         `protobuf:"bytes,1,opt,name=unlock_date,json=unlockDate,proto3" json:"unlock_date,omitempty"`
+	Amount     *v1beta11.Coin `protobuf:"bytes,3,opt,name=amount,proto3" json:"amount,omitempty"`
+}
+
+func (x *LockResource) Reset() {
+	*x = LockResource{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_optio_lockup_query_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *LockResource) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*LockResource) ProtoMessage() {}
+
+// Deprecated: Use LockResource.ProtoReflect.Descriptor instead.
+func (*LockResource) Descriptor() ([]byte, []int) {
+	return file_optio_lockup_query_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *LockResource) GetUnlockDate() string {
+	if x != nil {
+		return x.UnlockDate
+	}
+	return ""
+}
+
+func (x *LockResource) GetAmount() *v1beta11.Coin {
+	if x != nil {
+		return x.Amount
 	}
 	return nil
 }
@@ -5092,13 +5966,14 @@ type QueryLocksRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Address string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
+	Address    string               `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
+	Pagination *v1beta1.PageRequest `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
 func (x *QueryLocksRequest) Reset() {
 	*x = QueryLocksRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_optio_lockup_query_proto_msgTypes[8]
+		mi := &file_optio_lockup_query_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -5112,7 +5987,7 @@ func (*QueryLocksRequest) ProtoMessage() {}
 
 // Deprecated: Use QueryLocksRequest.ProtoReflect.Descriptor instead.
 func (*QueryLocksRequest) Descriptor() ([]byte, []int) {
-	return file_optio_lockup_query_proto_rawDescGZIP(), []int{8}
+	return file_optio_lockup_query_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *QueryLocksRequest) GetAddress() string {
@@ -5122,19 +5997,27 @@ func (x *QueryLocksRequest) GetAddress() string {
 	return ""
 }
 
+func (x *QueryLocksRequest) GetPagination() *v1beta1.PageRequest {
+	if x != nil {
+		return x.Pagination
+	}
+	return nil
+}
+
 // QueryLocksResponse is response type for the Query/Locks RPC method.
 type QueryLocksResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Locks []*Lock `protobuf:"bytes,1,rep,name=locks,proto3" json:"locks,omitempty"`
+	Locks      []*LockResource       `protobuf:"bytes,1,rep,name=locks,proto3" json:"locks,omitempty"`
+	Pagination *v1beta1.PageResponse `protobuf:"bytes,2,opt,name=pagination,proto3" json:"pagination,omitempty"`
 }
 
 func (x *QueryLocksResponse) Reset() {
 	*x = QueryLocksResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_optio_lockup_query_proto_msgTypes[9]
+		mi := &file_optio_lockup_query_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -5148,12 +6031,19 @@ func (*QueryLocksResponse) ProtoMessage() {}
 
 // Deprecated: Use QueryLocksResponse.ProtoReflect.Descriptor instead.
 func (*QueryLocksResponse) Descriptor() ([]byte, []int) {
-	return file_optio_lockup_query_proto_rawDescGZIP(), []int{9}
+	return file_optio_lockup_query_proto_rawDescGZIP(), []int{10}
 }
 
-func (x *QueryLocksResponse) GetLocks() []*Lock {
+func (x *QueryLocksResponse) GetLocks() []*LockResource {
 	if x != nil {
 		return x.Locks
+	}
+	return nil
+}
+
+func (x *QueryLocksResponse) GetPagination() *v1beta1.PageResponse {
+	if x != nil {
+		return x.Pagination
 	}
 	return nil
 }
@@ -5179,17 +6069,18 @@ var file_optio_lockup_query_proto_rawDesc = []byte{
 	0x32, 0x26, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71,
 	0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67,
 	0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x22, 0x99, 0x01, 0x0a, 0x18, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x63,
+	0x74, 0x69, 0x6f, 0x6e, 0x22, 0xa1, 0x01, 0x0a, 0x18, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x63,
 	0x74, 0x69, 0x76, 0x65, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x12, 0x34, 0x0a, 0x05, 0x6c, 0x6f, 0x63, 0x6b, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b,
-	0x32, 0x18, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2e,
-	0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x4c, 0x6f, 0x63, 0x6b, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00,
-	0x52, 0x05, 0x6c, 0x6f, 0x63, 0x6b, 0x73, 0x12, 0x47, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e,
-	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f,
-	0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e,
-	0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e,
-	0x22, 0x80, 0x01, 0x0a, 0x0a, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x4c, 0x6f, 0x63, 0x6b, 0x12,
+	0x65, 0x12, 0x3c, 0x0a, 0x05, 0x6c, 0x6f, 0x63, 0x6b, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b,
+	0x32, 0x20, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2e,
+	0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x4c, 0x6f, 0x63, 0x6b, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72,
+	0x63, 0x65, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x05, 0x6c, 0x6f, 0x63, 0x6b, 0x73, 0x12,
+	0x47, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73,
+	0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e,
+	0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61,
+	0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x88, 0x01, 0x0a, 0x12, 0x41, 0x63, 0x74,
+	0x69, 0x76, 0x65, 0x4c, 0x6f, 0x63, 0x6b, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x12,
 	0x18, 0x0a, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
 	0x52, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x1f, 0x0a, 0x0b, 0x75, 0x6e, 0x6c,
 	0x6f, 0x63, 0x6b, 0x5f, 0x64, 0x61, 0x74, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a,
@@ -5205,76 +6096,103 @@ var file_optio_lockup_query_proto_rawDesc = []byte{
 	0x6c, 0x6f, 0x63, 0x6b, 0x65, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x63,
 	0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74,
 	0x61, 0x31, 0x2e, 0x43, 0x6f, 0x69, 0x6e, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x0b, 0x74,
-	0x6f, 0x74, 0x61, 0x6c, 0x4c, 0x6f, 0x63, 0x6b, 0x65, 0x64, 0x22, 0x3d, 0x0a, 0x1d, 0x51, 0x75,
-	0x65, 0x72, 0x79, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x46, 0x6f, 0x72, 0x41, 0x64, 0x64, 0x72, 0x65,
-	0x73, 0x73, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x61,
-	0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x65, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09,
-	0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x65, 0x73, 0x22, 0x58, 0x0a, 0x1e, 0x51, 0x75, 0x65,
-	0x72, 0x79, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x46, 0x6f, 0x72, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73,
-	0x73, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x36, 0x0a, 0x05, 0x6c,
-	0x6f, 0x63, 0x6b, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x6f, 0x70, 0x74,
-	0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2e, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e,
-	0x74, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x05, 0x6c, 0x6f,
-	0x63, 0x6b, 0x73, 0x22, 0x58, 0x0a, 0x0c, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x4c, 0x6f,
-	0x63, 0x6b, 0x73, 0x12, 0x18, 0x0a, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x01,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x2e, 0x0a,
-	0x05, 0x6c, 0x6f, 0x63, 0x6b, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x12, 0x2e, 0x6f,
-	0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2e, 0x4c, 0x6f, 0x63, 0x6b,
-	0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x05, 0x6c, 0x6f, 0x63, 0x6b, 0x73, 0x22, 0x2d, 0x0a,
-	0x11, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x12, 0x18, 0x0a, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x22, 0x44, 0x0a, 0x12,
-	0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x12, 0x2e, 0x0a, 0x05, 0x6c, 0x6f, 0x63, 0x6b, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28,
-	0x0b, 0x32, 0x12, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70,
-	0x2e, 0x4c, 0x6f, 0x63, 0x6b, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x05, 0x6c, 0x6f, 0x63,
-	0x6b, 0x73, 0x32, 0xb7, 0x04, 0x0a, 0x05, 0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0x80, 0x01, 0x0a,
-	0x0b, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x12, 0x25, 0x2e, 0x6f,
-	0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2e, 0x51, 0x75, 0x65, 0x72,
-	0x79, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x52, 0x65, 0x71, 0x75,
-	0x65, 0x73, 0x74, 0x1a, 0x26, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b,
-	0x75, 0x70, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x4c, 0x6f,
-	0x63, 0x6b, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x22, 0x82, 0xd3, 0xe4,
-	0x93, 0x02, 0x1c, 0x12, 0x1a, 0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f, 0x6c, 0x6f, 0x63, 0x6b,
-	0x75, 0x70, 0x2f, 0x61, 0x63, 0x74, 0x69, 0x76, 0x65, 0x5f, 0x6c, 0x6f, 0x63, 0x6b, 0x73, 0x12,
-	0x99, 0x01, 0x0a, 0x11, 0x54, 0x6f, 0x74, 0x61, 0x6c, 0x4c, 0x6f, 0x63, 0x6b, 0x65, 0x64, 0x41,
-	0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x2b, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f,
-	0x63, 0x6b, 0x75, 0x70, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x54, 0x6f, 0x74, 0x61, 0x6c, 0x4c,
-	0x6f, 0x63, 0x6b, 0x65, 0x64, 0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x1a, 0x2c, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75,
-	0x70, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x54, 0x6f, 0x74, 0x61, 0x6c, 0x4c, 0x6f, 0x63, 0x6b,
-	0x65, 0x64, 0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x22, 0x29, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x23, 0x12, 0x21, 0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f,
-	0x2f, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2f, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x5f, 0x6c, 0x6f,
-	0x63, 0x6b, 0x65, 0x64, 0x5f, 0x61, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x93, 0x01, 0x0a, 0x11,
-	0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x46, 0x6f, 0x72, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x65,
-	0x73, 0x12, 0x2b, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70,
-	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x46, 0x6f, 0x72, 0x41, 0x64,
-	0x64, 0x72, 0x65, 0x73, 0x73, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2c,
-	0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2e, 0x51, 0x75,
-	0x65, 0x72, 0x79, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x46, 0x6f, 0x72, 0x41, 0x64, 0x64, 0x72, 0x65,
-	0x73, 0x73, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x23, 0x82, 0xd3,
-	0xe4, 0x93, 0x02, 0x1d, 0x12, 0x1b, 0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f, 0x6c, 0x6f, 0x63,
-	0x6b, 0x75, 0x70, 0x2f, 0x61, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x5f, 0x6c, 0x6f, 0x63, 0x6b,
-	0x73, 0x12, 0x79, 0x0a, 0x05, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x12, 0x1f, 0x2e, 0x6f, 0x70, 0x74,
-	0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c,
-	0x6f, 0x63, 0x6b, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x20, 0x2e, 0x6f, 0x70,
+	0x6f, 0x74, 0x61, 0x6c, 0x4c, 0x6f, 0x63, 0x6b, 0x65, 0x64, 0x22, 0x85, 0x01, 0x0a, 0x1d, 0x51,
+	0x75, 0x65, 0x72, 0x79, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x46, 0x6f, 0x72, 0x41, 0x64, 0x64, 0x72,
+	0x65, 0x73, 0x73, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1c, 0x0a, 0x09,
+	0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x65, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x09, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x65, 0x73, 0x12, 0x46, 0x0a, 0x0a, 0x70, 0x61,
+	0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x26,
+	0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65,
+	0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x22, 0xa9, 0x01, 0x0a, 0x1e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x6f, 0x63, 0x6b,
+	0x73, 0x46, 0x6f, 0x72, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x65, 0x73, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x3e, 0x0a, 0x05, 0x6c, 0x6f, 0x63, 0x6b, 0x73, 0x18, 0x01,
+	0x20, 0x03, 0x28, 0x0b, 0x32, 0x22, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63,
+	0x6b, 0x75, 0x70, 0x2e, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x4c, 0x6f, 0x63, 0x6b, 0x73,
+	0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x05,
+	0x6c, 0x6f, 0x63, 0x6b, 0x73, 0x12, 0x47, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63, 0x6f, 0x73, 0x6d,
+	0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31,
+	0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x68,
+	0x0a, 0x14, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x52, 0x65,
+	0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73,
+	0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73,
+	0x12, 0x36, 0x0a, 0x05, 0x6c, 0x6f, 0x63, 0x6b, 0x73, 0x18, 0x02, 0x20, 0x03, 0x28, 0x0b, 0x32,
+	0x1a, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2e, 0x4c,
+	0x6f, 0x63, 0x6b, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x42, 0x04, 0xc8, 0xde, 0x1f,
+	0x00, 0x52, 0x05, 0x6c, 0x6f, 0x63, 0x6b, 0x73, 0x22, 0x68, 0x0a, 0x0c, 0x4c, 0x6f, 0x63, 0x6b,
+	0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x12, 0x1f, 0x0a, 0x0b, 0x75, 0x6e, 0x6c, 0x6f,
+	0x63, 0x6b, 0x5f, 0x64, 0x61, 0x74, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x75,
+	0x6e, 0x6c, 0x6f, 0x63, 0x6b, 0x44, 0x61, 0x74, 0x65, 0x12, 0x37, 0x0a, 0x06, 0x61, 0x6d, 0x6f,
+	0x75, 0x6e, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x63, 0x6f, 0x73, 0x6d,
+	0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e,
+	0x43, 0x6f, 0x69, 0x6e, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x06, 0x61, 0x6d, 0x6f, 0x75,
+	0x6e, 0x74, 0x22, 0x75, 0x0a, 0x11, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x6f, 0x63, 0x6b, 0x73,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x18, 0x0a, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65,
+	0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73,
+	0x73, 0x12, 0x46, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62,
+	0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79, 0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61,
+	0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x52, 0x0a, 0x70,
+	0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x95, 0x01, 0x0a, 0x12, 0x51, 0x75,
+	0x65, 0x72, 0x79, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x12, 0x36, 0x0a, 0x05, 0x6c, 0x6f, 0x63, 0x6b, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32,
+	0x1a, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2e, 0x4c,
+	0x6f, 0x63, 0x6b, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x42, 0x04, 0xc8, 0xde, 0x1f,
+	0x00, 0x52, 0x05, 0x6c, 0x6f, 0x63, 0x6b, 0x73, 0x12, 0x47, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69,
+	0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63,
+	0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2e, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x71, 0x75, 0x65, 0x72, 0x79,
+	0x2e, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2e, 0x50, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x32, 0xb7, 0x04, 0x0a, 0x05, 0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0x80, 0x01, 0x0a, 0x0b,
+	0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x12, 0x25, 0x2e, 0x6f, 0x70,
 	0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79,
-	0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2d, 0x82,
-	0xd3, 0xe4, 0x93, 0x02, 0x27, 0x12, 0x25, 0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f, 0x6c, 0x6f,
-	0x63, 0x6b, 0x75, 0x70, 0x2f, 0x61, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x5f, 0x6c, 0x6f, 0x63,
-	0x6b, 0x73, 0x2f, 0x7b, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x7d, 0x42, 0x9f, 0x01, 0x0a,
-	0x10, 0x63, 0x6f, 0x6d, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75,
-	0x70, 0x42, 0x0a, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a,
-	0x2e, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x4f, 0x70, 0x74, 0x69,
-	0x6f, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f, 0x61,
-	0x70, 0x69, 0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0xa2,
-	0x02, 0x03, 0x4f, 0x4c, 0x58, 0xaa, 0x02, 0x0c, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x4c, 0x6f,
-	0x63, 0x6b, 0x75, 0x70, 0xca, 0x02, 0x0c, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x5c, 0x4c, 0x6f, 0x63,
-	0x6b, 0x75, 0x70, 0xe2, 0x02, 0x18, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x5c, 0x4c, 0x6f, 0x63, 0x6b,
-	0x75, 0x70, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02,
-	0x0d, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x3a, 0x3a, 0x4c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x62, 0x06,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x1a, 0x26, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75,
+	0x70, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x4c, 0x6f, 0x63,
+	0x6b, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x22, 0x82, 0xd3, 0xe4, 0x93,
+	0x02, 0x1c, 0x12, 0x1a, 0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f, 0x6c, 0x6f, 0x63, 0x6b, 0x75,
+	0x70, 0x2f, 0x61, 0x63, 0x74, 0x69, 0x76, 0x65, 0x5f, 0x6c, 0x6f, 0x63, 0x6b, 0x73, 0x12, 0x99,
+	0x01, 0x0a, 0x11, 0x54, 0x6f, 0x74, 0x61, 0x6c, 0x4c, 0x6f, 0x63, 0x6b, 0x65, 0x64, 0x41, 0x6d,
+	0x6f, 0x75, 0x6e, 0x74, 0x12, 0x2b, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63,
+	0x6b, 0x75, 0x70, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x54, 0x6f, 0x74, 0x61, 0x6c, 0x4c, 0x6f,
+	0x63, 0x6b, 0x65, 0x64, 0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x1a, 0x2c, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70,
+	0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x54, 0x6f, 0x74, 0x61, 0x6c, 0x4c, 0x6f, 0x63, 0x6b, 0x65,
+	0x64, 0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0x29, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x23, 0x12, 0x21, 0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f,
+	0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2f, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x5f, 0x6c, 0x6f, 0x63,
+	0x6b, 0x65, 0x64, 0x5f, 0x61, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x93, 0x01, 0x0a, 0x11, 0x4c,
+	0x6f, 0x63, 0x6b, 0x73, 0x46, 0x6f, 0x72, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x65, 0x73,
+	0x12, 0x2b, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2e,
+	0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x46, 0x6f, 0x72, 0x41, 0x64, 0x64,
+	0x72, 0x65, 0x73, 0x73, 0x65, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x2c, 0x2e,
+	0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2e, 0x51, 0x75, 0x65,
+	0x72, 0x79, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x46, 0x6f, 0x72, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73,
+	0x73, 0x65, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x23, 0x82, 0xd3, 0xe4,
+	0x93, 0x02, 0x1d, 0x12, 0x1b, 0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f, 0x6c, 0x6f, 0x63, 0x6b,
+	0x75, 0x70, 0x2f, 0x61, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x5f, 0x6c, 0x6f, 0x63, 0x6b, 0x73,
+	0x12, 0x79, 0x0a, 0x05, 0x4c, 0x6f, 0x63, 0x6b, 0x73, 0x12, 0x1f, 0x2e, 0x6f, 0x70, 0x74, 0x69,
+	0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c, 0x6f,
+	0x63, 0x6b, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x20, 0x2e, 0x6f, 0x70, 0x74,
+	0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x4c,
+	0x6f, 0x63, 0x6b, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x2d, 0x82, 0xd3,
+	0xe4, 0x93, 0x02, 0x27, 0x12, 0x25, 0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f, 0x6c, 0x6f, 0x63,
+	0x6b, 0x75, 0x70, 0x2f, 0x61, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x5f, 0x6c, 0x6f, 0x63, 0x6b,
+	0x73, 0x2f, 0x7b, 0x61, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x7d, 0x42, 0x9f, 0x01, 0x0a, 0x10,
+	0x63, 0x6f, 0x6d, 0x2e, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70,
+	0x42, 0x0a, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x2e,
+	0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x4f, 0x70, 0x74, 0x69, 0x6f,
+	0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f, 0x61, 0x70,
+	0x69, 0x2f, 0x6f, 0x70, 0x74, 0x69, 0x6f, 0x2f, 0x6c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0xa2, 0x02,
+	0x03, 0x4f, 0x4c, 0x58, 0xaa, 0x02, 0x0c, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x2e, 0x4c, 0x6f, 0x63,
+	0x6b, 0x75, 0x70, 0xca, 0x02, 0x0c, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x5c, 0x4c, 0x6f, 0x63, 0x6b,
+	0x75, 0x70, 0xe2, 0x02, 0x18, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x5c, 0x4c, 0x6f, 0x63, 0x6b, 0x75,
+	0x70, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x0d,
+	0x4f, 0x70, 0x74, 0x69, 0x6f, 0x3a, 0x3a, 0x4c, 0x6f, 0x63, 0x6b, 0x75, 0x70, 0x62, 0x06, 0x70,
+	0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -5289,45 +6207,50 @@ func file_optio_lockup_query_proto_rawDescGZIP() []byte {
 	return file_optio_lockup_query_proto_rawDescData
 }
 
-var file_optio_lockup_query_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_optio_lockup_query_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_optio_lockup_query_proto_goTypes = []interface{}{
 	(*QueryActiveLocksRequest)(nil),        // 0: optio.lockup.QueryActiveLocksRequest
 	(*QueryActiveLocksResponse)(nil),       // 1: optio.lockup.QueryActiveLocksResponse
-	(*ActiveLock)(nil),                     // 2: optio.lockup.ActiveLock
+	(*ActiveLockResource)(nil),             // 2: optio.lockup.ActiveLockResource
 	(*QueryTotalLockedAmountRequest)(nil),  // 3: optio.lockup.QueryTotalLockedAmountRequest
 	(*QueryTotalLockedAmountResponse)(nil), // 4: optio.lockup.QueryTotalLockedAmountResponse
 	(*QueryLocksForAddressesRequest)(nil),  // 5: optio.lockup.QueryLocksForAddressesRequest
 	(*QueryLocksForAddressesResponse)(nil), // 6: optio.lockup.QueryLocksForAddressesResponse
-	(*AccountLocks)(nil),                   // 7: optio.lockup.AccountLocks
-	(*QueryLocksRequest)(nil),              // 8: optio.lockup.QueryLocksRequest
-	(*QueryLocksResponse)(nil),             // 9: optio.lockup.QueryLocksResponse
-	(*v1beta1.PageRequest)(nil),            // 10: cosmos.base.query.v1beta1.PageRequest
-	(*v1beta1.PageResponse)(nil),           // 11: cosmos.base.query.v1beta1.PageResponse
-	(*v1beta11.Coin)(nil),                  // 12: cosmos.base.v1beta1.Coin
-	(*Lock)(nil),                           // 13: optio.lockup.Lock
+	(*AccountLocksResource)(nil),           // 7: optio.lockup.AccountLocksResource
+	(*LockResource)(nil),                   // 8: optio.lockup.LockResource
+	(*QueryLocksRequest)(nil),              // 9: optio.lockup.QueryLocksRequest
+	(*QueryLocksResponse)(nil),             // 10: optio.lockup.QueryLocksResponse
+	(*v1beta1.PageRequest)(nil),            // 11: cosmos.base.query.v1beta1.PageRequest
+	(*v1beta1.PageResponse)(nil),           // 12: cosmos.base.query.v1beta1.PageResponse
+	(*v1beta11.Coin)(nil),                  // 13: cosmos.base.v1beta1.Coin
 }
 var file_optio_lockup_query_proto_depIdxs = []int32{
-	10, // 0: optio.lockup.QueryActiveLocksRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
-	2,  // 1: optio.lockup.QueryActiveLocksResponse.locks:type_name -> optio.lockup.ActiveLock
-	11, // 2: optio.lockup.QueryActiveLocksResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
-	12, // 3: optio.lockup.ActiveLock.amount:type_name -> cosmos.base.v1beta1.Coin
-	12, // 4: optio.lockup.QueryTotalLockedAmountResponse.total_locked:type_name -> cosmos.base.v1beta1.Coin
-	7,  // 5: optio.lockup.QueryLocksForAddressesResponse.locks:type_name -> optio.lockup.AccountLocks
-	13, // 6: optio.lockup.AccountLocks.locks:type_name -> optio.lockup.Lock
-	13, // 7: optio.lockup.QueryLocksResponse.locks:type_name -> optio.lockup.Lock
-	0,  // 8: optio.lockup.Query.ActiveLocks:input_type -> optio.lockup.QueryActiveLocksRequest
-	3,  // 9: optio.lockup.Query.TotalLockedAmount:input_type -> optio.lockup.QueryTotalLockedAmountRequest
-	5,  // 10: optio.lockup.Query.LocksForAddresses:input_type -> optio.lockup.QueryLocksForAddressesRequest
-	8,  // 11: optio.lockup.Query.Locks:input_type -> optio.lockup.QueryLocksRequest
-	1,  // 12: optio.lockup.Query.ActiveLocks:output_type -> optio.lockup.QueryActiveLocksResponse
-	4,  // 13: optio.lockup.Query.TotalLockedAmount:output_type -> optio.lockup.QueryTotalLockedAmountResponse
-	6,  // 14: optio.lockup.Query.LocksForAddresses:output_type -> optio.lockup.QueryLocksForAddressesResponse
-	9,  // 15: optio.lockup.Query.Locks:output_type -> optio.lockup.QueryLocksResponse
-	12, // [12:16] is the sub-list for method output_type
-	8,  // [8:12] is the sub-list for method input_type
-	8,  // [8:8] is the sub-list for extension type_name
-	8,  // [8:8] is the sub-list for extension extendee
-	0,  // [0:8] is the sub-list for field type_name
+	11, // 0: optio.lockup.QueryActiveLocksRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	2,  // 1: optio.lockup.QueryActiveLocksResponse.locks:type_name -> optio.lockup.ActiveLockResource
+	12, // 2: optio.lockup.QueryActiveLocksResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	13, // 3: optio.lockup.ActiveLockResource.amount:type_name -> cosmos.base.v1beta1.Coin
+	13, // 4: optio.lockup.QueryTotalLockedAmountResponse.total_locked:type_name -> cosmos.base.v1beta1.Coin
+	11, // 5: optio.lockup.QueryLocksForAddressesRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	7,  // 6: optio.lockup.QueryLocksForAddressesResponse.locks:type_name -> optio.lockup.AccountLocksResource
+	12, // 7: optio.lockup.QueryLocksForAddressesResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	8,  // 8: optio.lockup.AccountLocksResource.locks:type_name -> optio.lockup.LockResource
+	13, // 9: optio.lockup.LockResource.amount:type_name -> cosmos.base.v1beta1.Coin
+	11, // 10: optio.lockup.QueryLocksRequest.pagination:type_name -> cosmos.base.query.v1beta1.PageRequest
+	8,  // 11: optio.lockup.QueryLocksResponse.locks:type_name -> optio.lockup.LockResource
+	12, // 12: optio.lockup.QueryLocksResponse.pagination:type_name -> cosmos.base.query.v1beta1.PageResponse
+	0,  // 13: optio.lockup.Query.ActiveLocks:input_type -> optio.lockup.QueryActiveLocksRequest
+	3,  // 14: optio.lockup.Query.TotalLockedAmount:input_type -> optio.lockup.QueryTotalLockedAmountRequest
+	5,  // 15: optio.lockup.Query.LocksForAddresses:input_type -> optio.lockup.QueryLocksForAddressesRequest
+	9,  // 16: optio.lockup.Query.Locks:input_type -> optio.lockup.QueryLocksRequest
+	1,  // 17: optio.lockup.Query.ActiveLocks:output_type -> optio.lockup.QueryActiveLocksResponse
+	4,  // 18: optio.lockup.Query.TotalLockedAmount:output_type -> optio.lockup.QueryTotalLockedAmountResponse
+	6,  // 19: optio.lockup.Query.LocksForAddresses:output_type -> optio.lockup.QueryLocksForAddressesResponse
+	10, // 20: optio.lockup.Query.Locks:output_type -> optio.lockup.QueryLocksResponse
+	17, // [17:21] is the sub-list for method output_type
+	13, // [13:17] is the sub-list for method input_type
+	13, // [13:13] is the sub-list for extension type_name
+	13, // [13:13] is the sub-list for extension extendee
+	0,  // [0:13] is the sub-list for field type_name
 }
 
 func init() { file_optio_lockup_query_proto_init() }
@@ -5362,7 +6285,7 @@ func file_optio_lockup_query_proto_init() {
 			}
 		}
 		file_optio_lockup_query_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ActiveLock); i {
+			switch v := v.(*ActiveLockResource); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -5422,7 +6345,7 @@ func file_optio_lockup_query_proto_init() {
 			}
 		}
 		file_optio_lockup_query_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AccountLocks); i {
+			switch v := v.(*AccountLocksResource); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -5434,7 +6357,7 @@ func file_optio_lockup_query_proto_init() {
 			}
 		}
 		file_optio_lockup_query_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*QueryLocksRequest); i {
+			switch v := v.(*LockResource); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -5446,6 +6369,18 @@ func file_optio_lockup_query_proto_init() {
 			}
 		}
 		file_optio_lockup_query_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QueryLocksRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_optio_lockup_query_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*QueryLocksResponse); i {
 			case 0:
 				return &v.state
@@ -5464,7 +6399,7 @@ func file_optio_lockup_query_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_optio_lockup_query_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

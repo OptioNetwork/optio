@@ -68,7 +68,7 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 		)
 	}
 
-	if err = k.SetLockByAddress(ctx, address, &types.Lock{UnlockDate: msg.UnlockDate, Amount: msg.Amount}); err != nil {
+	if err = k.SetLockByAddress(ctx, address, &types.Lock{UnlockDate: msg.UnlockDate, Amount: msg.Amount.Amount}); err != nil {
 		return nil, err
 	}
 

@@ -25,7 +25,7 @@ func (k Keeper) ActiveLocks(goCtx context.Context, req *types.QueryActiveLocksRe
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	store := k.storeService.OpenKVStore(ctx)
 
-	var locks []types.ActiveLock
+	var locks []types.ActiveLockResource
 
 	var startKey []byte
 	if req.Pagination != nil && len(req.Pagination.Key) != 0 {
@@ -90,7 +90,7 @@ func (k Keeper) ActiveLocks(goCtx context.Context, req *types.QueryActiveLocksRe
 			return nil, status.Error(codes.Internal, err.Error())
 		}
 
-		locks = append(locks, types.ActiveLock{
+		locks = append(locks, types.ActiveLockResource{
 			Address:    addr.String(),
 			UnlockDate: unlockDate,
 			Amount:     sdk.NewCoin(bondDenom, amount),
@@ -158,9 +158,37 @@ func (k Keeper) LocksForAddresses(goCtx context.Context, req *types.QueryLocksFo
 
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	accountLocks := make([]types.AccountLocks, 0, len(addressList))
+	bondDenom, err := k.stakingKeeper.BondDenom(ctx)
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
 
-	for _, addrStr := range addressList {
+	blockTime := ctx.BlockTime()
+	blockDay := time.Date(blockTime.Year(), blockTime.Month(), blockTime.Day(), 0, 0, 0, 0, time.UTC)
+
+	// Apply pagination
+	limit := uint64(100)
+	offset := uint64(0)
+
+	if req.Pagination != nil {
+		if req.Pagination.Limit != 0 {
+			limit = req.Pagination.Limit
+		}
+		if req.Pagination.Offset != 0 {
+			offset = req.Pagination.Offset
+		}
+	}
+
+	startIdx := offset
+	endIdx := offset + limit
+	if endIdx > uint64(len(addressList)) {
+		endIdx = uint64(len(addressList))
+	}
+
+	paginatedAddresses := addressList[startIdx:endIdx]
+	accountLocks := make([]types.AccountLocksResource, 0, len(paginatedAddresses))
+
+	for _, addrStr := range paginatedAddresses {
 		addr, err := sdk.AccAddressFromBech32(addrStr)
 		if err != nil {
 			return nil, status.Error(codes.InvalidArgument, "invalid address: "+addrStr)
@@ -171,26 +199,33 @@ func (k Keeper) LocksForAddresses(goCtx context.Context, req *types.QueryLocksFo
 			return nil, status.Error(codes.Internal, err.Error())
 		}
 
-		blockTime := ctx.BlockTime()
-		blockDay := time.Date(blockTime.Year(), blockTime.Month(), blockTime.Day(), 0, 0, 0, 0, time.UTC)
-
-		activeLocks := make([]types.Lock, 0)
+		activeLockResources := make([]types.LockResource, 0)
 		for _, lock := range locks {
-
 			if types.IsLocked(blockDay, lock.UnlockDate) {
-				activeLocks = append(activeLocks, *lock)
+				activeLockResources = append(activeLockResources, types.LockResource{
+					UnlockDate: lock.UnlockDate,
+					Amount:     sdk.NewCoin(bondDenom, lock.Amount),
+				})
 			}
-
 		}
 
-		accountLocks = append(accountLocks, types.AccountLocks{
+		accountLocks = append(accountLocks, types.AccountLocksResource{
 			Address: addrStr,
-			Locks:   activeLocks,
+			Locks:   activeLockResources,
 		})
+	}
+
+	var nextKey []byte
+	if endIdx < uint64(len(addressList)) {
+		nextKey = []byte{1} // Indicate more results available
 	}
 
 	return &types.QueryLocksForAddressesResponse{
 		Locks: accountLocks,
+		Pagination: &query.PageResponse{
+			NextKey: nextKey,
+			Total:   uint64(len(addressList)),
+		},
 	}, nil
 }
 
@@ -219,17 +254,53 @@ func (k Keeper) Locks(goCtx context.Context, req *types.QueryLocksRequest) (*typ
 	blockTime := ctx.BlockTime()
 	blockDay := time.Date(blockTime.Year(), blockTime.Month(), blockTime.Day(), 0, 0, 0, 0, time.UTC)
 
-	activeLocks := make([]types.Lock, 0)
+	bondDenom, err := k.stakingKeeper.BondDenom(ctx)
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	activeLockResources := make([]types.LockResource, 0)
 	for _, lock := range locks {
-
 		if types.IsLocked(blockDay, lock.UnlockDate) {
-			activeLocks = append(activeLocks, *lock)
+			activeLockResources = append(activeLockResources, types.LockResource{
+				UnlockDate: lock.UnlockDate,
+				Amount:     sdk.NewCoin(bondDenom, lock.Amount),
+			})
 		}
+	}
 
+	// Apply pagination
+	limit := uint64(100)
+	offset := uint64(0)
+
+	if req.Pagination != nil {
+		if req.Pagination.Limit != 0 {
+			limit = req.Pagination.Limit
+		}
+		if req.Pagination.Offset != 0 {
+			offset = req.Pagination.Offset
+		}
+	}
+
+	startIdx := offset
+	endIdx := offset + limit
+	if endIdx > uint64(len(activeLockResources)) {
+		endIdx = uint64(len(activeLockResources))
+	}
+
+	paginatedLocks := activeLockResources[startIdx:endIdx]
+
+	var nextKey []byte
+	if endIdx < uint64(len(activeLockResources)) {
+		nextKey = []byte{1} // Indicate more results available
 	}
 
 	return &types.QueryLocksResponse{
-		Locks: activeLocks,
+		Locks: paginatedLocks,
+		Pagination: &query.PageResponse{
+			NextKey: nextKey,
+			Total:   uint64(len(activeLockResources)),
+		},
 	}, nil
 }
 
