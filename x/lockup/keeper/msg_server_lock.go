@@ -68,8 +68,17 @@ func (k msgServer) Lock(goCtx context.Context, msg *types.MsgLock) (*types.MsgLo
 		)
 	}
 
-	if err = k.SetLockByAddress(ctx, address, &types.Lock{UnlockDate: msg.UnlockDate, Amount: msg.Amount.Amount}); err != nil {
-		return nil, err
+	exisitingLock, idx, found := k.GetLockByAddressAndDate(ctx, address, msg.UnlockDate)
+	if found {
+		newAmount := exisitingLock.Amount.Add(msg.Amount.Amount)
+		if err = k.UpdateLockByAddressAndIndex(ctx, address, idx, &types.Lock{UnlockDate: exisitingLock.UnlockDate, Amount: newAmount}); err != nil {
+			return nil, err
+		}
+	} else {
+
+		if err = k.SetLockByAddress(ctx, address, &types.Lock{UnlockDate: msg.UnlockDate, Amount: msg.Amount.Amount}); err != nil {
+			return nil, err
+		}
 	}
 
 	if err := k.AddToExpirationQueue(ctx, unlockDate, address, msg.Amount.Amount); err != nil {
