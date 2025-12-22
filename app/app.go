@@ -21,7 +21,10 @@ import (
 	_ "cosmossdk.io/x/nft/module" // import for side-effects
 	_ "cosmossdk.io/x/upgrade"    // import for side-effects
 	upgradekeeper "cosmossdk.io/x/upgrade/keeper"
+	"github.com/OptioNetwork/optio/app/antehandler"
+	"github.com/OptioNetwork/optio/app/posthandler"
 	v2_distro "github.com/OptioNetwork/optio/app/upgrades/v2_distro"
+	v3_lockup "github.com/OptioNetwork/optio/app/upgrades/v3_lockup"
 	abci "github.com/cometbft/cometbft/abci/types"
 	dbm "github.com/cosmos/cosmos-db"
 	"github.com/cosmos/cosmos-sdk/baseapp"
@@ -36,6 +39,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
 	"github.com/cosmos/cosmos-sdk/x/auth"
+	"github.com/cosmos/cosmos-sdk/x/auth/ante"
 	authkeeper "github.com/cosmos/cosmos-sdk/x/auth/keeper"
 	authsims "github.com/cosmos/cosmos-sdk/x/auth/simulation"
 	_ "github.com/cosmos/cosmos-sdk/x/auth/tx/config" // import for side-effects
@@ -84,6 +88,8 @@ import (
 
 	upgradetypes "cosmossdk.io/x/upgrade/types"
 
+	lockupmodulekeeper "github.com/OptioNetwork/optio/x/lockup/keeper"
+
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
 	"github.com/OptioNetwork/optio/docs"
@@ -103,9 +109,8 @@ var (
 	_ runtime.AppI            = (*App)(nil)
 	_ servertypes.Application = (*App)(nil)
 )
-
 var (
-	Upgrades = []upgrades.Upgrade{v2_distro.Upgrade}
+	Upgrades = []upgrades.Upgrade{v2_distro.Upgrade, v3_lockup.Upgrade}
 )
 
 // App extends an ABCI application, but with most of its parameters exported.
@@ -154,6 +159,7 @@ type App struct {
 	ScopedKeepers             map[string]capabilitykeeper.ScopedKeeper
 
 	DistroKeeper distromodulekeeper.Keeper
+	LockupKeeper lockupmodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// simulation manager
@@ -258,6 +264,7 @@ func New(
 		&app.GroupKeeper,
 		&app.CircuitBreakerKeeper,
 		&app.DistroKeeper,
+		&app.LockupKeeper,
 		// this line is used by starport scaffolding # stargate/app/keeperDefinition
 	); err != nil {
 		panic(err)
@@ -269,6 +276,10 @@ func New(
 
 	// build app
 	app.App = appBuilder.Build(db, traceStore, baseAppOptions...)
+
+	// Set up custom AnteHandlers and PostHandlers
+	app.setAnteHandler()
+	app.setPostHandler()
 
 	// register legacy modules
 	if err := app.registerIBCModules(appOpts); err != nil {
@@ -344,6 +355,37 @@ func (app *App) setupUpgradeHandlers() {
 			),
 		)
 	}
+}
+
+func (app *App) setAnteHandler() {
+	anteHandler, err := antehandler.NewAnteHandler(
+		antehandler.HandlerOptions{
+			AccountKeeper:   app.AccountKeeper,
+			BankKeeper:      app.BankKeeper,
+			LockupKeeper:    app.LockupKeeper,
+			StakingKeeper:   *app.StakingKeeper,
+			SignModeHandler: app.txConfig.SignModeHandler(),
+			FeegrantKeeper:  app.FeeGrantKeeper,
+			SigGasConsumer:  ante.DefaultSigVerificationGasConsumer,
+		},
+	)
+	if err != nil {
+		panic(fmt.Errorf("failed to create ante handler: %w", err))
+	}
+	app.SetAnteHandler(anteHandler)
+}
+
+func (app *App) setPostHandler() {
+	postHandler, err := posthandler.NewPostHandler(
+		posthandler.HandlerOptions{
+			AccountKeeper: app.AccountKeeper,
+			LockupKeeper:  app.LockupKeeper,
+		},
+	)
+	if err != nil {
+		panic(fmt.Errorf("failed to create ante handler: %w", err))
+	}
+	app.SetPostHandler(postHandler)
 }
 
 // LegacyAmino returns App's amino codec.

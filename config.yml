@@ -1,19 +1,19 @@
 version: 1
 validation: sovereign
 accounts: 
-- name: distribute
+- name: node
   coins:
-  - 1000000000uOPT
-  address: optio13zj88zcylclhevtsztx0kdgf9a5zyskt4utffh
+  - 1500000000000000000000uOPT
+  mnemonic: slab cabbage degree mandate normal tunnel bean round betray display anxiety ginger
 - name: alice
   coins:
-  - 15000000uOPT
+  - 15000000000000uOPT
 client:
   openapi:
     path: docs/static/openapi.yml
 validators:
-- name: alice
-  bonded: 5000000uOPT
+- name: node
+  bonded: 50000000000uOPT
 genesis:
   chain_id: optio-testnet
   app_state:

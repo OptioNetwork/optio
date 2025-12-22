@@ -1,14 +1,14 @@
 syntax = "proto3";
-package optio.distro.module;
+package optio.lockup.module;
 
 import "cosmos/app/v1alpha1/module.proto";
 
-option go_package = "github.com/OptioNetwork/optio/api/optio/distro/module";
+option go_package = "github.com/OptioNetwork/optio/api/optio/lockup/module";
 
 // Module is the config object for the module.
 message Module {
   option (cosmos.app.v1alpha1.module) = {
-    go_import: "github.com/OptioNetwork/optio/x/distro"
+    go_import: "github.com/OptioNetwork/optio/x/lockup"
   };
 
   // authority defines the custom module authority. If not set, defaults to the governance module.
