@@ -1,6 +1,7 @@
 # Extract commit
 COMMIT := $(shell git rev-parse --short HEAD 2>/dev/null || echo "unknown")
-LDFLAGS := -s -w -X github.com/cosmos/cosmos-sdk/version.Commit=$(COMMIT)
+VERSION := $(shell git describe --tags --abbrev=0 2>/dev/null || echo "0.0.0")
+LDFLAGS := -s -w -X github.com/cosmos/cosmos-sdk/version.Commit=$(COMMIT) -X github.com/cosmos/cosmos-sdk/version.Version=$(VERSION) -X github.com/cosmos/cosmos-sdk/version.AppName=optiod -X github.com/cosmos/cosmos-sdk/version.Name=Optio
 
 # Build for Linux (AMD64)
 build-linux:

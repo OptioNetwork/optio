@@ -19,7 +19,7 @@ import (
 
 	"cosmossdk.io/x/feegrant"
 
-	ibctransfertypes "github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
+	ibctransfertypes "github.com/cosmos/ibc-go/v10/modules/apps/transfer/types"
 )
 
 type LockedDelegationsDecorator struct {
