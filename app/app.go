@@ -19,11 +19,11 @@ import (
 	_ "cosmossdk.io/x/nft/module" // import for side-effects
 	_ "cosmossdk.io/x/upgrade"    // import for side-effects
 	upgradekeeper "cosmossdk.io/x/upgrade/keeper"
-	"github.com/OptioNetwork/optio/app/antehandler"
-	"github.com/OptioNetwork/optio/app/posthandler"
+	wasmkeeper "github.com/CosmWasm/wasmd/x/wasm/keeper"
 	v2_distro "github.com/OptioNetwork/optio/app/upgrades/v2_distro"
 	v3_lockup "github.com/OptioNetwork/optio/app/upgrades/v3_lockup"
 	abci "github.com/cometbft/cometbft/abci/types"
+	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
 	dbm "github.com/cosmos/cosmos-db"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	"github.com/cosmos/cosmos-sdk/client"
@@ -85,6 +85,8 @@ import (
 	distromodulekeeper "github.com/OptioNetwork/optio/x/distro/keeper"
 
 	lockupmodulekeeper "github.com/OptioNetwork/optio/x/lockup/keeper"
+
+	wasmtypes "github.com/CosmWasm/wasmd/x/wasm/types"
 
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
@@ -159,7 +161,8 @@ type App struct {
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// simulation manager
-	sm *module.SimulationManager
+	sm         *module.SimulationManager
+	WasmKeeper wasmkeeper.Keeper
 }
 
 func init() {
@@ -262,6 +265,7 @@ func New(
 		&app.DistroKeeper,
 		&app.LockupKeeper,
 		&app.EpochsKeeper,
+		&app.FeeGrantKeeper,
 		// this line is used by starport scaffolding # stargate/app/keeperDefinition
 	); err != nil {
 		panic(err)
@@ -275,8 +279,10 @@ func New(
 	app.App = appBuilder.Build(db, traceStore, baseAppOptions...)
 
 	// Set up custom AnteHandlers and PostHandlers
-	app.setAnteHandler()
-	app.setPostHandler()
+	//
+	// Note: setAnteHandler and setPostHandler are called when registering the wasm module
+	// app.setAnteHandler()
+	// app.setPostHandler()
 
 	// register legacy modules
 	if err := app.registerIBCModules(appOpts); err != nil {
@@ -315,39 +321,54 @@ func New(
 	if err := app.Load(loadLatest); err != nil {
 		return nil, err
 	}
+	if err := app.WasmKeeper.InitializePinnedCodes(app.NewUncachedContext(true, tmproto.Header{})); err != nil {
+		panic(err)
+	}
 
 	return app, nil
 }
 
-func (app *App) setAnteHandler() {
-	anteHandler, err := antehandler.NewAnteHandler(
-		antehandler.HandlerOptions{
-			AccountKeeper:   app.AccountKeeper,
-			BankKeeper:      app.BankKeeper,
-			LockupKeeper:    app.LockupKeeper,
-			StakingKeeper:   *app.StakingKeeper,
-			SignModeHandler: app.txConfig.SignModeHandler(),
-			FeegrantKeeper:  app.FeeGrantKeeper,
-			SigGasConsumer:  ante.DefaultSigVerificationGasConsumer,
+func (app *App) setAnteHandler(txConfig client.TxConfig, wasmConfig wasmtypes.NodeConfig, txCounterStoreKey *storetypes.KVStoreKey) error {
+	anteHandler, err := NewAnteHandler(
+		HandlerOptions{
+			HandlerOptions: ante.HandlerOptions{
+				AccountKeeper:   app.AccountKeeper,
+				BankKeeper:      app.BankKeeper,
+				SignModeHandler: txConfig.SignModeHandler(),
+				FeegrantKeeper:  app.FeeGrantKeeper,
+				SigGasConsumer:  ante.DefaultSigVerificationGasConsumer,
+			},
+			LockupKeeper:          &app.LockupKeeper,
+			StakingKeeper:         app.StakingKeeper,
+			ExtendedBankKeeper:    &app.BankKeeper,
+			IBCKeeper:             app.IBCKeeper,
+			NodeConfig:            &wasmConfig,
+			WasmKeeper:            &app.WasmKeeper,
+			TXCounterStoreService: runtime.NewKVStoreService(txCounterStoreKey),
+			CircuitKeeper:         &app.CircuitBreakerKeeper,
 		},
 	)
 	if err != nil {
-		panic(fmt.Errorf("failed to create ante handler: %w", err))
+		return fmt.Errorf("failed to create AnteHandler: %s", err)
 	}
+
+	// Set the AnteHandler for the app
 	app.SetAnteHandler(anteHandler)
+	return nil
 }
 
-func (app *App) setPostHandler() {
-	postHandler, err := posthandler.NewPostHandler(
-		posthandler.HandlerOptions{
-			AccountKeeper: app.AccountKeeper,
-			LockupKeeper:  app.LockupKeeper,
+func (app *App) setPostHandler() error {
+	postHandler, err := NewPostHandler(
+		HandlerOptions{
+			HandlerOptions: ante.HandlerOptions{AccountKeeper: app.AccountKeeper},
+			LockupKeeper:   &app.LockupKeeper,
 		},
 	)
 	if err != nil {
-		panic(fmt.Errorf("failed to create ante handler: %w", err))
+		return err
 	}
 	app.SetPostHandler(postHandler)
+	return nil
 }
 
 // LegacyAmino returns App's amino codec.

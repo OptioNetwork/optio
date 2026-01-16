@@ -3,6 +3,7 @@ package app
 import (
 	"time"
 
+	wasmtypes "github.com/CosmWasm/wasmd/x/wasm/types"
 	distromodulev1 "github.com/OptioNetwork/optio/api/optio/distro/module"
 	_ "github.com/OptioNetwork/optio/x/distro/module" // import for side-effects
 	distromoduletypes "github.com/OptioNetwork/optio/x/distro/types"
@@ -96,6 +97,7 @@ var (
 		// chain modules
 		distromoduletypes.ModuleName,
 		lockupmoduletypes.ModuleName,
+		wasmtypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	}
 
@@ -121,6 +123,7 @@ var (
 		// chain modules
 		distromoduletypes.ModuleName,
 		lockupmoduletypes.ModuleName,
+		wasmtypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/beginBlockers
 	}
 
@@ -139,6 +142,7 @@ var (
 		// chain modules
 		distromoduletypes.ModuleName,
 		lockupmoduletypes.ModuleName,
+		wasmtypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/endBlockers
 	}
 
@@ -162,7 +166,7 @@ var (
 		{Account: distromoduletypes.ModuleName, Permissions: []string{authtypes.Minter}},
 		{Account: lockupmoduletypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner, authtypes.Staking}},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
-	}
+		{Account: wasmtypes.ModuleName, Permissions: []string{authtypes.Burner}}}
 
 	// blocked account addresses
 	blockAccAddrs = []string{
