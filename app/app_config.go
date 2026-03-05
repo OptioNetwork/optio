@@ -39,6 +39,10 @@ import (
 	lockupmodulev1 "github.com/OptioNetwork/optio/api/optio/lockup/module"
 	_ "github.com/OptioNetwork/optio/x/lockup/module" // import for side-effects
 	lockupmoduletypes "github.com/OptioNetwork/optio/x/lockup/types"
+
+	licensesmodulev1 "github.com/OptioNetwork/optio/api/optio/licenses/module"
+	_ "github.com/OptioNetwork/optio/x/licenses/module" // import for side-effects
+	licensesmoduletypes "github.com/OptioNetwork/optio/x/licenses/types"
 	"github.com/cosmos/cosmos-sdk/runtime"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	vestingtypes "github.com/cosmos/cosmos-sdk/x/auth/vesting/types"
@@ -97,6 +101,7 @@ var (
 		// chain modules
 		distromoduletypes.ModuleName,
 		lockupmoduletypes.ModuleName,
+		licensesmoduletypes.ModuleName,
 		wasmtypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	}
@@ -123,6 +128,7 @@ var (
 		// chain modules
 		distromoduletypes.ModuleName,
 		lockupmoduletypes.ModuleName,
+		licensesmoduletypes.ModuleName,
 		wasmtypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/beginBlockers
 	}
@@ -142,6 +148,7 @@ var (
 		// chain modules
 		distromoduletypes.ModuleName,
 		lockupmoduletypes.ModuleName,
+		licensesmoduletypes.ModuleName,
 		wasmtypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/endBlockers
 	}
@@ -311,6 +318,10 @@ var (
 			{
 				Name:   epochstypes.ModuleName,
 				Config: appconfig.WrapAny(&epochsmodulev1.Module{}),
+			},
+			{
+				Name:   licensesmoduletypes.ModuleName,
+				Config: appconfig.WrapAny(&licensesmodulev1.Module{}),
 			},
 			// this line is used by starport scaffolding # stargate/app/moduleConfig
 		},

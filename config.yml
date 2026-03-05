@@ -17,6 +17,9 @@ validators:
 genesis:
   chain_id: optio-testnet
   app_state:
+    licenses:
+      params:
+        owner: optio13zj88zcylclhevtsztx0kdgf9a5zyskt4utffh
     staking:
       params:
         bond_denom: uOPT
